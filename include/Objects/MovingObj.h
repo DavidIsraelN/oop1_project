@@ -1,10 +1,10 @@
 #pragma once
+#include "Object.h"
+//class Object;
 
-class Object;
-
-class MovingObj : public Objrct
+class MovingObj : public Object
 {
 public:
-	virtual void move() = 0;
-	virtual void collusion() = 0;
+//	virtual void move() = 0;
+//	virtual void collusion() = 0;
 };

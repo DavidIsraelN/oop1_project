@@ -1,8 +1,9 @@
 #pragma once
+#include "Button.h"
 
-class Batton;
+//class Button;
 
-class Help : public Batton
+class Help : public Button
 {
 public:
 	Help();

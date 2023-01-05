@@ -1,8 +1,9 @@
 #pragma once
+#include "Button.h"
 
-class Batton;
+//class Batton;
 
-class Exit : public Batton
+class Exit : public Button
 {
 public:
 	Exit();

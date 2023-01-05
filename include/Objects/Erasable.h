@@ -1,12 +1,13 @@
 #pragma once
+#include "StaticObj.h"
 
-class StaticObj;
+//class StaticObj;
 
 class Erasable : public StaticObj
 {
 public:
-	Erasable();
-	~Erasable();
+//	Erasable();
+//	~Erasable();
 	bool isDel();
 
 private:

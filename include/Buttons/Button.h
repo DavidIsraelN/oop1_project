@@ -1,14 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Batton
+class Button
 {
 public:
-	Batton();
-	~Batton();
+	Button();
+	~Button();
 	void draw(sf::RenderWindow&) const;
 	virtual void action() = 0;
 
 private:
-	fs::Text text;
-}
+	sf::Text text;
+};

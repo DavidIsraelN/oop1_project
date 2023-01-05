@@ -1,9 +1,9 @@
 #pragma once
-
-class Object;
+#include "Object.h"
+//class Object;
 
 class StaticObj : public Object
 {
 public:
-  ~StaticObj() = 0;
+  //~StaticObj() = 0;
 };
