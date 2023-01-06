@@ -3,8 +3,6 @@
 #include <vector>
 #include <fstream>
 
-//class Button;
-
 class Help : public Button
 {
 public:
@@ -18,6 +16,7 @@ private:
 	void drawHelp(sf::RenderWindow&) const;
 
 	sf::Font m_font;
+	sf::RectangleShape m_help_rect;
 	float m_window_width;
 	float m_window_height;
 	std::ifstream m_help_file;

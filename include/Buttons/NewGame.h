@@ -1,15 +1,20 @@
 #pragma once
 #include "Button.h"
-#include "../Colors.h"
-
-//class Button;
+#include <vector>
+//#include "ChooseLevel.h"
 
 class NewGame : public Button
 {
 public:
-    NewGame(sf::Font& font, float width, float height) 
-      : Button("New Game", font, { width / 2 , height / 4 }, height / 30, SoftYellow) { }
+  NewGame(sf::Font&, float, float);
+  void action(sf::RenderWindow&) override;
 
-    void action(sf::RenderWindow& window) override { }
+private:
+  void selectLevel(sf::RenderWindow&) const;
+  void drawLevels(sf::RenderWindow&) const;
 
+
+  std::vector<Button*> m_levels;
+
+  //ChooseLevel m_levels;
 };

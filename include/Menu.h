@@ -6,10 +6,12 @@
 class Menu {
 public:
   Menu(sf::Font&, float, float);
+  ~Menu();
   void draw(sf::RenderWindow&) const;
   void handlClick(const sf::Vector2f&, sf::RenderWindow&) const;
 
 
 private:
+  sf::Text m_menu;
   std::vector<Button*> m_buttons;
 };

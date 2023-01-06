@@ -1,20 +1,29 @@
 #include "Buttons/Help.h"
 #include "Colors.h"
-#include <thread>
 
 Help::Help(sf::Font& font, float width, float height) : m_font(font),
   Button("Help", font, { width / 2 , height / 2 }, height / 30, SoftYellow), 
 	m_help_file(std::ifstream("Help.txt")), 
+  m_help_rect({width, height}),
   m_window_width(width), m_window_height(height) 
 {
   readHelpTxt();
   bulidHelpScreen();
 }
 
-
 void Help::action(sf::RenderWindow& window) 
 {
   drawHelp(window);
+  while (window.isOpen())
+  {
+    if (auto event = sf::Event{}; window.waitEvent(event))
+      if (event.type == sf::Event::MouseButtonReleased)
+      {
+        auto loc = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
+        if (m_help_txt[0].getGlobalBounds().contains(loc))
+          return;
+      }
+  }
 }
 
 void Help::readHelpTxt()
@@ -27,29 +36,34 @@ void Help::readHelpTxt()
 
 void Help::bulidHelpScreen()
 {
-  for (size_t i = 0; i < m_help_str.size(); ++i)
+  m_help_rect.setFillColor(SoftYellow - sf::Color(0, 0, 0, 150));
+  auto line_height = m_window_width / m_help_str.size();
+  m_help_txt.push_back(sf::Text("Close", m_font, line_height / 2));
+  m_help_txt[0].setFillColor(sf::Color::White);
+  m_help_txt[0].setPosition({ m_window_width - line_height , line_height });
+  m_help_txt[0].setOrigin(m_help_txt[0].getLocalBounds().width / 2,
+                          m_help_txt[0].getLocalBounds().height / 2);
+  for (auto i = size_t(0); i < m_help_str.size(); ++i)
   {
     if (m_help_str[i].empty())
       continue;
-
-    auto div = (i < m_help_str.size() / 2) ? m_help_str.size() - i : 1 / m_help_str.size() - i;
-    auto line = sf::Text(m_help_str[i], m_font);
-    line.setFillColor(Gray);
-    line.setCharacterSize(m_window_width / m_help_str.size());
-    line.setPosition({m_window_width / 2, m_window_height / div});
-    const auto rect = line.getLocalBounds();
-    //m_text.setScale(width / rect.width / scale, height / rect.height / scale);
-    line.setOrigin(rect.width / 2, rect.height / 2);
+    auto line = sf::Text(m_help_str[i], m_font, (m_help_txt.size() == 1)? line_height : line_height / 1.5);
+    line.setFillColor(DarkBlue);
+    line.setPosition({m_window_width / 2, line_height * i});
+    line.setOrigin(line.getLocalBounds().width / 2, line.getLocalBounds().height / 2);
     m_help_txt.push_back(line);
   }
+
+  if (m_help_txt.size() < 2) return;
+  m_help_txt[1].setStyle(sf::Text::Underlined);
+  m_help_txt[1].setFillColor(DarkBlue);
 }
 
 void Help::drawHelp(sf::RenderWindow& window) const
 {
-  window.clear(SoftYellow);
+  window.clear(DarkBlue);
+  window.draw(m_help_rect);
   for (auto i = size_t(0); i < m_help_txt.size(); ++i)
     window.draw(m_help_txt[i]);
   window.display();
-  using namespace std::chrono_literals;
-  std::this_thread::sleep_for(5s); // wait 3 seconds
 }

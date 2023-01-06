@@ -13,7 +13,6 @@ void Controller::run()
   while (m_window.isOpen())
   {
     m_window.clear(DarkBlue);
-    //m_window.draw(r);
     m_menu.draw(m_window);
     //m_level.draw(m_window);
     m_window.display();
@@ -48,15 +47,11 @@ void Controller::run1()
 
     std::cout << m_level.getRows() << std::endl;
     std::cout << m_level.getCols() << std::endl;
-    //sf::Text r("Newww..", m_font);
-
-    //sf::RenderWindow window(sf::VideoMode(PIXELS * m_level.getCols(), PIXELS * m_level.getRows()), "Pacman Game");
 
     while (m_window.isOpen()) {
         m_window.clear(DarkBlue);
-        //m_window.draw(r);
-        m_menu.draw(m_window);
-        //m_level.draw(m_window);
+        //m_menu.draw(m_window);
+        m_level.draw(m_window);
         m_window.display();
 
         auto event = sf::Event{};
