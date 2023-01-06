@@ -6,7 +6,7 @@ class Level
 {
 public:
     Level();
-    void buildLevel(Board&);
+    void buildLevel(Board&, float, float);
     Object* buildObject(char, int ,int) const;       //get char and return pointe to the right object.
 
     void draw(sf::RenderWindow&) const;
@@ -17,7 +17,8 @@ public:
    // Object* getPacman() {return m_level[21][22];};
 private:
     std::vector<std::vector<Object*>> m_level;
-
+    float m_obj_width = 0;
+    float m_obj_height = 0;
 
     sf::Texture m_pacman_texture;
     sf::Texture m_demon_texture;

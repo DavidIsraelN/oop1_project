@@ -6,11 +6,8 @@
 class Door : public Erasable
 {
 public:
-//	Door();
+	Door(const sf::Texture&, const sf::Vector2f&, float, float);
 //	~Door();
-
-    Door(const sf::Texture&, const sf::Vector2f&);
-
 private:
 
 };

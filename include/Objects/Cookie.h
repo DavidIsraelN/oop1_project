@@ -6,10 +6,8 @@
 class Cookie : public Erasable
 {
 public:
-//	Cookie();
-//	~Cookie();
-
-    Cookie(const sf::Texture&, const sf::Vector2f&);
+  Cookie(const sf::Texture&, const sf::Vector2f&, float, float);
+//~Cookie();
 
 private:
 

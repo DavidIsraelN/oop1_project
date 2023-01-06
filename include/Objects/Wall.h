@@ -4,10 +4,10 @@
 class Wall : public StaticObj
 {
 public:
-//    Wall();
+  Wall(const sf::Texture&, const sf::Vector2f&, float, float);
 //    ~Wall();
 
-    Wall(const sf::Texture&, const sf::Vector2f&);
+    
 
 private:
 

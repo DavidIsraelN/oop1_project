@@ -17,11 +17,13 @@ class Board{
 public:
     Board();
     void setCurrentLevel();
+    size_t getCols() const;
+    size_t getRows() const;
     std::vector<std::string> getVector();
 
 private:
     std::ifstream m_board;
     std::vector<std::string> m_current_level;
-    unsigned int m_level_col;
-    unsigned int m_level_row;
+    size_t m_level_cols;
+    size_t m_level_rows;
 };

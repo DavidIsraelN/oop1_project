@@ -7,10 +7,10 @@ const float PIXELS = 34;
 class Object
 {
 public:
-	//Object();
+	Object(const sf::Texture&, const sf::Vector2f&, float, float, float);
 	//~Object();
 	void draw(sf::RenderWindow&) const;
 
-protected:
+private:
 	sf::Sprite m_sprite;
 };

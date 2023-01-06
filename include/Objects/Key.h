@@ -6,10 +6,10 @@
 class Key : public Erasable
 {
 public:
-//	Key();
+  Key(const sf::Texture&, const sf::Vector2f&, float, float);
 //	~Key();
 
-    Key(const sf::Texture&, const sf::Vector2f&);
+    
 
 private:
 

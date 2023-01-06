@@ -3,11 +3,13 @@
 
 //class StaticObj;
 
+//abstract class
+
 class Erasable : public StaticObj
 {
 public:
-//	Erasable();
-//	~Erasable();
+	Erasable(const sf::Texture&, const sf::Vector2f&, float, float, float = 1);
+  //virtual ~Erasable() = 0;
 	bool isDel();
 
 private:

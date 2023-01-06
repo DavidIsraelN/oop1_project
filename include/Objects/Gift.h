@@ -6,11 +6,11 @@
 class Gift : public Erasable
 {
 public:
-//	Gift();
+  Gift(const sf::Texture&, const sf::Vector2f&, float, float);
 //	~Gift();
 	void chooseGift() const;
 
-    Gift(const sf::Texture&, const sf::Vector2f&);
+    
 
 private:
 

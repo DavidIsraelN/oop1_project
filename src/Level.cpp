@@ -11,14 +11,15 @@ Level::Level()
     m_cookie_texture.loadFromFile("cookie.png");
 }
 
-void Level::buildLevel(Board& board)
+void Level::buildLevel(Board& board, float width, float height)
 {
     board.setCurrentLevel();
-
     m_level.resize(board.getVector().size());
     for (auto i = size_t(0); i < m_level.size(); ++i)
         m_level[i].resize(board.getVector()[i].size(), nullptr);
 
+    m_obj_width = width / board.getCols();
+    m_obj_height = height / board.getRows();
 
     for (int i = 0; i < board.getVector().size(); ++i)
         for (int j = 0; j < board.getVector()[i].size(); ++j)
@@ -27,22 +28,25 @@ void Level::buildLevel(Board& board)
 
 Object* Level::buildObject(char c, int i, int j) const
 {
+  auto x_pos = m_obj_width * j + m_obj_width / 2;
+  auto y_pos = m_obj_height * i + m_obj_height / 2;
+
     switch (c)
     {
         case 'a':
-            return new Pacman(m_pacman_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Pacman(m_pacman_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
         case '&':
-            return new Demon(m_demon_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Demon(m_demon_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
         case '*':
-            return new Cookie(m_cookie_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Cookie(m_cookie_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
         case '$':
-            return new Gift(m_gift_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Gift(m_gift_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
         case 'D':
-            return new Door(m_door_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Door(m_door_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
         case '%':
-            return new Key(m_key_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Key(m_key_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
         case '#':
-            return new Wall(m_wall_texture,{PIXELS * j + PIXELS / 2,  PIXELS * i + PIXELS / 2});
+            return new Wall(m_wall_texture,{ x_pos, y_pos }, m_obj_width, m_obj_height);
     }
     return nullptr;
 }

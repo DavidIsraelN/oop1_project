@@ -5,13 +5,13 @@
 class Pacman : public MovingObj
 {
 public:
-//	Pacman();
+  Pacman(const sf::Texture&, const sf::Vector2f&, float, float);
 	//~Pacman();
 
 //	void move() override;
 //	void collusion() override;
 
-    Pacman(const sf::Texture&, const sf::Vector2f&);
+    
     Object* clone() const;
 
 private:
