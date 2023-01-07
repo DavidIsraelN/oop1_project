@@ -18,7 +18,7 @@ private:
   float m_window_height;
   sf::Font m_font;
   sf::Text m_levels_txt;
-  sf::Text m_close;
+  sf::Text m_back;
   sf::RectangleShape m_levels_rect;
   std::vector<Button*> m_levels;
 };

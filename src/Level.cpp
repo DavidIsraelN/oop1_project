@@ -13,7 +13,7 @@ Level::Level()
 
 void Level::buildLevel(Board& board, float width, float height)
 {
-    board.setCurrentLevel();
+    board.setCurrentLevel(1);
     m_level.resize(board.getVector().size());
     for (auto i = size_t(0); i < m_level.size(); ++i)
         m_level[i].resize(board.getVector()[i].size(), nullptr);

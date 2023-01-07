@@ -21,11 +21,11 @@ void NewGame::bulidLevelsScreen()
   m_levels_txt.setStyle(sf::Text::Underlined);
   m_levels_rect.setFillColor(SemiSoftYellow);
 
-  m_close = sf::Text("Close", m_font, m_window_height / 45);
-  m_close.setFillColor(sf::Color::White);
-  m_close.setPosition({ m_window_width - 50 , 30 });
-  m_close.setOrigin(m_close.getLocalBounds().width / 2,
-                    m_close.getLocalBounds().height / 2);
+  m_back = sf::Text("< Back", m_font, m_window_height / 45);
+  m_back.setFillColor(sf::Color::White);
+  m_back.setPosition({ m_window_width - 50 , 30 });
+  m_back.setOrigin(m_back.getLocalBounds().width / 2,
+                   m_back.getLocalBounds().height / 2);
 }
 
 void NewGame::action(sf::RenderWindow& window)
@@ -42,7 +42,7 @@ void NewGame::action(sf::RenderWindow& window)
 
       case sf::Event::MouseButtonReleased:
         auto loc = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-        if (m_close.getGlobalBounds().contains(loc))
+        if (m_back.getGlobalBounds().contains(loc))
           return;
         else
           handlClick(loc, window);
@@ -59,7 +59,7 @@ void NewGame::drawLevels(sf::RenderWindow& window) const
 {
   window.clear(DarkBlue);
   window.draw(m_levels_rect);
-  window.draw(m_close);
+  window.draw(m_back);
   window.draw(m_levels_txt);
   for (auto i = size_t(0); i < m_levels.size(); ++i)
     m_levels[i]->draw(window);

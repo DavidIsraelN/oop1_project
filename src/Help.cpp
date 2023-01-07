@@ -43,7 +43,7 @@ void Help::bulidHelpScreen()
 {
   m_help_rect.setFillColor(SemiSoftYellow);
   auto line_height = m_window_width / m_help_str.size();
-  m_help_txt.push_back(sf::Text("Close", m_font, m_window_height / 45));
+  m_help_txt.push_back(sf::Text("< Back", m_font, m_window_height / 45));
   m_help_txt[0].setFillColor(sf::Color::White);
   m_help_txt[0].setPosition({ m_window_width - 50 , 30 });
   m_help_txt[0].setOrigin(m_help_txt[0].getLocalBounds().width / 2,
