@@ -5,7 +5,7 @@ class Button
 {
 public:
 	Button(const std::string&, const sf::Font&, const sf::Vector2f&, size_t, sf::Color);
-	~Button();
+	//~Button();
 	void draw(sf::RenderWindow&) const;
 	bool clickMe(const sf::Vector2f&) const;
 	virtual void action(sf::RenderWindow&) = 0;

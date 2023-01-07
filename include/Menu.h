@@ -6,7 +6,7 @@
 class Menu {
 public:
   Menu(sf::Font&, float, float);
-  ~Menu();
+  //~Menu();
   void draw(sf::RenderWindow&) const;
   void handlClick(const sf::Vector2f&, sf::RenderWindow&) const;
 

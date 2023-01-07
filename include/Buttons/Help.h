@@ -9,7 +9,6 @@ public:
 	Help(sf::Font&, float, float);
 	void action(sf::RenderWindow&) override;
 
-
 private:	
 	void readHelpTxt();
 	void bulidHelpScreen();

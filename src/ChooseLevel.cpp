@@ -1,8 +1,12 @@
 #include "Buttons/ChooseLevel.h"
-#include <iostream>
-#include <string>
 #include "Colors.h"
+#include <iostream>
 
-ChooseLevel::ChooseLevel(sf::Font& font, float width, float height, char level_num)
-	: Button("Level " + level_num, font, { width / 2 , height / 2.7f }, height / 30, SoftYellow)
-	/*m_level_num(std::stoi(level_num))*/ { }
+ChooseLevel::ChooseLevel(sf::Font& font, const sf::Vector2f& position, size_t size, char level_num)
+	: Button(std::string("Level ") + level_num, font, position, size, SoftYellow),
+	m_level_num(level_num - '0') { }
+
+void ChooseLevel::action(sf::RenderWindow& window)
+{
+
+}

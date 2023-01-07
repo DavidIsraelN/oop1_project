@@ -32,8 +32,11 @@ void Controller::run()
       }
 
       case sf::Event::KeyReleased:
+      case sf::Event::KeyPressed:
       {
-
+        if (event.key.code == sf::Keyboard::BackSpace)
+        {
+        }
       }}
 
   }

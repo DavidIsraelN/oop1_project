@@ -17,8 +17,13 @@ void Help::action(sf::RenderWindow& window)
   while (window.isOpen())
   {
     if (auto event = sf::Event{}; window.waitEvent(event))
-      if (event.type == sf::Event::MouseButtonReleased)
+      switch (event.type)
       {
+      case sf::Event::Closed:
+        window.close();
+        break;
+
+      case sf::Event::MouseButtonReleased:
         auto loc = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
         if (m_help_txt[0].getGlobalBounds().contains(loc))
           return;
@@ -36,11 +41,11 @@ void Help::readHelpTxt()
 
 void Help::bulidHelpScreen()
 {
-  m_help_rect.setFillColor(SoftYellow - sf::Color(0, 0, 0, 150));
+  m_help_rect.setFillColor(SemiSoftYellow);
   auto line_height = m_window_width / m_help_str.size();
-  m_help_txt.push_back(sf::Text("Close", m_font, line_height / 2));
+  m_help_txt.push_back(sf::Text("Close", m_font, m_window_height / 45));
   m_help_txt[0].setFillColor(sf::Color::White);
-  m_help_txt[0].setPosition({ m_window_width - line_height , line_height });
+  m_help_txt[0].setPosition({ m_window_width - 50 , 30 });
   m_help_txt[0].setOrigin(m_help_txt[0].getLocalBounds().width / 2,
                           m_help_txt[0].getLocalBounds().height / 2);
   for (auto i = size_t(0); i < m_help_str.size(); ++i)
