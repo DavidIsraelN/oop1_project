@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+class Controller;
+
 class Button
 {
 public:
@@ -8,7 +10,7 @@ public:
 	//~Button();
 	void draw(sf::RenderWindow&) const;
 	bool clickMe(const sf::Vector2f&) const;
-	virtual void action(sf::RenderWindow&) = 0;
+	virtual void action(sf::RenderWindow&, Controller&) = 0;
 
 private:
 	sf::Text m_text;

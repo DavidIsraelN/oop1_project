@@ -23,9 +23,9 @@ void Menu::draw(sf::RenderWindow& window) const
 		m_buttons[i]->draw(window);
 }
 
-void Menu::handlClick(const sf::Vector2f& loc, sf::RenderWindow& window) const
+void Menu::handlClick(const sf::Vector2f& loc, sf::RenderWindow& window, Controller& c) const
 {
 	for (auto i = size_t(0); i < m_buttons.size(); ++i)
 		if(m_buttons[i]->clickMe(loc))
-		  m_buttons[i]->action(window);
+		  m_buttons[i]->action(window, c);
 }

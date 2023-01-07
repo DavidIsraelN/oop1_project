@@ -11,7 +11,7 @@ Help::Help(sf::Font& font, float width, float height) : m_font(font),
   bulidHelpScreen();
 }
 
-void Help::action(sf::RenderWindow& window) 
+void Help::action(sf::RenderWindow& window, Controller& c)
 {
   drawHelp(window);
   while (window.isOpen())

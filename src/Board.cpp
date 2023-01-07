@@ -1,7 +1,7 @@
 #include "Board.h"
 
-Board::Board()
-	: m_board_1(std::ifstream("Level_1.txt")),
+Board::Board() : m_current_board(nullptr),
+	m_board_1(std::ifstream("Level_1.txt")),
 	m_board_2(std::ifstream("Level_2.txt")),
 	m_board_3(std::ifstream("Level_3.txt")) { }
 
@@ -24,7 +24,6 @@ void Board::chooseBoard(size_t board_num)
 	m_current_board = (board_num == 1) ? &m_board_1 : (board_num == 2) ? &m_board_2 : &m_board_3;
 }
 
-
 size_t Board::getCols() const
 {
 	return m_level_cols;
@@ -34,7 +33,6 @@ size_t Board::getRows() const
 {
 	return m_level_rows;
 }
-
 
 std::vector<std::string> Board::getVector()
 {

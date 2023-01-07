@@ -16,7 +16,10 @@ public:
   Controller(sf::Font&);
 //	~Controller();
   void run();
-  void run1();
+  void runMenu();
+  void runGame();
+  void chooseNewLevel(size_t);
+  void play() const;
 
 private:
   Board m_my_board;
