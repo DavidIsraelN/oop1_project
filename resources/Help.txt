@@ -1,22 +1,30 @@
 
 Pacman Game
 
-ttdg
-dgf
-fg
-gdhggh
-cnjgfg
+The game "Pacman" takes place inside a large board, which is mostly
+filled with small cookies. Besides the cookies, inside the board is
+the Pacman - a yellow and hungry creature, along with several demons.
 
-use arow to run away from demons
-sdgd
-dfgd
+During the game, the player controls Pacman, which he directs around
+the board. Its goal: to finish eating all the cookies in a level,
+within the allotted time. On the other hand,the demons are walking around
+trying to catch Pacman. If they manage to catch him, Pacman will lose
+his life. Therefore, Pacman must maneuver around the board cleverly
+and quickly, trying to escape the demons while eating the remaining cookies.
+Pacman can break fences by eating hammers.
 
-gfdfhdg
-fshd
+Gifts:
+Each gift eaten gives the player one of the following four options:
+- Super Pacman: for an allotted time, Pacman does not have to escape
+  from the elves and on the contrary he eats them. Every demon that is
+eaten, returns to its home.
+- Additional time: is added to the player more ????? seconds
+- Freezing elves: for an allotted time, all elves cannot move.
+In case Pacman collided with an elf, ?????.
+- Adding a life: the player gets an extra heart.
 
-fgdh
-fdh
-dfhfdh
-gfhdfhd
+Score (points):
+Cookie: 2, Gift: 5, Key: 7, Completion of a stage: 50 points,
+and 2 bonus points for each demon that was in the level.
 
-david naki & mordechai atiya
+David Naki & Mordechai Atiya
