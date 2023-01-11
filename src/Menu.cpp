@@ -3,7 +3,7 @@
 #include "Buttons/Help.h"
 #include "Buttons/ExitGame.h"
 
-Menu::Menu(sf::Font& font, float width, float height) 
+Menu::Menu(sf::Font& font, float width, float height)
 	: m_menu(sf::Text("MENU", font , height / 20))
 {
 	m_menu.setPosition({ width / 2, height / 5 });
@@ -23,9 +23,10 @@ void Menu::draw(sf::RenderWindow& window) const
 		m_buttons[i]->draw(window);
 }
 
-void Menu::handlClick(const sf::Vector2f& loc, sf::RenderWindow& window, Controller& c) const
+bool Menu::handleClick(const sf::Vector2f& loc, sf::RenderWindow& window, Controller& c) const
 {
 	for (auto i = size_t(0); i < m_buttons.size(); ++i)
 		if(m_buttons[i]->clickMe(loc))
-		  m_buttons[i]->action(window, c);
+		  return m_buttons[i]->action(window, c);
+    return false;
 }

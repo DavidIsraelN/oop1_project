@@ -17,6 +17,7 @@ void Board::setCurrentLevel(size_t board_num)
 	for (int i = 0; i < m_level_rows; ++i)
 		if (std::getline(*m_current_board, line))
 			m_current_level.push_back(line);
+   // m_current_board->seekg(0, std::ios::beg);
 }
 
 void Board::chooseBoard(size_t board_num)

@@ -7,7 +7,7 @@ class Help : public Button
 {
 public:
 	Help(sf::Font&, float, float);
-	void action(sf::RenderWindow&, Controller&) override;
+	bool action(sf::RenderWindow&, Controller&) override;
 
 private:	
 	void readHelpTxt();

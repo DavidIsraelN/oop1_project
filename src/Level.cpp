@@ -20,9 +20,9 @@ void Level::buildLevel(Board& board, float width, float height)
 {
 	//board.setCurrentLevel(2);
 	resetLevel(board.getRows(), board.getCols());
-	//m_level.resize(board.getVector().size());
-	//for (auto i = size_t(0); i < m_level.size(); ++i)
-	//	m_level[i].resize(board.getVector()[i].size(), nullptr);
+//	m_level.resize(board.getVector().size());
+//	for (auto i = size_t(0); i < m_level.size(); ++i)
+//		m_level[i].resize(board.getVector()[i].size(), nullptr);
 
 	m_obj_width = width / board.getCols();
 	m_obj_height = height / board.getRows();
@@ -57,19 +57,19 @@ Object* Level::buildObject(char c, int i, int j) const
 
 	switch (c)
 	{
-	case 'a':
+	case PACMAN:
 		return new Pacman(m_pacman_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
-	case '&':
+	case DEMON:
 		return new Demon(m_demon_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
-	case '*':
+	case COOKIE:
 		return new Cookie(m_cookie_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
-	case '$':
+	case GIFT:
 		return new Gift(m_gift_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
-	case 'D':
+	case DOOR:
 		return new Door(m_door_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
-	case '%':
+	case KEY:
 		return new Key(m_key_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
-	case '#':
+	case WALL:
 		return new Wall(m_wall_texture, { x_pos, y_pos }, m_obj_width, m_obj_height);
 	}
 	return nullptr;

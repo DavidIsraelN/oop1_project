@@ -1,6 +1,10 @@
 #pragma once
 #include "Board.h"
 
+enum Type
+{
+    COOKIE = '*', DEMON = '&', DOOR = 'D', GIFT = '$', KEY = '%', PACMAN = 'a', WALL = '#'
+};
 
 class Level
 {

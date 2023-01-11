@@ -20,7 +20,7 @@ Each gift eaten gives the player one of the following four options:
 eaten, returns to its home.
 - Additional time: is added to the player more ????? seconds
 - Freezing elves: for an allotted time, all elves cannot move.
-In case Pacman collided with an elf, ?????.
+In case Pacman collided with a demon, ?????.
 - Adding a life: the player gets an extra heart.
 
 Score (points):

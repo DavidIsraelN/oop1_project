@@ -3,10 +3,8 @@
 
 int main()
 {
-	sf::Font font;
-	font.loadFromFile("Arial.ttf");
-	auto pacman_game = Controller(font);
-	pacman_game.runMenu();
+	auto pacman_game = Controller();
+	pacman_game.run();
 
 	return EXIT_SUCCESS;
 }

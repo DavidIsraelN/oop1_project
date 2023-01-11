@@ -28,7 +28,7 @@ void NewGame::bulidLevelsScreen()
                    m_back.getLocalBounds().height / 2);
 }
 
-void NewGame::action(sf::RenderWindow& window, Controller& c)
+bool NewGame::action(sf::RenderWindow& window, Controller& c)
 {
   drawLevels(window);
   while (window.isOpen())
@@ -43,9 +43,9 @@ void NewGame::action(sf::RenderWindow& window, Controller& c)
       case sf::Event::MouseButtonReleased:
         auto loc = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
         if (m_back.getGlobalBounds().contains(loc))
-          return;
+          return false;
         else
-          handlClick(loc, window, c);
+            return handleClick(loc, window, c);
       }
   }
 }
@@ -61,9 +61,10 @@ void NewGame::drawLevels(sf::RenderWindow& window) const
   window.display();
 }
 
-void NewGame::handlClick(const sf::Vector2f& loc, sf::RenderWindow& window, Controller& c) const
+bool NewGame::handleClick(const sf::Vector2f& loc, sf::RenderWindow& window, Controller& c) const
 {
   for (auto i = size_t(0); i < m_levels.size(); ++i)
     if (m_levels[i]->clickMe(loc))
-      m_levels[i]->action(window, c);
+      return m_levels[i]->action(window, c);
+  return false;
 }

@@ -11,7 +11,7 @@ Help::Help(sf::Font& font, float width, float height) : m_font(font),
   bulidHelpScreen();
 }
 
-void Help::action(sf::RenderWindow& window, Controller& c)
+bool Help::action(sf::RenderWindow& window, Controller& c)
 {
   drawHelp(window);
   while (window.isOpen())
@@ -26,9 +26,10 @@ void Help::action(sf::RenderWindow& window, Controller& c)
       case sf::Event::MouseButtonReleased:
         auto loc = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
         if (m_help_txt[0].getGlobalBounds().contains(loc))
-          return;
+          return false;
       }
   }
+  return false;
 }
 
 void Help::readHelpTxt()

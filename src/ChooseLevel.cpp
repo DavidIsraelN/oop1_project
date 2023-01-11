@@ -7,8 +7,9 @@ ChooseLevel::ChooseLevel(sf::Font& font, const sf::Vector2f& position, size_t si
 	: Button(std::string("Level ") + level_num, font, position, size, SoftYellow),
 	m_level_num(level_num - '0') { }
 
-void ChooseLevel::action(sf::RenderWindow& win, Controller& c)
+bool ChooseLevel::action(sf::RenderWindow& win, Controller& c)
 {
 	c.chooseNewLevel(m_level_num);
-	c.runGame();
+    return true;
+//	c.runGame();
 }

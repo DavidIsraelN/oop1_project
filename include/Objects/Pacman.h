@@ -15,5 +15,5 @@ public:
     Object* clone() const;
 
 private:
-
+    int m_hearts = 3;
 };

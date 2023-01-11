@@ -6,11 +6,11 @@ class NewGame : public Button
 {
 public:
   NewGame(sf::Font&, float, float);
-  void action(sf::RenderWindow&, Controller&) override;
+  bool action(sf::RenderWindow&, Controller&) override;
 
 private:
   void drawLevels(sf::RenderWindow&) const;
-  void handlClick(const sf::Vector2f&, sf::RenderWindow&, Controller&) const;
+  bool handleClick(const sf::Vector2f &loc, sf::RenderWindow &window, Controller &c) const;
   void bulidLevelsScreen();
 
   float m_window_width;

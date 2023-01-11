@@ -10,7 +10,7 @@ public:
 	//~Button();
 	void draw(sf::RenderWindow&) const;
 	bool clickMe(const sf::Vector2f&) const;
-	virtual void action(sf::RenderWindow&, Controller&) = 0;
+	virtual bool action(sf::RenderWindow&, Controller&) = 0;
 
 private:
 	sf::Text m_text;
