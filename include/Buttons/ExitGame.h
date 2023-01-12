@@ -2,8 +2,6 @@
 #include "Button.h"
 #include "../Colors.h"
 
-//class Batton;
-
 class ExitGame : public Button
 {
 public:

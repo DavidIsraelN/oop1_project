@@ -1,14 +1,14 @@
 #include "Controller.h"
 
-Controller::Controller() : m_font(FontLoader().getFont()),
-    m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-    m_menu(m_font, WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT) { }
+Controller::Controller() : m_font(m_resources.getFont()),
+  m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
+	m_menu(m_font, m_resources.getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT) { }
 
 void Controller::run()
 {
-    if (runMenu())
-        while (m_window.isOpen())
-         runGame();
+	if (runMenu())
+		while (m_window.isOpen())
+			runGame();
 }
 
 bool Controller::runMenu()
@@ -24,14 +24,14 @@ bool Controller::runMenu()
 			{
 			case sf::Event::Closed:
 				m_window.close();
-                return false;
-//				break;
+				return false;
+				//				break;
 
 			case sf::Event::MouseButtonReleased:
 			{
 				auto loc = m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-                if(m_menu.handleClick(loc, m_window, *this))
-				  return true;
+				if (m_menu.handleClick(loc, m_window, *this))
+					return true;
 			}
 
 			case sf::Event::KeyReleased:
@@ -48,10 +48,10 @@ bool Controller::runMenu()
 
 void Controller::runGame()
 {
-	m_level.buildLevel(m_my_board, WIN_WIDTH, WIN_HEIGHT);
+	m_level.buildLevel(m_my_board, m_resources, WIN_WIDTH, WIN_HEIGHT);
 
-//	std::cout << m_level.getRows() << std::endl;
-//	std::cout << m_level.getCols() << std::endl;
+	//	std::cout << m_level.getRows() << std::endl;
+	//	std::cout << m_level.getCols() << std::endl;
 
 	while (m_window.isOpen()) {
 		m_window.clear(DarkBlue);
@@ -69,7 +69,7 @@ void Controller::runGame()
 			case sf::Event::KeyPressed:
 				if (event.key.code == sf::Keyboard::Escape)
 					if (runMenu())
-                        return;
+						return;
 				break;
 			}
 	}
@@ -77,7 +77,7 @@ void Controller::runGame()
 
 void Controller::chooseNewLevel(size_t level_num)
 {
-	m_my_board.setCurrentLevel(level_num);
+	m_my_board.setCurrentLevel(m_resources ,level_num);
 }
 
 void Controller::play() const

@@ -4,7 +4,7 @@
 
 class Menu {
 public:
-  Menu(sf::Font&, float, float);
+  Menu(sf::Font&, std::ifstream*, float, float);
   //~Menu();
   void draw(sf::RenderWindow&) const;
   bool handleClick(const sf::Vector2f &loc, sf::RenderWindow &window, Controller &c) const;

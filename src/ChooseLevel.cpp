@@ -10,6 +10,5 @@ ChooseLevel::ChooseLevel(sf::Font& font, const sf::Vector2f& position, size_t si
 bool ChooseLevel::action(sf::RenderWindow& win, Controller& c)
 {
 	c.chooseNewLevel(m_level_num);
-    return true;
-//	c.runGame();
+  return true;
 }

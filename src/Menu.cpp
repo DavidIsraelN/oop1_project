@@ -3,7 +3,7 @@
 #include "Buttons/Help.h"
 #include "Buttons/ExitGame.h"
 
-Menu::Menu(sf::Font& font, float width, float height)
+Menu::Menu(sf::Font& font, std::ifstream* help_file, float width, float height)
 	: m_menu(sf::Text("MENU", font , height / 20))
 {
 	m_menu.setPosition({ width / 2, height / 5 });
@@ -12,7 +12,7 @@ Menu::Menu(sf::Font& font, float width, float height)
 	m_menu.setStyle(sf::Text::Underlined);
 	
 	m_buttons.push_back(new NewGame(font, width, height));
-	m_buttons.push_back(new Help(font, width, height));
+	m_buttons.push_back(new Help(font, help_file, width, height));
 	m_buttons.push_back(new ExitGame(font, width, height));
 }
 
