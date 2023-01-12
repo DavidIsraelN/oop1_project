@@ -30,7 +30,9 @@ private:
   ResourceManage m_resources;
   sf::Font m_font;
   sf::RenderWindow m_window;
-  Board m_my_board;
+  sf::Sound m_reka;
+
+  //Board m_my_board;
   Level m_level;
   Menu m_menu;
 

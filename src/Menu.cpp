@@ -11,9 +11,9 @@ Menu::Menu(sf::Font& font, std::ifstream* help_file, float width, float height)
 	m_menu.setFillColor(sf::Color::White);
 	m_menu.setStyle(sf::Text::Underlined);
 	
-	m_buttons.push_back(new NewGame(font, width, height));
-	m_buttons.push_back(new Help(font, help_file, width, height));
-	m_buttons.push_back(new ExitGame(font, width, height));
+	m_buttons.push_back(std::make_unique<NewGame>(font, width, height));
+	m_buttons.push_back(std::make_unique<Help>(font, help_file, width, height));
+	m_buttons.push_back(std::make_unique<ExitGame>(font, width, height));
 }
 
 void Menu::draw(sf::RenderWindow& window) const

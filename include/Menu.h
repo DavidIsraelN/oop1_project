@@ -11,5 +11,6 @@ public:
 
 private:
   sf::Text m_menu;
-  std::vector<Button*> m_buttons;
+  std::vector<std::unique_ptr<Button>> m_buttons;
+  //std::vector<Button*> m_buttons;
 };

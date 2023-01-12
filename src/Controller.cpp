@@ -1,11 +1,13 @@
 #include "Controller.h"
+#include <SFML/Audio.hpp>
 
-Controller::Controller() : m_font(m_resources.getFont()),
+Controller::Controller() : m_font(m_resources.getFont()), m_reka(*m_resources.getReka()),
   m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
 	m_menu(m_font, m_resources.getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT) { }
 
 void Controller::run()
 {
+	m_reka.play();
 	if (runMenu())
 		while (m_window.isOpen())
 			runGame();
@@ -25,7 +27,6 @@ bool Controller::runMenu()
 			case sf::Event::Closed:
 				m_window.close();
 				return false;
-				//				break;
 
 			case sf::Event::MouseButtonReleased:
 			{
@@ -48,8 +49,8 @@ bool Controller::runMenu()
 
 void Controller::runGame()
 {
-	m_level.buildLevel(m_my_board, m_resources, WIN_WIDTH, WIN_HEIGHT);
-
+	m_level.buildLevel(/*m_my_board,*/ m_resources, WIN_WIDTH, WIN_HEIGHT);
+	m_reka.play();
 	//	std::cout << m_level.getRows() << std::endl;
 	//	std::cout << m_level.getCols() << std::endl;
 
@@ -70,14 +71,21 @@ void Controller::runGame()
 				if (event.key.code == sf::Keyboard::Escape)
 					if (runMenu())
 						return;
+				sf::Clock c;
+				//m_player.setDirection(event.key.code);
+				const auto deltaTime = c.restart();
+				//m_player.move(deltaTime);
+				//m_monster.move(deltaTime);
 				break;
+
+
 			}
 	}
 }
 
 void Controller::chooseNewLevel(size_t level_num)
 {
-	m_my_board.setCurrentLevel(m_resources ,level_num);
+	m_level.setCurrentLevel(m_resources ,level_num);
 }
 
 void Controller::play() const

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <fstream>
 
 class ResourceManage
@@ -25,6 +26,7 @@ public:
 		m_gift_texture.loadFromFile("gift.png");
 		m_key_texture.loadFromFile("key.png");
 		m_cookie_texture.loadFromFile("cookie.png");
+		m_rekaa.loadFromFile("game_start.wav");
 	}
 
 	sf::Font getFont() const { return m_font; }
@@ -34,13 +36,15 @@ public:
 	std::ifstream* getBoard2()   { return &m_board_2;   }
 	std::ifstream* getBoard3()   { return &m_board_3;   }
 
-	sf::Texture getPacmanT() const { return m_pacman_texture; }
-	sf::Texture getDemonT()  const { return m_demon_texture;  }
-	sf::Texture getWallT()   const { return m_wall_texture;   }
-	sf::Texture getDoorT()   const { return m_door_texture;   }
-	sf::Texture getGiftT()   const { return m_gift_texture;   }
-	sf::Texture getkeyT()    const { return m_key_texture;    }
-	sf::Texture getCookieT() const { return m_cookie_texture; }
+	sf::Texture* getPacmanT() { return &m_pacman_texture; }
+	sf::Texture* getDemonT()  { return &m_demon_texture;  }
+	sf::Texture* getWallT()   { return &m_wall_texture;   }
+	sf::Texture* getDoorT()   { return &m_door_texture;   }
+	sf::Texture* getGiftT()   { return &m_gift_texture;   }
+	sf::Texture* getkeyT()    { return &m_key_texture;    }
+	sf::Texture* getCookieT() { return &m_cookie_texture; }
+
+	sf::SoundBuffer* getReka() { return &m_rekaa; }
 
 private:
 	sf::Font m_font;
@@ -59,4 +63,6 @@ private:
 	std::ifstream m_help_file;
 
 	//music too
+	sf::SoundBuffer m_rekaa;
+	sf::Music m_reka;
 };
