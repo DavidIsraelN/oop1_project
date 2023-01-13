@@ -3,11 +3,17 @@
 
 Controller::Controller() : m_font(m_resources.getFont()), m_reka(*m_resources.getReka()),
   m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-	m_menu(m_font, m_resources.getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT) { }
+	m_menu(m_font, m_resources.getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
+{
+	//sf::Sprite icon(m_resources.getPacmanT());
+	//m_window.setIcon(23,23, icon.);
+}
 
 void Controller::run()
 {
+	m_reka.setLoop(true);
 	m_reka.play();
+
 	if (runMenu())
 		while (m_window.isOpen())
 			runGame();
@@ -49,44 +55,56 @@ bool Controller::runMenu()
 
 void Controller::runGame()
 {
-	m_level.buildLevel(/*m_my_board,*/ m_resources, WIN_WIDTH, WIN_HEIGHT);
-	m_reka.play();
+	m_level.buildLevel(m_resources, WIN_WIDTH, WIN_HEIGHT);
+	while (m_window.isOpen()) {
+		if(m_level.runLevel(m_window))
+			if (runMenu())
+				return;
+	}
+	//m_reka.play();
 	//	std::cout << m_level.getRows() << std::endl;
 	//	std::cout << m_level.getCols() << std::endl;
 
-	while (m_window.isOpen()) {
-		m_window.clear(DarkBlue);
-		m_level.draw(m_window);
-		m_window.display();
+	//while (m_window.isOpen()) {
+	//	m_window.clear(DarkBlue);
+	//	m_level.draw(m_window);
+	//	m_window.display();
 
-		auto event = sf::Event{};
-		while (m_window.pollEvent(event))
-			switch (event.type)
-			{
-			case sf::Event::Closed:
-				m_window.close();
-				break;
+	//	auto event = sf::Event{};
+	//	while (m_window.pollEvent(event))
+	//		switch (event.type)
+	//		{
+	//		case sf::Event::Closed:
+	//			m_window.close();
+	//			break;
 
-			case sf::Event::KeyPressed:
-				if (event.key.code == sf::Keyboard::Escape)
-					if (runMenu())
-						return;
-				sf::Clock c;
-				//m_player.setDirection(event.key.code);
-				const auto deltaTime = c.restart();
-				//m_player.move(deltaTime);
-				//m_monster.move(deltaTime);
-				break;
+	//		case sf::Event::KeyPressed:
+	//			if (event.key.code == sf::Keyboard::Escape)
+	//				if (runMenu())
+	//					return;
+	//			sf::Clock c;
+	//			//m_player.setDirection(event.key.code);
+	//			const auto deltaTime = c.restart();
+	//			//m_player.move(deltaTime);
+	//			//m_monster.move(deltaTime);
+	//			break;
 
 
-			}
-	}
+	//		}
+	//}
 }
 
 void Controller::chooseNewLevel(size_t level_num)
 {
 	m_level.setCurrentLevel(m_resources ,level_num);
 }
+
+void Controller::mute(bool mute)
+{
+	if (mute) {	m_reka.stop(); return; }
+	m_reka.play();
+}
+
 
 void Controller::play() const
 {

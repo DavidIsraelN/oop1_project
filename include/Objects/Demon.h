@@ -6,10 +6,8 @@ class Demon : public MovingObj
 {
 public:
   Demon(const sf::Texture&, const sf::Vector2f&, float, float);
+  void move(sf::Time) override;
 
-//	~Demon();
-
-//	void move() override;
 //	void collusion() override;
 
 

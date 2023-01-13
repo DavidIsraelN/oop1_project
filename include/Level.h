@@ -1,6 +1,7 @@
 #pragma once
-//#include "Board.h"
-#include "Objects/Object.h"
+#include "Objects/MovingObj.h"
+#include "Objects/Erasable.h"
+#include "Objects/Pacman.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -24,28 +25,28 @@ public:
 	//Object* createObject(ObjType, ResourceManage&, size_t, size_t) const;//get char and return pointe to the right object.
 
 	void buildLevel(ResourceManage&, float, float);
-	std::unique_ptr<Object> createObject(ObjType, ResourceManage&, size_t, size_t) const;
 	void draw(sf::RenderWindow&) const;
 	void setCurrentLevel(ResourceManage&, size_t);
-	void chooseBoard(ResourceManage& resource, size_t);
 	size_t getRows() const;
 	size_t getCols() const;
+	bool runLevel(sf::RenderWindow&);
 
 private:
+	void chooseBoard(ResourceManage&, size_t);
+	void addObject(ObjType, ResourceManage&, size_t, size_t);
+	std::unique_ptr<Object> createObject(ObjType, ResourceManage&, const sf::Vector2f&) const;
+
 	std::ifstream* m_current_board = nullptr;
 	std::vector<std::string> m_level_txt;
+
+	//std::unique_ptr<MovingObj> m_player;
+	std::unique_ptr<Pacman> m_player;
+	//Pacman* m_player = nullptr;
 	std::vector<std::unique_ptr<Object>> m_level;
+	std::vector<std::unique_ptr<MovingObj>> m_demons;
+
 	float m_obj_width = 0;
 	float m_obj_height = 0;
 	size_t m_level_cols = 0;
 	size_t m_level_rows = 0;
-
-	//std::vector<Object*> m_level;
-	//sf::Texture m_pacman_texture;
-	//sf::Texture m_demon_texture;
-	//sf::Texture m_wall_texture;
-	//sf::Texture m_door_texture;
-	//sf::Texture m_gift_texture;
-	//sf::Texture m_key_texture;
-	//sf::Texture m_cookie_texture;
 };

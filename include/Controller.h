@@ -21,6 +21,7 @@ public:
   bool runMenu();
   void runGame();
   void chooseNewLevel(size_t);
+  void mute(bool);
   void play() const;
 
 private:

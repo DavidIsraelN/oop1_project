@@ -7,7 +7,7 @@ class Button
 {
 public:
 	Button(const std::string&, const sf::Font&, const sf::Vector2f&, size_t, sf::Color);
-	//~Button();
+	virtual ~Button() { }
 	void draw(sf::RenderWindow&) const;
 	bool clickMe(const sf::Vector2f&) const;
 	virtual bool action(sf::RenderWindow&, Controller&) = 0;

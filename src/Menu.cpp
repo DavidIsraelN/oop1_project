@@ -2,6 +2,7 @@
 #include "Buttons/NewGame.h"
 #include "Buttons/Help.h"
 #include "Buttons/ExitGame.h"
+#include "Buttons/Mute.h"
 
 Menu::Menu(sf::Font& font, std::ifstream* help_file, float width, float height)
 	: m_menu(sf::Text("MENU", font , height / 20))
@@ -14,6 +15,7 @@ Menu::Menu(sf::Font& font, std::ifstream* help_file, float width, float height)
 	m_buttons.push_back(std::make_unique<NewGame>(font, width, height));
 	m_buttons.push_back(std::make_unique<Help>(font, help_file, width, height));
 	m_buttons.push_back(std::make_unique<ExitGame>(font, width, height));
+	m_buttons.push_back(std::make_unique<Mute>(font, sf::Vector2f({ 50 , 30 }), height / 45));
 }
 
 void Menu::draw(sf::RenderWindow& window) const

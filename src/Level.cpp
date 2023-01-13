@@ -7,11 +7,13 @@
 #include "Objects/Wall.h"
 #include "Objects/Door.h"
 #include "Objects/Key.h"
+#include "Colors.h"
 #include <sstream>
 
 void Level::buildLevel(ResourceManage& resource, float width, float height)
 {
 	m_level.clear();
+	m_demons.clear();
 	m_obj_width = width / m_level_cols;
 	m_obj_height = height / m_level_rows;
 
@@ -19,11 +21,12 @@ void Level::buildLevel(ResourceManage& resource, float width, float height)
 		for (auto j = size_t(0); j < m_level_txt[i].size(); ++j)
 		{
 			if (m_level_txt[i][j] == SPACE) continue;
-			m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
+			addObject(ObjType(m_level_txt[i][j]), resource, i, j);
+			//m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
 		}
 }
 
-std::unique_ptr<Object> Level::createObject(ObjType type, ResourceManage& resource, size_t i, size_t j) const
+void Level::addObject(ObjType type, ResourceManage& resource, size_t i, size_t j)
 {
 	auto x_pos = m_obj_width * j + m_obj_width / 2;
 	auto y_pos = m_obj_height * i + m_obj_height / 2;
@@ -32,19 +35,39 @@ std::unique_ptr<Object> Level::createObject(ObjType type, ResourceManage& resour
 	switch (type)
 	{
 	case PACMAN:
-		return std::make_unique<Pacman>(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
+		m_player = std::make_unique<Pacman>(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
+		//*m_player = Pacman(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
+		break;
+
 	case DEMON:
-		return std::make_unique<Demon>(*resource.getDemonT(), position, m_obj_width, m_obj_height);
+		m_demons.push_back(std::make_unique<Demon>(*resource.getDemonT(), position, m_obj_width, m_obj_height));
+		break;
+
+		//case WALL:
+		//	m_walls.push_back(Wall(*resource.getWallT(), position, m_obj_width, m_obj_height));
+		//break;
+
+	default:
+		m_level.push_back(createObject(type, resource, position));
+	}
+}
+
+std::unique_ptr<Object> Level::createObject(ObjType type, ResourceManage& resource, const sf::Vector2f& position) const
+{
+	switch (type)
+	{
+	//case DEMON:
+	//	return std::make_unique<Demon> (*resource.getDemonT(),  position, m_obj_width, m_obj_height);
 	case COOKIE:
 		return std::make_unique<Cookie>(*resource.getCookieT(), position, m_obj_width, m_obj_height);
 	case GIFT:
-		return std::make_unique<Gift>(*resource.getGiftT(), position, m_obj_width, m_obj_height);
+		return std::make_unique<Gift>  (*resource.getGiftT(),   position, m_obj_width, m_obj_height);
 	case DOOR:
-		return std::make_unique<Door>(*resource.getDoorT(), position, m_obj_width, m_obj_height);
+		return std::make_unique<Door>  (*resource.getDoorT(),   position, m_obj_width, m_obj_height);
 	case KEY:
-		return std::make_unique<Key>(*resource.getkeyT(), position, m_obj_width, m_obj_height);
+		return std::make_unique<Key>   (*resource.getkeyT(),    position, m_obj_width, m_obj_height);
 	case WALL:
-		return std::make_unique<Wall>(*resource.getWallT(), position, m_obj_width, m_obj_height);
+		return std::make_unique<Wall>  (*resource.getWallT(),   position, m_obj_width, m_obj_height);
 	}
 }
 
@@ -52,6 +75,9 @@ void Level::draw(sf::RenderWindow& window) const
 {
 	for (auto i = size_t(0); i < m_level.size(); ++i)
 		m_level[i]->draw(window);
+	for (auto i = size_t(0); i < m_demons.size(); ++i)
+		m_demons[i]->draw(window);
+	m_player->draw(window);
 }
 
 void Level::setCurrentLevel(ResourceManage& resource, size_t board_num)
@@ -67,7 +93,7 @@ void Level::setCurrentLevel(ResourceManage& resource, size_t board_num)
 		if (std::getline(*m_current_board, line))
 			m_level_txt.push_back(line);
 
-	//m_current_board->seekg(0, m_current_board->beg);
+	m_current_board->seekg(0, m_current_board->beg);
 }
 
 void Level::chooseBoard(ResourceManage& resource, size_t board_num)
@@ -83,6 +109,46 @@ size_t Level::getRows() const {
 size_t Level::getCols() const {
 	return m_level_cols;
 }
+
+bool Level::runLevel(sf::RenderWindow& window)
+{
+	sf::Clock clock;
+
+	while (window.isOpen()) {
+		window.clear(DarkBlue);
+	  draw(window);
+		window.display();
+
+		for (auto event = sf::Event{}; window.pollEvent(event); )
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				window.close();
+				return false;
+
+			case sf::Event::KeyPressed:
+				if (event.key.code == sf::Keyboard::Escape)
+					return true;
+				m_player->setDirection(event.key.code);
+				break;
+			}
+		//move
+		const auto deltaTime = clock.restart();
+		m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width);
+		//m_monster.move(deltaTime);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

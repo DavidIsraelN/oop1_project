@@ -8,8 +8,11 @@ class Object
 {
 public:
 	Object(const sf::Texture&, const sf::Vector2f&, float, float, float);
-	//~Object();
+	virtual ~Object() { }
 	void draw(sf::RenderWindow&) const;
+	sf::Vector2f getPosition() const;
+	void moveObj(const sf::Vector2f&);
+	void rotateObj(float);
 
 private:
 	sf::Sprite m_sprite;
