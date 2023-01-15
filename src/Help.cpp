@@ -54,7 +54,7 @@ void Help::bulidHelpScreen()
     if (m_help_str[i].empty())
       continue;
     auto line = sf::Text(m_help_str[i], m_font, (m_help_txt.size() == 0)? line_height : line_height / 1.5);
-    line.setFillColor(DarkBlue);
+    line.setFillColor(DeepRed);
     line.setPosition({m_window_width / 2, line_height * i});
     line.setOrigin(line.getLocalBounds().width / 2, line.getLocalBounds().height / 2);
     m_help_txt.push_back(line);
@@ -66,7 +66,7 @@ void Help::bulidHelpScreen()
 
 void Help::drawHelp(sf::RenderWindow& window) const
 {
-  window.clear(DarkBlue);
+  window.clear(DeepRed);
   window.draw(m_help_rect);
   m_back.draw(window);
   for (auto i = size_t(0); i < m_help_txt.size(); ++i)

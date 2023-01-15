@@ -23,7 +23,7 @@ bool Controller::runMenu()
 {
   while (m_window.isOpen())
   {
-    m_window.clear(DarkBlue);
+    m_window.clear(DeepRed);
     m_menu.draw(m_window);
     m_window.display();
 

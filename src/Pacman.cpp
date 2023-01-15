@@ -14,13 +14,16 @@ void Pacman::setDirection(sf::Keyboard::Key key)
 	}
 }
 
-void Pacman::move(sf::Time deltaTime, float win_height, float win_width, const Level& level)
+//void Pacman::move(sf::Time deltaTime, float win_height, float win_width, const Level& level)
+void Pacman::move(sf::Time deltaTime, float obj_h, float obj_w, float cols, float rows, const Level& level)
 {
-  if (directionLegal(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level))
+  auto win_height = obj_h * rows, win_width = obj_w * cols;
+
+  if (directionLegal(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
     m_cur_direction = m_new_direction;
 
   else 
-    directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level);
+    directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w);
   
   rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
 
@@ -46,14 +49,17 @@ void Pacman::move(sf::Time deltaTime, float win_height, float win_width, const L
   //rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
 }
 
-bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, float win_width, const Level& level)
+bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, float win_width, const Level& level, float obj_h, float obj_w)
 {
-  moveObj(direction, win_height, win_width);
+  moveObj(direction * 20.f, win_height, win_width, obj_h, obj_w);
   if (level.collideWithWall(*this))
   {
-    moveObj(-direction, win_height, win_width);
+    moveObj(-direction * 20.f, win_height, win_width, obj_h, obj_w);
     return false;
   }
+  moveObj(-direction * 20.f, win_height, win_width, obj_h, obj_w);
+  moveObj(direction, win_height, win_width, obj_h, obj_w);
+
   return true;
   //if (type == DEMON|| type == DOOR)
   //  return false;

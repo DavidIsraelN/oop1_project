@@ -15,7 +15,7 @@ public:
 	void draw(sf::RenderWindow&) const;
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getGlobalBounds() const;
-	void moveObj(const sf::Vector2f&, float, float);
+	void moveObj(const sf::Vector2f&, float, float, float, float);
 	void rotateObj(float);
 	bool collidesWith(const Object&) const;
 

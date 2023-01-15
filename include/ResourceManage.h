@@ -27,10 +27,10 @@ public:
 		m_key_texture.loadFromFile("key.png");
 		m_cookie_texture.loadFromFile("cookie.png");
 		m_rekaa.loadFromFile("game_start.wav");
-                m_icon.loadFromFile("pacman.png");
+    m_icon.loadFromFile("pacman.png");
 	}
 
-        sf::Font* getFont() { return &m_font; }
+  sf::Font* getFont() { return &m_font; }
 
 	std::ifstream* getHelpFile() { return &m_help_file; }
 	std::ifstream* getBoard1()   { return &m_board_1;   }
@@ -64,7 +64,7 @@ private:
 	std::ifstream m_board_3;
 	std::ifstream m_help_file;
 
-        sf::Image m_icon;
+  sf::Image m_icon;
 
 	//music too
 	sf::SoundBuffer m_rekaa;

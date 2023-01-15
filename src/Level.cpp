@@ -122,7 +122,7 @@ bool Level::runLevel(sf::RenderWindow& window)
   sf::Clock clock, elapsed;
 
   while (window.isOpen()) {
-    window.clear(DarkBlue);
+    window.clear(DeepRed);
     draw(window);
     window.display();
 
@@ -141,7 +141,8 @@ bool Level::runLevel(sf::RenderWindow& window)
       }
     //move
     const auto deltaTime = clock.restart();
-    m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
+    //m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
+    m_player->move(deltaTime, m_obj_height, m_obj_width, m_level_cols, m_level_rows, *this);
     //m_monster.move(deltaTime);
     m_timer->setTimer(elapsed.getElapsedTime().asSeconds());
 

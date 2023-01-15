@@ -26,7 +26,7 @@ sf::FloatRect Object::getGlobalBounds() const
 }
 
 //-------------------------------------------------------------------
-void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width)
+void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
 {
   auto movment = direction;
   if (m_sprite.getPosition().x + movment.x >= win_width)   movment.x = -win_width;
@@ -34,6 +34,23 @@ void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_
   if (m_sprite.getPosition().y + movment.y >= win_height)  movment.y = -win_height;
   else if (m_sprite.getPosition().y + movment.y <= 0.f)    movment.y = win_height;
   m_sprite.move(movment);
+  //auto move_x = m_sprite.getPosition().x;
+  //while (move_x >= obj_w)
+  //  move_x -= obj_w;
+  ////if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
+  //  if (move_x > 1)
+  //    move_x = 0;
+  //  else if (direction.x < 0)
+  //    move_x *= (-1);
+
+  //auto move_y = m_sprite.getPosition().y;
+  //while (move_y >= obj_h)
+  //  move_y -= obj_h;
+  //if (move_y > 1)
+  //  move_y = 0;
+  //else if (direction.y < 0)
+  //  move_y *= (-1);
+  //m_sprite.move({ move_x, move_y });
 }
 
 //-------------------------------------------------------------------

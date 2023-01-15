@@ -47,7 +47,7 @@ bool NewGame::action(sf::RenderWindow& window, Controller& c)
 
 void NewGame::drawLevels(sf::RenderWindow& window) const
 {
-  window.clear(DarkBlue);
+  window.clear(DeepRed);
   window.draw(m_levels_rect);
   window.draw(m_levels_txt);
   for (auto i = size_t(0); i < m_levels.size(); ++i)
