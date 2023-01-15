@@ -2,7 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-const float PIXELS = 34;
+//const float PIXELS = 34;
+
+class Pacman;
+class Wall;
 
 class Object
 {
@@ -11,8 +14,16 @@ public:
 	virtual ~Object() { }
 	void draw(sf::RenderWindow&) const;
 	sf::Vector2f getPosition() const;
-	void moveObj(const sf::Vector2f&);
+	sf::FloatRect getGlobalBounds() const;
+	void moveObj(const sf::Vector2f&, float, float);
 	void rotateObj(float);
+	bool collidesWith(const Object&) const;
+
+	//virtual void collide(const Pacman&) = 0;
+	//virtual void collide(const Wall&) = 0;
+	//virtual void collide(& other_obj) = 0;
+	//virtual void collide(& other_obj) = 0;
+
 
 private:
 	sf::Sprite m_sprite;

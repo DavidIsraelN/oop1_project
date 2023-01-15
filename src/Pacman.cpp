@@ -1,4 +1,5 @@
 #include "Objects/Pacman.h"
+#include "Level.h"
 
 Pacman::Pacman(const sf::Texture& texture, const sf::Vector2f& position, float width, float height)
 	: MovingObj(texture, position, width, height) { }
@@ -6,63 +7,63 @@ Pacman::Pacman(const sf::Texture& texture, const sf::Vector2f& position, float w
 void Pacman::setDirection(sf::Keyboard::Key key)
 {
 	switch (key) {
-	case sf::Keyboard::Key::Right:   m_direction = sf::Vector2f ( 1, 0);  break;
-	case sf::Keyboard::Key::Left:    m_direction = sf::Vector2f (-1, 0);  break;
-	case sf::Keyboard::Key::Up:      m_direction = sf::Vector2f ( 0,-1);  break;
-	case sf::Keyboard::Key::Down:    m_direction = sf::Vector2f ( 0, 1);  break;
+	case sf::Keyboard::Key::Right:   m_new_direction = sf::Vector2f ( 1, 0);   return;
+	case sf::Keyboard::Key::Left:    m_new_direction = sf::Vector2f (-1, 0);   return;
+	case sf::Keyboard::Key::Up:      m_new_direction = sf::Vector2f ( 0,-1);   return;
+	case sf::Keyboard::Key::Down:    m_new_direction = sf::Vector2f ( 0, 1);   return;
 	}
 }
 
-void Pacman::move(sf::Time deltaTime, float win_height, float win_width)
+void Pacman::move(sf::Time deltaTime, float win_height, float win_width, const Level& level)
 {
-  auto direction = (m_direction * speedPerSecond * deltaTime.asSeconds());
+  if (directionLegal(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level))
+    m_cur_direction = m_new_direction;
 
-  if (getPosition().x + direction.x >= win_width)   direction.x = - win_width;
-  else if (getPosition().x + direction.x <= 0.f)    direction.x = win_width;
-  if (getPosition().y + direction.y >= win_height)  direction.y = -win_height;
-  else if (getPosition().y + direction.y <= 0.f)    direction.y = win_height;
+  else 
+    directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level);
+  
+  rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
 
-  moveObj(direction);
-  rotateObj(m_direction.y == 1 ? 90: m_direction.y == -1 ? 270 : m_direction.x == -1 ? 180 : 0);
+
+  //else if (!directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level))
+  //  m_cur_direction = { 0, 0 };
+
+
+  //if (directionLegal(getPosition() + m_new_direction * speedPerSecond * deltaTime.asSeconds(), level))
+  //  m_cur_direction = m_new_direction;
+
+  //else if (!directionLegal(getPosition() + m_cur_direction * speedPerSecond * deltaTime.asSeconds(), level))
+  //  m_cur_direction = { 0, 0 };
+
+  //auto direction = (m_cur_direction * speedPerSecond * deltaTime.asSeconds());
+
+  //if (getPosition().x + direction.x >= win_width)   direction.x = - win_width;
+  //else if (getPosition().x + direction.x <= 0.f)    direction.x = win_width;
+  //if (getPosition().y + direction.y >= win_height)  direction.y = -win_height;
+  //else if (getPosition().y + direction.y <= 0.f)    direction.y = win_height;
+
+  //moveObj(direction, win_height, win_width);
+  //rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
+}
+
+bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, float win_width, const Level& level)
+{
+  moveObj(direction, win_height, win_width);
+  if (level.collideWithWall(*this))
+  {
+    moveObj(-direction, win_height, win_width);
+    return false;
+  }
+  return true;
+  //if (type == DEMON|| type == DOOR)
+  //  return false;
+  //return true;
 }
 
 
 
-
-void Pacman::move(sf::Time deltaTime)
-{
-  moveObj(m_direction * speedPerSecond * deltaTime.asSeconds());
-}
-
-  //case KB_Up:
-  //  new_loc.row = (new_loc.row + row - 1) % row;
-  //  break;
-
-  //case KB_Down:
-  //  ++new_loc.row %= row;
-  //  break;
-
-  //case KB_Left:
-  //  new_loc.col = (new_loc.col + col - 1) % col;
-  //  break;
-
-  //case KB_Right:
-  //  ++new_loc.col %= col;
-  //  break;
-//bool Pacman::directionLegal(Controller & c, Location & new_loc) const
-//{
-//	setDirection(c.getLevelRow(), c.getLevelCol(), new_loc);
-//	return isLegal(c, new_loc);
-//}
 //
-///*---------------------------------------------------------
-// * returns whether the new_loc is legal place for pacman on current level or not
-// */
-//bool Pacman::isLegal(Controller& c, const Location& new_loc) const
+//void Pacman::move(sf::Time deltaTime)
 //{
-//	auto type = c.getTypeInLoc(new_loc);
-//	if (type == '#' || type == 'D')
-//		return false;
-//
-//	return true;
+//  moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds());
 //}

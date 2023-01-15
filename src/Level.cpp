@@ -14,6 +14,7 @@ void Level::buildLevel(ResourceManage& resource, float width, float height)
 {
 	m_level.clear();
 	m_demons.clear();
+	m_walls.clear();
 	m_obj_width = width / m_level_cols;
 	m_obj_height = height / m_level_rows;
 
@@ -43,36 +44,38 @@ void Level::addObject(ObjType type, ResourceManage& resource, size_t i, size_t j
 		m_demons.push_back(std::make_unique<Demon>(*resource.getDemonT(), position, m_obj_width, m_obj_height));
 		break;
 
-		//case WALL:
-		//	m_walls.push_back(Wall(*resource.getWallT(), position, m_obj_width, m_obj_height));
-		//break;
+	case WALL:
+		m_walls.push_back(std::make_unique<Wall>(*resource.getWallT(), position, m_obj_width, m_obj_height));
+		break;
 
 	default:
 		m_level.push_back(createObject(type, resource, position));
 	}
 }
 
-std::unique_ptr<Object> Level::createObject(ObjType type, ResourceManage& resource, const sf::Vector2f& position) const
+std::unique_ptr<Erasable> Level::createObject(ObjType type, ResourceManage& resource, const sf::Vector2f& position) const
 {
 	switch (type)
 	{
-	//case DEMON:
-	//	return std::make_unique<Demon> (*resource.getDemonT(),  position, m_obj_width, m_obj_height);
+		//case DEMON:
+		//	return std::make_unique<Demon> (*resource.getDemonT(),  position, m_obj_width, m_obj_height);
 	case COOKIE:
 		return std::make_unique<Cookie>(*resource.getCookieT(), position, m_obj_width, m_obj_height);
 	case GIFT:
-		return std::make_unique<Gift>  (*resource.getGiftT(),   position, m_obj_width, m_obj_height);
+		return std::make_unique<Gift>(*resource.getGiftT(), position, m_obj_width, m_obj_height);
 	case DOOR:
-		return std::make_unique<Door>  (*resource.getDoorT(),   position, m_obj_width, m_obj_height);
+		return std::make_unique<Door>(*resource.getDoorT(), position, m_obj_width, m_obj_height);
 	case KEY:
-		return std::make_unique<Key>   (*resource.getkeyT(),    position, m_obj_width, m_obj_height);
-	case WALL:
-		return std::make_unique<Wall>  (*resource.getWallT(),   position, m_obj_width, m_obj_height);
+		return std::make_unique<Key>(*resource.getkeyT(), position, m_obj_width, m_obj_height);
+		//case WALL:
+		//	return std::make_unique<Wall>  (*resource.getWallT(),   position, m_obj_width, m_obj_height);
 	}
 }
 
 void Level::draw(sf::RenderWindow& window) const
 {
+	for (auto i = size_t(0); i < m_walls.size(); ++i)
+		m_walls[i]->draw(window); 
 	for (auto i = size_t(0); i < m_level.size(); ++i)
 		m_level[i]->draw(window);
 	for (auto i = size_t(0); i < m_demons.size(); ++i)
@@ -99,7 +102,7 @@ void Level::setCurrentLevel(ResourceManage& resource, size_t board_num)
 void Level::chooseBoard(ResourceManage& resource, size_t board_num)
 {
 	m_current_board = (board_num == 1) ? resource.getBoard1() :
-		                (board_num == 2) ? resource.getBoard2() : resource.getBoard3();
+		(board_num == 2) ? resource.getBoard2() : resource.getBoard3();
 }
 
 size_t Level::getRows() const {
@@ -116,7 +119,7 @@ bool Level::runLevel(sf::RenderWindow& window)
 
 	while (window.isOpen()) {
 		window.clear(DarkBlue);
-	  draw(window);
+		draw(window);
 		window.display();
 
 		for (auto event = sf::Event{}; window.pollEvent(event); )
@@ -134,12 +137,26 @@ bool Level::runLevel(sf::RenderWindow& window)
 			}
 		//move
 		const auto deltaTime = clock.restart();
-		m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width);
+		m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
 		//m_monster.move(deltaTime);
 	}
 }
 
+bool Level::collideWithWall(const MovingObj& moving_obj) const
+{
+	for (auto i = size_t(0); i < m_walls.size(); ++i)
+		if (m_walls[i]->collidesWith(moving_obj))
+			return true;
+	return false;
 
+	//for (auto i = size_t(0); i < m_walls.size(); ++i)
+	//	if (m_level[i]->getGlobalBounds().contains(loc))
+	//		return WALL;
+
+	//for (auto i = size_t(0); i < m_demons.size(); ++i)
+	//	if (m_level[i]->getGlobalBounds().contains(loc))
+	//		return DEMON;
+}
 
 
 

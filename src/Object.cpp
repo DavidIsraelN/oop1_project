@@ -20,8 +20,19 @@ sf::Vector2f Object::getPosition() const
 }
 
 //-------------------------------------------------------------------
-void Object::moveObj(const sf::Vector2f& movment)
+sf::FloatRect Object::getGlobalBounds() const
 {
+  return m_sprite.getGlobalBounds();
+}
+
+//-------------------------------------------------------------------
+void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width)
+{
+  auto movment = direction;
+  if (m_sprite.getPosition().x + movment.x >= win_width)   movment.x = -win_width;
+  else if (m_sprite.getPosition().x + movment.x <= 0.f)    movment.x = win_width;
+  if (m_sprite.getPosition().y + movment.y >= win_height)  movment.y = -win_height;
+  else if (m_sprite.getPosition().y + movment.y <= 0.f)    movment.y = win_height;
   m_sprite.move(movment);
 }
 
@@ -35,4 +46,10 @@ void Object::rotateObj(float angle)
 void Object::draw(sf::RenderWindow& window) const
 {
   window.draw(m_sprite);
+}
+
+//-------------------------------------------------------------------
+bool Object::collidesWith(const Object& other_obj) const
+{
+  return m_sprite.getGlobalBounds().intersects(other_obj.m_sprite.getGlobalBounds());
 }

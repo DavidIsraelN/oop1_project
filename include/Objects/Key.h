@@ -9,8 +9,6 @@ public:
   Key(const sf::Texture&, const sf::Vector2f&, float, float);
 //	~Key();
 
-    
-
 private:
 
 };
