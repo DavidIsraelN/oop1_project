@@ -12,150 +12,156 @@
 
 void Level::buildLevel(ResourceManage& resource, float width, float height)
 {
-	m_level.clear();
-	m_demons.clear();
-	m_walls.clear();
-	m_obj_width = width / m_level_cols;
-	m_obj_height = height / m_level_rows;
+  m_level.clear();
+  m_demons.clear();
+  m_walls.clear();
+  m_obj_width = width / m_level_cols;
+  m_obj_height = height / m_level_rows;
 
-	for (auto i = size_t(0); i < m_level_txt.size(); ++i)
-		for (auto j = size_t(0); j < m_level_txt[i].size(); ++j)
-		{
-			if (m_level_txt[i][j] == SPACE) continue;
-			addObject(ObjType(m_level_txt[i][j]), resource, i, j);
-			//m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
-		}
+  for (auto i = size_t(0); i < m_level_txt.size(); ++i)
+    for (auto j = size_t(0); j < m_level_txt[i].size(); ++j)
+    {
+      if (m_level_txt[i][j] == SPACE) continue;
+      addObject(ObjType(m_level_txt[i][j]), resource, i, j);
+      //m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
+    }
 }
 
 void Level::addObject(ObjType type, ResourceManage& resource, size_t i, size_t j)
 {
-	auto x_pos = m_obj_width * j + m_obj_width / 2;
-	auto y_pos = m_obj_height * i + m_obj_height / 2;
-	auto position = sf::Vector2f({ x_pos, y_pos });
+  auto x_pos = m_obj_width * j + m_obj_width / 2;
+  auto y_pos = m_obj_height * i + m_obj_height / 2;
+  auto position = sf::Vector2f({ x_pos, y_pos });
 
-	switch (type)
-	{
-	case PACMAN:
-		m_player = std::make_unique<Pacman>(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
-		//*m_player = Pacman(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
-		break;
+  switch (type)
+  {
+  case PACMAN:
+    m_player = std::make_unique<Pacman>(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
+    //*m_player = Pacman(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
+    break;
 
-	case DEMON:
-		m_demons.push_back(std::make_unique<Demon>(*resource.getDemonT(), position, m_obj_width, m_obj_height));
-		break;
+  case DEMON:
+    m_demons.push_back(std::make_unique<Demon>(*resource.getDemonT(), position, m_obj_width, m_obj_height));
+    break;
 
-	case WALL:
-		m_walls.push_back(std::make_unique<Wall>(*resource.getWallT(), position, m_obj_width, m_obj_height));
-		break;
+  case WALL:
+    m_walls.push_back(std::make_unique<Wall>(*resource.getWallT(), position, m_obj_width, m_obj_height));
+    break;
 
-	default:
-		m_level.push_back(createObject(type, resource, position));
-	}
+  default:
+    m_level.push_back(createObject(type, resource, position));
+  }
 }
 
 std::unique_ptr<Erasable> Level::createObject(ObjType type, ResourceManage& resource, const sf::Vector2f& position) const
 {
-	switch (type)
-	{
-		//case DEMON:
-		//	return std::make_unique<Demon> (*resource.getDemonT(),  position, m_obj_width, m_obj_height);
-	case COOKIE:
-		return std::make_unique<Cookie>(*resource.getCookieT(), position, m_obj_width, m_obj_height);
-	case GIFT:
-		return std::make_unique<Gift>(*resource.getGiftT(), position, m_obj_width, m_obj_height);
-	case DOOR:
-		return std::make_unique<Door>(*resource.getDoorT(), position, m_obj_width, m_obj_height);
-	case KEY:
-		return std::make_unique<Key>(*resource.getkeyT(), position, m_obj_width, m_obj_height);
-		//case WALL:
-		//	return std::make_unique<Wall>  (*resource.getWallT(),   position, m_obj_width, m_obj_height);
-	}
+  switch (type)
+  {
+    //case DEMON:
+    //	return std::make_unique<Demon> (*resource.getDemonT(),  position, m_obj_width, m_obj_height);
+  case COOKIE:
+    return std::make_unique<Cookie>(*resource.getCookieT(), position, m_obj_width, m_obj_height);
+  case GIFT:
+    return std::make_unique<Gift>(*resource.getGiftT(), position, m_obj_width, m_obj_height);
+  case DOOR:
+    return std::make_unique<Door>(*resource.getDoorT(), position, m_obj_width, m_obj_height);
+  case KEY:
+    return std::make_unique<Key>(*resource.getkeyT(), position, m_obj_width, m_obj_height);
+    //case WALL:
+    //	return std::make_unique<Wall>  (*resource.getWallT(),   position, m_obj_width, m_obj_height);
+  }
 }
 
 void Level::draw(sf::RenderWindow& window) const
 {
-	for (auto i = size_t(0); i < m_walls.size(); ++i)
-		m_walls[i]->draw(window); 
-	for (auto i = size_t(0); i < m_level.size(); ++i)
-		m_level[i]->draw(window);
-	for (auto i = size_t(0); i < m_demons.size(); ++i)
-		m_demons[i]->draw(window);
-	m_player->draw(window);
+  for (auto i = size_t(0); i < m_walls.size(); ++i)
+    m_walls[i]->draw(window);
+  for (auto i = size_t(0); i < m_level.size(); ++i)
+    m_level[i]->draw(window);
+  for (auto i = size_t(0); i < m_demons.size(); ++i)
+    m_demons[i]->draw(window);
+  m_player->draw(window);
+  m_timer->draw(window);
 }
 
 void Level::setCurrentLevel(ResourceManage& resource, size_t board_num)
 {
-	chooseBoard(resource, board_num);
-	std::string line;
-	std::getline(*m_current_board, line);
-	auto size = std::istringstream(line);
-	size >> m_level_rows >> m_level_cols;
+  chooseBoard(resource, board_num);
+  std::string line;
+  std::getline(*m_current_board, line);
+  auto size = std::istringstream(line);
+  size >> m_level_rows >> m_level_cols;
 
-	m_level_txt.clear();
-	for (int i = 0; i < m_level_rows; ++i)
-		if (std::getline(*m_current_board, line))
-			m_level_txt.push_back(line);
+  m_level_txt.clear();
+  for (int i = 0; i < m_level_rows; ++i)
+    if (std::getline(*m_current_board, line))
+      m_level_txt.push_back(line);
 
-	m_current_board->seekg(0, m_current_board->beg);
+  m_current_board->seekg(0, m_current_board->beg);
+
+  m_timer = std::make_unique<Timer>(*resource.getFont());
+  m_timer->setStart(board_num);
 }
 
 void Level::chooseBoard(ResourceManage& resource, size_t board_num)
 {
-	m_current_board = (board_num == 1) ? resource.getBoard1() :
-		(board_num == 2) ? resource.getBoard2() : resource.getBoard3();
+  m_current_board = (board_num == 1) ? resource.getBoard1() :
+                    (board_num == 2) ? resource.getBoard2() : resource.getBoard3();
 }
 
 size_t Level::getRows() const {
-	return m_level_rows;
+  return m_level_rows;
 }
 
 size_t Level::getCols() const {
-	return m_level_cols;
+  return m_level_cols;
 }
 
 bool Level::runLevel(sf::RenderWindow& window)
 {
-	sf::Clock clock;
+  sf::Clock clock, elapsed;
 
-	while (window.isOpen()) {
-		window.clear(DarkBlue);
-		draw(window);
-		window.display();
+  while (window.isOpen()) {
+    window.clear(DarkBlue);
+    draw(window);
+    window.display();
 
-		for (auto event = sf::Event{}; window.pollEvent(event); )
-			switch (event.type)
-			{
-			case sf::Event::Closed:
-				window.close();
-				return false;
+    for (auto event = sf::Event{}; window.pollEvent(event); )
+      switch (event.type)
+      {
+      case sf::Event::Closed:
+        window.close();
+        return false;
 
-			case sf::Event::KeyPressed:
-				if (event.key.code == sf::Keyboard::Escape)
-					return true;
-				m_player->setDirection(event.key.code);
-				break;
-			}
-		//move
-		const auto deltaTime = clock.restart();
-		m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
-		//m_monster.move(deltaTime);
-	}
+      case sf::Event::KeyPressed:
+        if (event.key.code == sf::Keyboard::Escape)
+          return true;
+        m_player->setDirection(event.key.code);
+        break;
+      }
+    //move
+    const auto deltaTime = clock.restart();
+    m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
+    //m_monster.move(deltaTime);
+    m_timer->setTimer(elapsed.getElapsedTime().asSeconds());
+
+  }
 }
 
 bool Level::collideWithWall(const MovingObj& moving_obj) const
 {
-	for (auto i = size_t(0); i < m_walls.size(); ++i)
-		if (m_walls[i]->collidesWith(moving_obj))
-			return true;
-	return false;
+  for (auto i = size_t(0); i < m_walls.size(); ++i)
+    if (m_walls[i]->collidesWith(moving_obj))
+      return true;
+  return false;
 
-	//for (auto i = size_t(0); i < m_walls.size(); ++i)
-	//	if (m_level[i]->getGlobalBounds().contains(loc))
-	//		return WALL;
+  //for (auto i = size_t(0); i < m_walls.size(); ++i)
+  //	if (m_level[i]->getGlobalBounds().contains(loc))
+  //		return WALL;
 
-	//for (auto i = size_t(0); i < m_demons.size(); ++i)
-	//	if (m_level[i]->getGlobalBounds().contains(loc))
-	//		return DEMON;
+  //for (auto i = size_t(0); i < m_demons.size(); ++i)
+  //	if (m_level[i]->getGlobalBounds().contains(loc))
+  //		return DEMON;
 }
 
 

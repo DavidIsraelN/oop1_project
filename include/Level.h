@@ -7,6 +7,8 @@
 #include <string>
 #include <fstream>
 #include <memory>
+#include "Timer.h"
+
 
 enum ObjType
 {
@@ -49,6 +51,8 @@ private:
 	std::vector<std::unique_ptr<Erasable>> m_level;
 	std::vector<std::unique_ptr<MovingObj>> m_demons;
 	std::vector<std::unique_ptr<Wall>> m_walls;
+
+        std::unique_ptr<Timer> m_timer;
 
 	float m_obj_width = 0;
 	float m_obj_height = 0;
