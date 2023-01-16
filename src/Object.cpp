@@ -96,7 +96,7 @@ void Object::draw(sf::RenderWindow& window) const
 }
 
 //-------------------------------------------------------------------
-bool Object::collidesWith(const Object& other_obj) const
+bool Object::collidesWith(Object& other_obj) const
 {
   return m_sprite.getGlobalBounds().intersects(other_obj.m_sprite.getGlobalBounds());
 }

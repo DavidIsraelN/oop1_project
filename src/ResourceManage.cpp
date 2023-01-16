@@ -1,4 +1,32 @@
-//#include "ResourceManage.h"
+#include "ResourceManage.h"
+
+ResourceManage* ResourceManage::Instance()
+{
+  static ResourceManage m_instance;
+  return &m_instance;
+}
+
+ResourceManage::ResourceManage()
+    : m_help_file(std::ifstream("Help.txt")),
+      m_board_1(std::ifstream("Level_1.txt")),
+      m_board_2(std::ifstream("Level_2.txt")),
+      m_board_3(std::ifstream("Level_3.txt"))
+{
+  m_font.loadFromFile("Arial.ttf");
+  m_pacman_texture.loadFromFile("pacman.png");
+  m_demon_texture.loadFromFile("demon.png");
+  m_wall_texture.loadFromFile("wall.jpg");
+  m_door_texture.loadFromFile("door.png");
+  m_gift_texture.loadFromFile("gift.png");
+  m_key_texture.loadFromFile("key.png");
+  m_cookie_texture.loadFromFile("cookie.png");
+  m_game_start.loadFromFile("game_start.wav");
+  m_eat_cookie.loadFromFile("credit.wav");
+  m_eat_gift.loadFromFile("eat_fruit.wav");
+  m_icon.loadFromFile("pacman.png");
+
+}
+
 //
 //ResourceManage::ResourceManage()
 //	: m_help_file(std::ifstream("Help.txt")),
@@ -28,5 +56,5 @@
 //sf::Texture ResourceManage::getWallT() const { return m_wall_texture; }
 //sf::Texture ResourceManage::getDoorT() const { return m_door_texture; }
 //sf::Texture ResourceManage::getGiftT() const { return m_gift_texture; }
-//sf::Texture ResourceManage::getkeyT() const { return m_key_texture; }
+//sf::Texture ResourceManage::getKeyT() const { return m_key_texture; }
 //sf::Texture ResourceManage::getCookieT() const { return m_cookie_texture; }

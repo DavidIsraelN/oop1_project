@@ -10,8 +10,14 @@ public:
 //	~Gift();
 	void chooseGift() const;
 
-    
-
+        void collide(Object& obj) override { }
+        void collide(Pacman& pacman) override
+        {
+          delObj();
+          pacman.collide(*this);
+          static sf::Sound sound(*ResourceManage::Instance()->getEatGift());
+          sound.play();
+        }
 private:
 
 };

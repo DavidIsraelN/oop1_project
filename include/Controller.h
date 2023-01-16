@@ -5,7 +5,7 @@
 //#include "CurrentLevel.h"
 //#include "DrawGame.h"
 #include "Colors.h"
-#include "ResourceManage.h"
+
 
 
 const float WIN_HEIGHT = 800;
@@ -28,10 +28,10 @@ private:
 
 //  CurrentLevel m_current_level;
 //  DrawGame m_draw_game;
-  ResourceManage m_resources;
+//  ResourceManage m_resources;
   sf::Font m_font;
   sf::RenderWindow m_window;
-  sf::Sound m_reka;
+  sf::Sound m_game_start;
 
   //Board m_my_board;
   Level m_level;

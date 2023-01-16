@@ -1,18 +1,19 @@
 #include "Controller.h"
 #include <SFML/Audio.hpp>
+#include "ResourceManage.h"
 
-Controller::Controller() : m_font(*m_resources.getFont()), m_reka(*m_resources.getReka()),
+Controller::Controller() : m_font(*ResourceManage::Instance()->getFont()), m_game_start(*ResourceManage::Instance()->getGameStart()),
                            m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-                           m_menu(m_font, m_resources.getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
+                           m_menu(m_font, ResourceManage::Instance()->getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
 {
-  auto icon = m_resources.getIcon();
+  auto icon = ResourceManage::Instance()->getIcon();
   m_window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 }
 
 void Controller::run()
 {
-  m_reka.setLoop(true);
-  m_reka.play();
+  m_game_start.setLoop(true);
+  m_game_start.play();
 
   if (runMenu())
     while (m_window.isOpen())
@@ -55,13 +56,13 @@ bool Controller::runMenu()
 
 void Controller::runGame()
 {
-  m_level.buildLevel(m_resources, WIN_WIDTH, WIN_HEIGHT);
+  m_level.buildLevel(/*m_resources, */WIN_WIDTH, WIN_HEIGHT);
   while (m_window.isOpen()) {
     if(m_level.runLevel(m_window))
       if (runMenu())
         return;
   }
-  //m_reka.play();
+  //m_game_start.play();
   //	std::cout << m_level.getRows() << std::endl;
   //	std::cout << m_level.getCols() << std::endl;
 
@@ -96,13 +97,14 @@ void Controller::runGame()
 
 void Controller::chooseNewLevel(size_t level_num)
 {
-  m_level.setCurrentLevel(m_resources ,level_num);
+  m_level.setCurrentLevel(/*m_resources ,*/level_num);
 }
 
 void Controller::mute(bool mute)
 {
-  if (mute) {	m_reka.stop(); return; }
-  m_reka.play();
+  if (mute) {
+    m_game_start.stop(); return; }
+  m_game_start.play();
 }
 
 
