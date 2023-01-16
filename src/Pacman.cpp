@@ -7,6 +7,7 @@ Pacman::Pacman(const sf::Texture& texture, const sf::Vector2f& position, float w
 void Pacman::setDirection(sf::Keyboard::Key key)
 {
 	switch (key) {
+  case sf::Keyboard::Key::Space:   m_new_direction = sf::Vector2f ( 0, 0);   return;
 	case sf::Keyboard::Key::Right:   m_new_direction = sf::Vector2f ( 1, 0);   return;
 	case sf::Keyboard::Key::Left:    m_new_direction = sf::Vector2f (-1, 0);   return;
 	case sf::Keyboard::Key::Up:      m_new_direction = sf::Vector2f ( 0,-1);   return;
@@ -51,14 +52,32 @@ void Pacman::move(sf::Time deltaTime, float obj_h, float obj_w, float cols, floa
 
 bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, float win_width, const Level& level, float obj_h, float obj_w)
 {
-  moveObj(direction * 20.f, win_height, win_width, obj_h, obj_w);
+  moveObj(direction, win_height, win_width, obj_h, obj_w);
   if (level.collideWithWall(*this))
   {
-    moveObj(-direction * 20.f, win_height, win_width, obj_h, obj_w);
+    moveObj(-direction, win_height, win_width, obj_h, obj_w);
     return false;
   }
-  moveObj(-direction * 20.f, win_height, win_width, obj_h, obj_w);
-  moveObj(direction, win_height, win_width, obj_h, obj_w);
+
+  //auto delta_x = getPosition().x;
+  //auto delta_y = getPosition().y;
+  //auto epsilon = float(10);
+
+  //while (delta_x >= obj_w)
+  //  delta_x -= obj_w;
+
+  //if (delta_x >= obj_w / 2 - epsilon && delta_x <= obj_w / 2 + epsilon) delta_x = obj_w / 2 - delta_x;
+
+  //while (delta_y >= obj_h)
+  //  delta_y -= obj_h;
+
+  //if (delta_y >= obj_h / 2 - epsilon && delta_y <= obj_h / 2 + epsilon) delta_y = obj_h / 2 - delta_y;
+
+  //moveObj({ delta_x, delta_y }, win_height, win_width, obj_h, obj_w);
+
+
+  //moveObj(-direction, win_height, win_width, obj_h, obj_w);
+  //moveObj(direction, win_height, win_width, obj_h, obj_w);
 
   return true;
   //if (type == DEMON|| type == DOOR)

@@ -28,29 +28,59 @@ sf::FloatRect Object::getGlobalBounds() const
 //-------------------------------------------------------------------
 void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
 {
+
   auto movment = direction;
   if (m_sprite.getPosition().x + movment.x >= win_width)   movment.x = -win_width;
   else if (m_sprite.getPosition().x + movment.x <= 0.f)    movment.x = win_width;
   if (m_sprite.getPosition().y + movment.y >= win_height)  movment.y = -win_height;
   else if (m_sprite.getPosition().y + movment.y <= 0.f)    movment.y = win_height;
-  m_sprite.move(movment);
-  //auto move_x = m_sprite.getPosition().x;
-  //while (move_x >= obj_w)
-  //  move_x -= obj_w;
-  ////if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
-  //  if (move_x > 1)
-  //    move_x = 0;
-  //  else if (direction.x < 0)
-  //    move_x *= (-1);
 
-  //auto move_y = m_sprite.getPosition().y;
-  //while (move_y >= obj_h)
-  //  move_y -= obj_h;
-  //if (move_y > 1)
-  //  move_y = 0;
+  auto delta_x = m_sprite.getPosition().x + movment.x;
+  auto delta_y = m_sprite.getPosition().y + movment.y;
+  auto epsilon = 0.15f;
+
+  while (delta_x >= obj_w) delta_x -= obj_w;
+  if (delta_x >= obj_w / 2 - epsilon && delta_x <= obj_w / 2 + epsilon) delta_x = obj_w / 2 - delta_x;
+  else delta_x = 0;
+
+  while (delta_y >= obj_h) delta_y -= obj_h;
+  if (delta_y >= obj_h / 2 - epsilon && delta_y <= obj_h / 2 + epsilon) delta_y = obj_h / 2 - delta_y;
+  else delta_y = 0;
+
+  m_sprite.move(movment);
+  m_sprite.move(sf::Vector2f(delta_x, delta_y));
+
+  //auto delta_x = m_sprite.getPosition().x;
+  //auto delta_y = m_sprite.getPosition().y;
+  //auto epsilon = float(10);
+
+  //while (delta_x >= obj_w)
+  //  delta_x -= obj_w;
+
+  //if (delta_x >= obj_w / 2 - epsilon && delta_x <= obj_w / 2 + epsilon) delta_x = obj_w / 2 - delta_x;
+
+  //while (delta_y >= obj_h)
+  //  delta_y -= obj_h;
+
+  //if (delta_y >= obj_h / 2 - epsilon && delta_y <= obj_h / 2 + epsilon) delta_y = obj_h / 2 - delta_y;
+
+  //m_sprite.move({ delta_x, delta_y });
+
+
+  //if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
+
+    //else if (direction.x < 0)
+    //  move_x *= (-1);
+
+  //if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
+
+  //while (delta_y >= obj_h)
+  //  delta_y -= obj_h;
+  //if (delta_y > 1)
+  //  delta_y = 0;
   //else if (direction.y < 0)
   //  move_y *= (-1);
-  //m_sprite.move({ move_x, move_y });
+  //m_sprite.move({ delta_x, delta_y });
 }
 
 //-------------------------------------------------------------------

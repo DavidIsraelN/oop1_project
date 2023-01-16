@@ -122,6 +122,7 @@ bool Level::runLevel(sf::RenderWindow& window)
   sf::Clock clock, elapsed;
 
   while (window.isOpen()) {
+    //window.setFramerateLimit(30);
     window.clear(DeepRed);
     draw(window);
     window.display();
