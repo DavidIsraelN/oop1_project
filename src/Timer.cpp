@@ -54,3 +54,8 @@ void Timer::addTime(int add)
 {
   m_time_start += add;
 }
+
+std::string Timer::getTimer() const
+{
+  return m_text.getString();
+}

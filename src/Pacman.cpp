@@ -80,7 +80,7 @@ void Pacman::move(sf::Time deltaTime, float obj_h, float obj_w, float cols, floa
 bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, float win_width, const Level& level, float obj_h, float obj_w)
 {
   moveObj(direction, win_height, win_width, obj_h, obj_w);
-  if (level.collideWithWall(*this))
+  if (level.collideWithWallOrDoor(*this))
   {
     moveObj(-direction, win_height, win_width, obj_h, obj_w);
     return false;
@@ -112,7 +112,15 @@ bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, flo
   //return true;
 }
 
+size_t Pacman::getLife() const
+{
+  return m_life;
+}
 
+size_t Pacman::getScore() const
+{
+  return m_score;
+}
 
 //
 //void Pacman::move(sf::Time deltaTime)

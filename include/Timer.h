@@ -10,6 +10,7 @@ public:
   void setTimer(int);
   void setStart(int);
   void addTime(int);
+  std::string getTimer() const;
   void draw(sf::RenderWindow&) const;
 
 private:

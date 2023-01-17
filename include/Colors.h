@@ -8,6 +8,7 @@
 
 const sf::Color Gray(153, 153, 153);
 const sf::Color DeepRed(51, 0, 34);
+const sf::Color SoftRed(135, 100, 104);
 const sf::Color DarkBlue(7, 55, 99);
 const sf::Color SoftYellow(255, 242, 204);
 const sf::Color SemiSoftYellow(SoftYellow - sf::Color(0, 0, 0, 150));

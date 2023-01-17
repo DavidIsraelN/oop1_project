@@ -4,7 +4,7 @@
 
 Controller::Controller() : m_game_start(*ResourceManage::Resource()->getGameStart()),
                            m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-                           m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
+                           m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), m_level(WIN_WIDTH, WIN_HEIGHT, INFO_HEIGHT)
 {
   auto icon = ResourceManage::Resource()->getIcon();
   m_window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
@@ -12,7 +12,7 @@ Controller::Controller() : m_game_start(*ResourceManage::Resource()->getGameStar
 
 void Controller::run()
 {
-  m_game_start.setLoop(true);
+//  m_game_start.setLoop(true);
   m_game_start.play();
 
   if (runMenu())
@@ -50,13 +50,12 @@ bool Controller::runMenu()
         }
       }
       }
-
   }
 }
 
 void Controller::runGame()
 {
-  m_level.buildLevel(WIN_WIDTH, WIN_HEIGHT);
+  m_level.buildLevel();
   while (m_window.isOpen()) {
     if(m_level.runLevel(m_window))
       if (runMenu())
@@ -97,7 +96,7 @@ void Controller::runGame()
 
 void Controller::chooseNewLevel(size_t level_num)
 {
-  m_level.setCurrentLevel(/*m_resources ,*/level_num);
+  m_level.setCurrentLevel(level_num);
 }
 
 void Controller::mute(bool mute)

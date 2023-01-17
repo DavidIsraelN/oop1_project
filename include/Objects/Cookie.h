@@ -12,12 +12,14 @@ public:
   {
     delObj();
     pacman.collide(*this);
-
-    static sf::Sound sound(*ResourceManage::Resource()->getEatCookie());
-    sound.play();
+    static sf::Sound m_sound(*ResourceManage::Resource()->getEatCookie());
+    m_sound.play();
   }
 
   void collide(Object& obj) override { }
 
 private:
+//  static sf::Sound m_sound(*ResourceManage::Resource()->getEatCookie());
 };
+
+//sf::Sound Cookie::sound = sf::Sound(*ResourceManage::Resource()->getEatCookie());
