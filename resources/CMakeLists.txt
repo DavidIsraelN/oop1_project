@@ -4,6 +4,7 @@ configure_file ("objects/gift.png"   ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("objects/key.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("objects/cookie.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("objects/pacman.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("objects/super_pacman.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("objects/wall.jpg"   ${CMAKE_BINARY_DIR} COPYONLY)
 
 configure_file ("sounds/credit.wav"   ${CMAKE_BINARY_DIR} COPYONLY)

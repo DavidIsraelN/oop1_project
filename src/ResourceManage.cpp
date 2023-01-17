@@ -14,6 +14,7 @@ ResourceManage::ResourceManage()
 {
   m_font.loadFromFile("Arial.ttf");
   m_pacman_texture.loadFromFile("pacman.png");
+  m_super_pacman_texture.loadFromFile("super_pacman.png");
   m_demon_texture.loadFromFile("demon.png");
   m_wall_texture.loadFromFile("wall.jpg");
   m_door_texture.loadFromFile("door.png");

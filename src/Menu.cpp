@@ -4,7 +4,7 @@
 #include "Buttons/ExitGame.h"
 #include "Buttons/Mute.h"
 
-Menu::Menu(std::ifstream* help_file, float width, float height)
+Menu::Menu(float width, float height)
     : m_menu(sf::Text("MENU", *ResourceManage::Resource()->getFont() , height / 20))
 {
   m_menu.setPosition({ width / 2, height / 5 });
@@ -13,7 +13,7 @@ Menu::Menu(std::ifstream* help_file, float width, float height)
   m_menu.setStyle(sf::Text::Underlined);
 
   m_buttons.push_back(std::make_unique<NewGame>(width, height));
-  m_buttons.push_back(std::make_unique<Help>(help_file, width, height));
+  m_buttons.push_back(std::make_unique<Help>(width, height));
   m_buttons.push_back(std::make_unique<ExitGame>(width, height));
   m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f({ 50 , 30 }), height / 45));
 }

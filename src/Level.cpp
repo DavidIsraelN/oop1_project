@@ -99,6 +99,7 @@ void Level::setCurrentLevel(size_t board_num)
 
   m_current_board->seekg(0, m_current_board->beg);
 
+//  m_status = std::make_unique<StatusLine>(WIN_HEIGHT);
   m_timer = std::make_unique<Timer>();
   m_timer->setStart(board_num);
 }

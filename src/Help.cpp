@@ -1,10 +1,10 @@
 #include "Buttons/Help.h"
 #include "Colors.h"
 
-Help::Help(std::ifstream* help_file, float width, float height) :
-    Button("Help", /*font,*/ { width / 2 , height / 2 }, height / 30, SoftYellow),
+Help::Help(float width, float height) :
+    Button("Help", { width / 2 , height / 2 }, height / 30, SoftYellow),
     m_back({ width - 50 , 30 }, height / 45),
-    m_help_file(help_file), m_help_rect({width, height}),
+    m_help_rect({width, height}),
     m_window_width(width), m_window_height(height)
 {
   readHelpTxt();
@@ -36,7 +36,7 @@ void Help::readHelpTxt()
 {
   std::string line;
   m_help_str.clear();
-  while(std::getline(*m_help_file, line))
+  while(std::getline(*ResourceManage::Resource()->getHelpFile(), line))
     m_help_str.push_back(line);
 }
 

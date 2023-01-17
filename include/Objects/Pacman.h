@@ -26,4 +26,5 @@ private:
   sf::Vector2f m_new_direction = { 0, 0 };
   size_t m_hearts = 3;
   size_t m_score = 0;
+  bool m_scale = false;
 };

@@ -4,7 +4,7 @@
 
 Controller::Controller() : m_game_start(*ResourceManage::Resource()->getGameStart()),
                            m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-                           m_menu(ResourceManage::Resource()->getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
+                           m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
 {
   auto icon = ResourceManage::Resource()->getIcon();
   m_window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
@@ -56,7 +56,7 @@ bool Controller::runMenu()
 
 void Controller::runGame()
 {
-  m_level.buildLevel(/*m_resources, */WIN_WIDTH, WIN_HEIGHT);
+  m_level.buildLevel(WIN_WIDTH, WIN_HEIGHT);
   while (m_window.isOpen()) {
     if(m_level.runLevel(m_window))
       if (runMenu())

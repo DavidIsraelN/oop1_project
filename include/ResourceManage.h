@@ -16,6 +16,7 @@ public:
   std::ifstream* getBoard3()   { return &m_board_3;   }
 
   sf::Texture* getPacmanT() { return &m_pacman_texture; }
+  sf::Texture* getSuperPacmanT() { return &m_super_pacman_texture; }
   sf::Texture* getDemonT()  { return &m_demon_texture;  }
   sf::Texture* getWallT()   { return &m_wall_texture;   }
   sf::Texture* getDoorT()   { return &m_door_texture;   }
@@ -35,6 +36,7 @@ private:
   sf::Font m_font;
 
   sf::Texture m_pacman_texture;
+  sf::Texture m_super_pacman_texture;
   sf::Texture m_demon_texture;
   sf::Texture m_wall_texture;
   sf::Texture m_door_texture;
