@@ -13,6 +13,7 @@ public:
 //  virtual void collide(Cookie&) = 0;
   void collide(Cookie&) override { }
   void collide(Gift&) override { }
+  void collide(Key&) override { }
 
   //virtual ~StaticObj() = 0;
 };

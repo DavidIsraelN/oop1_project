@@ -2,11 +2,11 @@
 #include <SFML/Audio.hpp>
 #include "ResourceManage.h"
 
-Controller::Controller() : m_font(*ResourceManage::Instance()->getFont()), m_game_start(*ResourceManage::Instance()->getGameStart()),
+Controller::Controller() : m_game_start(*ResourceManage::Resource()->getGameStart()),
                            m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-                           m_menu(m_font, ResourceManage::Instance()->getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
+                           m_menu(ResourceManage::Resource()->getHelpFile(), WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
 {
-  auto icon = ResourceManage::Instance()->getIcon();
+  auto icon = ResourceManage::Resource()->getIcon();
   m_window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
 }
 

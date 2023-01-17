@@ -1,6 +1,6 @@
 #include "ResourceManage.h"
 
-ResourceManage* ResourceManage::Instance()
+ResourceManage* ResourceManage::Resource()
 {
   static ResourceManage m_instance;
   return &m_instance;

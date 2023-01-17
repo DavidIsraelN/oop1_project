@@ -28,8 +28,6 @@ private:
 
 //  CurrentLevel m_current_level;
 //  DrawGame m_draw_game;
-//  ResourceManage m_resources;
-  sf::Font m_font;
   sf::RenderWindow m_window;
   sf::Sound m_game_start;
 

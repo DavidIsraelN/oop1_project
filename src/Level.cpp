@@ -10,7 +10,7 @@
 #include "Colors.h"
 #include <sstream>
 
-void Level::buildLevel(/*ResourceManage& resource,*/ float width, float height)
+void Level::buildLevel(float width, float height)
 {
   m_level.clear();
   m_demons.clear();
@@ -22,12 +22,12 @@ void Level::buildLevel(/*ResourceManage& resource,*/ float width, float height)
     for (auto j = size_t(0); j < m_level_txt[i].size(); ++j)
     {
       if (m_level_txt[i][j] == SPACE) continue;
-      addObject(ObjType(m_level_txt[i][j]), /*resource, */i, j);
+      addObject(ObjType(m_level_txt[i][j]), i, j);
       //m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
     }
 }
 
-void Level::addObject(ObjType type, /*ResourceManage& resource,*/ size_t i, size_t j)
+void Level::addObject(ObjType type, size_t i, size_t j)
 {
   auto x_pos = m_obj_width * j + m_obj_width / 2;
   auto y_pos = m_obj_height * i + m_obj_height / 2;
@@ -36,20 +36,20 @@ void Level::addObject(ObjType type, /*ResourceManage& resource,*/ size_t i, size
   switch (type)
   {
   case PACMAN:
-    m_player = std::make_unique<Pacman>(*ResourceManage::Instance()->getPacmanT(), position, m_obj_width, m_obj_height);
+    m_player = std::make_unique<Pacman>(position, m_obj_width, m_obj_height);
     //*m_player = Pacman(*resource.getPacmanT(), position, m_obj_width, m_obj_height);
     break;
 
   case DEMON:
-    m_demons.push_back(std::make_unique<Demon>(*ResourceManage::Instance()->getDemonT(), position, m_obj_width, m_obj_height));
+    m_demons.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height));
     break;
 
   case WALL:
-    m_walls.push_back(std::make_unique<Wall>(*ResourceManage::Instance()->getWallT(), position, m_obj_width, m_obj_height));
+    m_walls.push_back(std::make_unique<Wall>(position, m_obj_width, m_obj_height));
     break;
 
   default:
-    m_level.push_back(createObject(type, /*resource,*/ position));
+    m_level.push_back(createObject(type, position));
   }
 }
 
@@ -60,13 +60,13 @@ std::unique_ptr<Erasable> Level::createObject(ObjType type,/* ResourceManage& re
     //case DEMON:
     //	return std::make_unique<Demon> (*resource.getDemonT(),  position, m_obj_width, m_obj_height);
   case COOKIE:
-    return std::make_unique<Cookie>(*ResourceManage::Instance()->getCookieT(), position, m_obj_width, m_obj_height);
+    return std::make_unique<Cookie>(position, m_obj_width, m_obj_height);
   case GIFT:
-    return std::make_unique<Gift>(*ResourceManage::Instance()->getGiftT(), position, m_obj_width, m_obj_height);
+    return std::make_unique<Gift>(position, m_obj_width, m_obj_height);
   case DOOR:
-    return std::make_unique<Door>(*ResourceManage::Instance()->getDoorT(), position, m_obj_width, m_obj_height);
+    return std::make_unique<Door>(position, m_obj_width, m_obj_height);
   case KEY:
-    return std::make_unique<Key>(*ResourceManage::Instance()->getKeyT(), position, m_obj_width, m_obj_height);
+    return std::make_unique<Key>(position, m_obj_width, m_obj_height);
     //case WALL:
     //	return std::make_unique<Wall>  (*resource.getWallT(),   position, m_obj_width, m_obj_height);
   }
@@ -84,9 +84,9 @@ void Level::draw(sf::RenderWindow& window) const
   m_timer->draw(window);
 }
 
-void Level::setCurrentLevel(/*ResourceManage& resource,*/ size_t board_num)
+void Level::setCurrentLevel(size_t board_num)
 {
-  chooseBoard(/*resource,*/ board_num);
+  chooseBoard(board_num);
   std::string line;
   std::getline(*m_current_board, line);
   auto size = std::istringstream(line);
@@ -99,14 +99,14 @@ void Level::setCurrentLevel(/*ResourceManage& resource,*/ size_t board_num)
 
   m_current_board->seekg(0, m_current_board->beg);
 
-  m_timer = std::make_unique<Timer>(*ResourceManage::Instance()->getFont());
+  m_timer = std::make_unique<Timer>();
   m_timer->setStart(board_num);
 }
 
-void Level::chooseBoard(/*ResourceManage& resource, */size_t board_num)
+void Level::chooseBoard(size_t board_num)
 {
-  m_current_board = (board_num == 1) ? ResourceManage::Instance()->getBoard1() :
-                    (board_num == 2) ? ResourceManage::Instance()->getBoard2() : ResourceManage::Instance()->getBoard3();
+  m_current_board = (board_num == 1) ? ResourceManage::Resource()->getBoard1() :
+                    (board_num == 2) ? ResourceManage::Resource()->getBoard2() : ResourceManage::Resource()->getBoard3();
 }
 
 size_t Level::getRows() const {
@@ -152,23 +152,12 @@ bool Level::runLevel(sf::RenderWindow& window)
   }
 }
 
-bool Level::collideWithWall(MovingObj& moving_obj) const
-{
+bool Level::collideWithWall(MovingObj& moving_obj) const {
   for (auto i = size_t(0); i < m_walls.size(); ++i)
     if (m_walls[i]->collidesWith(moving_obj))
       return true;
   return false;
-
-  //for (auto i = size_t(0); i < m_walls.size(); ++i)
-  //	if (m_level[i]->getGlobalBounds().contains(loc))
-  //		return WALL;
-
-  //for (auto i = size_t(0); i < m_demons.size(); ++i)
-  //	if (m_level[i]->getGlobalBounds().contains(loc))
-  //		return DEMON;
 }
-
-
 
 void Level::handleCollision()
 {
@@ -177,6 +166,14 @@ void Level::handleCollision()
 //      m_level[i]->collide(*m_player);
       m_player->collide(*m_level[i]);
 }
+
+//for (auto i = size_t(0); i < m_walls.size(); ++i)
+//	if (m_level[i]->getGlobalBounds().contains(loc))
+//		return WALL;
+
+//for (auto i = size_t(0); i < m_demons.size(); ++i)
+//	if (m_level[i]->getGlobalBounds().contains(loc))
+//		return DEMON;
 
 
 

@@ -7,8 +7,8 @@ class MovingObj : public Object
 {
 public:
   MovingObj(const sf::Texture& texture, const sf::Vector2f& position, float width, float height, float scale = 1.01)
-    //: Object(texture, position, width, height, scale) { }
-  : Object(texture, position, width <= height ? width : height, width <= height ? width : height, scale) { }
+  //: Object(texture, position, width, height, scale) { }
+      : Object(texture, position, width <= height ? width : height, width <= height ? width : height, scale) { }
   void collide(Pacman& pacman) override { }
 
 

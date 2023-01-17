@@ -6,11 +6,11 @@
 class SuperPacman : public Pacman
 {
 public:
-	SuperPacman();
-	~SuperPacman();
+  SuperPacman();
+  ~SuperPacman();
 
-	void move() override;
-	void collusion() override;
+  void move() override;
+  void collusion() override;
 
 private:
 

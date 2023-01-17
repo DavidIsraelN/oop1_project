@@ -5,9 +5,9 @@
 class ChooseLevel : public Button
 {
 public:
-	ChooseLevel(sf::Font&, const sf::Vector2f&, size_t, char);
-	bool action(sf::RenderWindow&, Controller&) override;
+  ChooseLevel(const sf::Vector2f&, size_t, char);
+  bool action(sf::RenderWindow&, Controller&) override;
 
 private:
-	size_t m_level_num;
+  size_t m_level_num;
 };

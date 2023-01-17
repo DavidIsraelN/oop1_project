@@ -6,7 +6,7 @@
 class ResourceManage
 {
 public:
-  static ResourceManage* Instance();
+  static ResourceManage* Resource();
 
   sf::Font* getFont() { return &m_font; }
 
@@ -31,7 +31,7 @@ public:
 private:
   ResourceManage();
 
-  static ResourceManage* m_instance;
+  static ResourceManage* m_resource;
   sf::Font m_font;
 
   sf::Texture m_pacman_texture;
@@ -55,4 +55,4 @@ private:
   sf::SoundBuffer m_eat_gift;
 };
 
-//ResourceManage* ResourceManage::m_instance = nullptr;
+//ResourceManage* ResourceManage::m_resource = nullptr;

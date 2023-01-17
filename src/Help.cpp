@@ -1,11 +1,11 @@
 #include "Buttons/Help.h"
 #include "Colors.h"
 
-Help::Help(sf::Font& font, std::ifstream* help_file, float width, float height) : m_font(font),
-  Button("Help", font, { width / 2 , height / 2 }, height / 30, SoftYellow),
-  m_back(font, { width - 50 , 30 }, height / 45),
-	m_help_file(help_file), m_help_rect({width, height}),
-  m_window_width(width), m_window_height(height) 
+Help::Help(std::ifstream* help_file, float width, float height) :
+    Button("Help", /*font,*/ { width / 2 , height / 2 }, height / 30, SoftYellow),
+    m_back({ width - 50 , 30 }, height / 45),
+    m_help_file(help_file), m_help_rect({width, height}),
+    m_window_width(width), m_window_height(height)
 {
   readHelpTxt();
   bulidHelpScreen();
@@ -53,7 +53,7 @@ void Help::bulidHelpScreen()
   {
     if (m_help_str[i].empty())
       continue;
-    auto line = sf::Text(m_help_str[i], m_font, (m_help_txt.size() == 0)? line_height : line_height / 1.5);
+    auto line = sf::Text(m_help_str[i], *ResourceManage::Resource()->getFont(), (m_help_txt.size() == 0)? line_height : line_height / 1.5);
     line.setFillColor(DeepRed);
     line.setPosition({m_window_width / 2, line_height * i});
     line.setOrigin(line.getLocalBounds().width / 2, line.getLocalBounds().height / 2);

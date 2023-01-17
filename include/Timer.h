@@ -5,7 +5,7 @@
 class Timer
 {
 public:
-  Timer(sf::Font&);
+  Timer();
   //Timer(size_t);
   void setTimer(int);
   void setStart(int);

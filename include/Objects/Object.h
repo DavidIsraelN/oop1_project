@@ -11,6 +11,7 @@ class Pacman;
 class Wall;
 class Cookie;
 class Gift;
+class Key;
 
 class Object
 {
@@ -28,6 +29,7 @@ public:
   virtual void collide(Pacman&) = 0;
   virtual void collide(Cookie&) = 0;
   virtual void collide(Gift&) = 0;
+  virtual void collide(Key&) = 0;
 
   //virtual void collide(& other_obj) = 0;
   //virtual void collide(& other_obj) = 0;

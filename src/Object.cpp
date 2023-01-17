@@ -69,8 +69,8 @@ void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_
 
   //if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
 
-    //else if (direction.x < 0)
-    //  move_x *= (-1);
+  //else if (direction.x < 0)
+  //  move_x *= (-1);
 
   //if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
 

@@ -6,12 +6,21 @@
 class Key : public Erasable
 {
 public:
-  Key(const sf::Texture&, const sf::Vector2f&, float, float);
+  Key(const sf::Vector2f&, float, float);
 //	~Key();
-  void collide(Pacman& pacman) override { }
-  void collide(Object& obj) override {
+  void collide(Object& obj) override { }
+  void collide(Pacman& pacman) override
+  {
     delObj();
-    obj.collide(*this); }
+    pacman.collide(*this);
+    static sf::Sound sound(*ResourceManage::Resource()->getEatGift());
+    sound.play();
+    delRandomDoor();
+  }
+  void delRandomDoor()
+  {
+    //*****************
+  }
 private:
 
 };

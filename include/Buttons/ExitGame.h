@@ -5,8 +5,8 @@
 class ExitGame : public Button
 {
 public:
-	ExitGame(sf::Font& font, float width, float height)
-	: Button("Exit Game", font, { width / 2 , height / 1.6f }, height / 30, SoftYellow) { }
+  ExitGame(float width, float height)
+      : Button("Exit Game", { width / 2 , height / 1.6f }, height / 30, SoftYellow) { }
 
-	bool action(sf::RenderWindow& window, Controller& c) override { window.close(); return false;}
+  bool action(sf::RenderWindow& window, Controller& c) override { window.close(); return false;}
 };

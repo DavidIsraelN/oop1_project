@@ -5,8 +5,8 @@
 class Back : public Button
 {
 public:
-	Back(sf::Font& font, const sf::Vector2f& position, size_t size)
-		: Button("< Back", font, position, size, sf::Color::White) { }
+  Back(const sf::Vector2f& position, size_t size)
+      : Button("< Back", position, size, sf::Color::White) { }
 
-	bool action(sf::RenderWindow& window, Controller& c) override { return false; }
+  bool action(sf::RenderWindow& window, Controller& c) override { return false; }
 };

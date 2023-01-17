@@ -5,7 +5,7 @@
 class NewGame : public Button
 {
 public:
-  NewGame(sf::Font&, float, float);
+  NewGame(float, float);
   bool action(sf::RenderWindow&, Controller&) override;
 
 private:
@@ -14,7 +14,6 @@ private:
 
   float m_window_width;
   float m_window_height;
-  sf::Font m_font;
   sf::Text m_levels_txt;
   sf::RectangleShape m_levels_rect;
   std::vector<std::unique_ptr<Button>> m_levels;
