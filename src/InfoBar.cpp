@@ -53,4 +53,13 @@ void InfoBar::setValues(size_t life, std::string timer, size_t level, size_t sco
   m_timer.setString(timer);
   m_level.setString("LEVEL " + std::to_string(level));
   m_score.setString("SCORE " + std::to_string(score));
+  setTimerColor(timer);
+}
+
+void InfoBar::setTimerColor(std::string timer)
+{
+  if ((timer[0] - '0') * 600 + (timer[1] - '0') * 60 + (timer[3] - '0') * 10 + timer[4] - '0' == 30)
+    m_timer.setFillColor(sf::Color::Red);
+  else
+    m_timer.setFillColor(DeepRed);
 }

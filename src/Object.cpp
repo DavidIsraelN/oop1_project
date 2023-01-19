@@ -29,14 +29,14 @@ sf::FloatRect Object::getGlobalBounds() const
 void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
 {
 
-  auto movment = direction;
-  if (m_sprite.getPosition().x + movment.x >= win_width)   movment.x = -win_width;
-  else if (m_sprite.getPosition().x + movment.x <= 0.f)    movment.x = win_width;
-  if (m_sprite.getPosition().y + movment.y >= win_height)  movment.y = -win_height;
-  else if (m_sprite.getPosition().y + movment.y <= 0.f)    movment.y = win_height;
+  auto movement = direction;
+  if (m_sprite.getPosition().x + movement.x >= win_width)  movement.x = -win_width;
+  else if (m_sprite.getPosition().x + movement.x <= 0.f)   movement.x = win_width;
+  if (m_sprite.getPosition().y + movement.y >= win_height) movement.y = -win_height;
+  else if (m_sprite.getPosition().y + movement.y <= 0.f)   movement.y = win_height;
 
-  auto delta_x = m_sprite.getPosition().x + movment.x;
-  auto delta_y = m_sprite.getPosition().y + movment.y;
+  auto delta_x = m_sprite.getPosition().x + movement.x;
+  auto delta_y = m_sprite.getPosition().y + movement.y;
   auto epsilon = 0.15f;
 
   while (delta_x >= obj_w) delta_x -= obj_w;
@@ -47,7 +47,7 @@ void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_
   if (delta_y >= obj_h / 2 - epsilon && delta_y <= obj_h / 2 + epsilon) delta_y = obj_h / 2 - delta_y;
   else delta_y = 0;
 
-  m_sprite.move(movment);
+  m_sprite.move(movement);
   m_sprite.move(sf::Vector2f(delta_x, delta_y));
 
   //auto delta_x = m_sprite.getPosition().x;

@@ -9,6 +9,8 @@
 #include "Objects/Key.h"
 #include "Colors.h"
 #include <sstream>
+#include <time.h>
+#include <thread>
 
 Level::Level(const float w_width, const float w_height, const float inf_h)
     : m_win_width(w_width), m_win_height(w_height), m_info_height(inf_h),
@@ -177,11 +179,13 @@ bool Level::runLevel(sf::RenderWindow& window)
     //m_player->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
     m_player->move(deltaTime, m_obj_height, m_obj_width, m_level_cols, m_level_rows, *this);
     //m_monster.move(deltaTime);
-    m_timer.setTimer(elapsed.getElapsedTime().asSeconds());
+    m_timer.updateTimer(elapsed.getElapsedTime().asSeconds());
     handleCollision();
     for (auto i = size_t(0); i < m_erasable_obj.size(); ++i)
 //      std::cout << m_erasable_obj.size();
       std::erase_if(m_erasable_obj[i], [] (const auto& m_erasable_obj) {return m_erasable_obj->isDel();});
+    if(m_erasable_obj[size_t(ObjIndex::KEY)].size() < m_erasable_obj[size_t(ObjIndex::DOOR)].size())
+      delDoor();
     m_info.setValues(m_player->getLife(), m_timer.getTimer(), m_level_num, m_player->getScore());
   }
 }
@@ -204,6 +208,14 @@ void Level::handleCollision()
     for (auto j = size_t(0); j < m_erasable_obj[i].size(); ++j)
       if(m_erasable_obj[i][j]->collidesWith(*m_player))
         m_player->collide(*m_erasable_obj[i][j]);
+}
+
+void Level::delDoor()
+{
+  srand(time(0));
+  auto choice = (rand() % m_erasable_obj[size_t(ObjIndex::DOOR)].size());
+  m_erasable_obj[size_t(ObjIndex::DOOR)][choice]->delObj();
+  std::erase_if(m_erasable_obj[size_t(ObjIndex::DOOR)], [] (const auto& m_erasable_obj) {return m_erasable_obj->isDel();});
 }
 
 //for (auto i = size_t(0); i < m_walls.size(); ++i)

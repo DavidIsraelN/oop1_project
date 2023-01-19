@@ -16,10 +16,9 @@ public:
   void move(sf::Time, float, float, float, float, const Level&);
   //	void collusion() override;
   void collide(Object& object) override {object.collide(*this);}
-  void collide(Cookie& cookie) override {m_score += 2;     std::cout << m_score << std::endl;}
-  void collide(Gift& gift) override {m_score += 5;     std::cout << m_score << std::endl;
-  m_sprite.setColor(sf::Color(163, 23, 168));}
-  void collide(Key& key) override {m_score += 7;     std::cout << m_score << std::endl;}
+  void collide(Cookie& cookie) override {m_score += 2;}
+  void collide(Gift& gift) override {m_score += 5; m_sprite.setColor(sf::Color(163, 23, 168));}
+  void collide(Key& key) override {m_score += 7;}
   size_t getLife() const;
   size_t getScore() const;
 
@@ -29,5 +28,5 @@ private:
   sf::Vector2f m_new_direction = { 0, 0 };
   size_t m_life = 3;
   size_t m_score = 0;
-  bool m_scale = false;
+//  bool m_scale = false;
 };

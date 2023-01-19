@@ -26,30 +26,29 @@ void Pacman::move(sf::Time deltaTime, float obj_h, float obj_w, float cols, floa
   else
     directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w);
 
-  rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : /*m_cur_direction.x == -1 ? 180 :*/ 0);
- // rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : /*m_cur_direction.x == -1 ? 180 :*/ 0);
-  if(m_cur_direction.x == -1 && m_scale == false)
-  {
-    m_sprite.scale(-1, 1);
-    m_scale = true;
-    return;
-  }
-  else if (m_cur_direction.x == 1 && m_scale == true)
-  {
-    m_sprite.scale(-1, 1);
-    m_scale = false;
-    return;
-  }
-
-  if (m_cur_direction.y == -1 || m_cur_direction.y == 1)
-  {
-    if(m_scale == true)
-    {
-      m_sprite.scale(-1, 1);
-      m_scale = false;
-    }
-    return;
-  }
+  rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
+//  if(m_cur_direction.x == -1 && m_scale == false)
+//  {
+//    m_sprite.scale(-1, 1);
+//    m_scale = true;
+//    return;
+//  }
+//  else if (m_cur_direction.x == 1 && m_scale == true)
+//  {
+//    m_sprite.scale(-1, 1);
+//    m_scale = false;
+//    return;
+//  }
+//
+//  if (m_cur_direction.y == -1 || m_cur_direction.y == 1)
+//  {
+//    if(m_scale == true)
+//    {
+//      m_sprite.scale(-1, 1);
+//      m_scale = false;
+//    }
+//    return;
+//  }
 
 
   //  if(m_cur_direction.x == 1)

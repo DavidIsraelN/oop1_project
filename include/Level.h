@@ -46,7 +46,7 @@ private:
   void addObject(ObjType, size_t, size_t);
   std::unique_ptr<Erasable> createObject(ObjType, const sf::Vector2f&) const;
   void handleCollision();
-
+  void delDoor();
 
   std::ifstream* m_current_board = nullptr;
   std::vector<std::string> m_level_txt; // !!!! we should fix it
