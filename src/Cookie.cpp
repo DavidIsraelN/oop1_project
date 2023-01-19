@@ -2,4 +2,4 @@
 #include "Objects/Object.h"
 
 Cookie::Cookie(const sf::Vector2f& position, float width, float height)
-    : Erasable(*ResourceManage::Resource()->getCookieT(), position, width, height, 2) { }
+    : Erasable(ResourceManage::Resource()->getObjTexture(ObjIndex::COOKIE), position, width, height, 2) { }

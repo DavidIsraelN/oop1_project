@@ -18,11 +18,6 @@ enum class ObjType
   WALL   = '#', SPACE = ' '
 };
 
-enum class ObjIndex
-{
-  COOKIE = 0, DOOR, GIFT , KEY
-  /*, PACMAN, WALL,  DEMON*/
-};
 
 class Level
 {
@@ -33,6 +28,7 @@ public:
   //Object* createObject(ObjType, ResourceManage&, size_t, size_t) const;//get char and return pointe to the right object.
 
   void buildLevel();
+  void clearLevel();
   void draw(sf::RenderWindow&) const;
   void setCurrentLevel(size_t);
   size_t getRows() const;
@@ -42,14 +38,13 @@ public:
 
   bool collideWithWallOrDoor(MovingObj &moving_obj) const;
 private:
-  void chooseBoard();
+  void chooselevel();
   void addObject(ObjType, size_t, size_t);
-  std::unique_ptr<Erasable> createObject(ObjType, const sf::Vector2f&) const;
+  //std::unique_ptr<Erasable> createObject(ObjType, const sf::Vector2f&) const;
   void handleCollision();
   void delDoor();
 
   std::ifstream* m_current_board = nullptr;
-  std::vector<std::string> m_level_txt; // !!!! we should fix it
 
   //std::unique_ptr<MovingObj> m_player;
   std::unique_ptr<Pacman> m_player;

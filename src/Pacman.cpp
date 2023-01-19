@@ -2,7 +2,7 @@
 #include "Level.h"
 
 Pacman::Pacman(const sf::Vector2f& position, float width, float height)
-    : MovingObj(*ResourceManage::Resource()->getPacmanT(), position, width, height) { }
+    : MovingObj(ResourceManage::Resource()->getObjTexture(ObjIndex::PACMAN), position, width, height) { }
 
 void Pacman::setDirection(sf::Keyboard::Key key)
 {

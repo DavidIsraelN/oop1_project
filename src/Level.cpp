@@ -18,19 +18,28 @@ Level::Level(const float w_width, const float w_height, const float inf_h)
 
 void Level::buildLevel()
 {
-  m_erasable_obj.clear();
-  m_erasable_obj.resize(4);
-  m_demons.clear();
-  m_walls.clear();
+  clearLevel();
   m_obj_width = m_win_width / m_level_cols;
   m_obj_height = m_win_height / m_level_rows;
 
-  for (auto i = size_t(0); i < m_level_txt.size(); ++i)
-    for (auto j = size_t(0); j < m_level_txt[i].size(); ++j)
+  //for (auto i = size_t(0); i < m_level_txt.size(); ++i)
+  //  for (auto j = size_t(0); j < m_level_txt[i].size(); ++j)
+  //  {
+  //    if (m_level_txt[i][j] == char(ObjType::SPACE)) continue;
+  //    addObject(ObjType(m_level_txt[i][j]), i, j);
+  //    //m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
+  //  }
+  
+  //char c;
+  //while (c = m_current_board->get()) { std::cout << c << std::endl; }
+
+  for (auto i = size_t(0); i < m_level_rows; ++i)
+    for (auto j = size_t(0); j < m_level_cols; ++j)
     {
-      if (m_level_txt[i][j] == char(ObjType::SPACE)) continue;
-      addObject(ObjType(m_level_txt[i][j]), i, j);
-      //m_level.push_back(createObject(ObjType(m_level_txt[i][j]), resource, i, j));
+      char c = m_current_board->get();
+      if (c == '\n') { --j;  continue; }
+      if (c == char(ObjType::SPACE)) continue;
+      addObject(ObjType(c), i, j);
     }
 }
 
@@ -118,17 +127,13 @@ void Level::draw(sf::RenderWindow& window) const
 void Level::setCurrentLevel(size_t board_num)
 {
   m_level_num = board_num;
-  chooseBoard();
+  chooselevel();
   std::string line;
   std::getline(*m_current_board, line);
   auto size = std::istringstream(line);
   size >> m_level_rows >> m_level_cols;
 
-  m_level_txt.clear();
-  for (int i = 0; i < m_level_rows; ++i)
-    if (std::getline(*m_current_board, line))
-      m_level_txt.push_back(line);
-
+  buildLevel();
   m_current_board->seekg(0, m_current_board->beg);
 
 //  m_info = std::make_unique<InfoBar>(WIN_HEIGHT);
@@ -136,11 +141,11 @@ void Level::setCurrentLevel(size_t board_num)
   m_timer.setStart(board_num);
 }
 
-void Level::chooseBoard()
+void Level::chooselevel()
 {
-  m_current_board = (m_level_num == 1) ? ResourceManage::Resource()->getBoard1() :
-                    (m_level_num == 2) ? ResourceManage::Resource()->getBoard2() :
-                    ResourceManage::Resource()->getBoard3();
+  m_current_board = (m_level_num == 1) ? &ResourceManage::Resource()->getTxtFile(TxtIndex::LEVEL1) :
+                    (m_level_num == 2) ? &ResourceManage::Resource()->getTxtFile(TxtIndex::LEVEL2) :
+                    &ResourceManage::Resource()->getTxtFile(TxtIndex::LEVEL3);
 }
 
 size_t Level::getRows() const {
@@ -217,6 +222,16 @@ void Level::delDoor()
   m_erasable_obj[size_t(ObjIndex::DOOR)][choice]->delObj();
   std::erase_if(m_erasable_obj[size_t(ObjIndex::DOOR)], [] (const auto& m_erasable_obj) {return m_erasable_obj->isDel();});
 }
+
+void Level::clearLevel()
+{
+  m_erasable_obj.clear();
+  m_erasable_obj.resize(4);
+  m_demons.clear();
+  m_walls.clear();
+}
+
+
 
 //for (auto i = size_t(0); i < m_walls.size(); ++i)
 //	if (m_level[i]->getGlobalBounds().contains(loc))

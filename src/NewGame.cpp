@@ -16,7 +16,7 @@ NewGame::NewGame(float width, float height) :
 
 void NewGame::bulidLevelsTxt()
 {
-  m_levels_txt = sf::Text("Choose Level", *ResourceManage::Resource()->getFont(), m_window_height / 20);
+  m_levels_txt = sf::Text("Choose Level", ResourceManage::Resource()->getFont(), m_window_height / 20);
   m_levels_txt.setPosition({ m_window_width / 2, m_window_height / 5 });
   m_levels_txt.setOrigin(m_levels_txt.getLocalBounds().width / 2, m_levels_txt.getLocalBounds().height / 2);
   m_levels_txt.setFillColor(sf::Color::White);

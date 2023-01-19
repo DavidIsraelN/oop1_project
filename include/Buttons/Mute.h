@@ -1,7 +1,7 @@
 #pragma once
 #include "Button.h"
-#include "Controller.h"
 #include "../Colors.h"
+#include"Sound.h"
 
 class Mute : public Button
 {
@@ -11,11 +11,7 @@ public:
 
   bool action(sf::RenderWindow& window, Controller& c) override
   {
-    if (m_muted) { m_muted = false; c.mute(m_muted); }
-    else         { m_muted = true;  c.mute(m_muted); }
+    Sound::Sounds()->Mute();
     return false;
   }
-
-private:
-  bool m_muted = false;
 };

@@ -5,12 +5,10 @@
 class Menu {
 public:
   Menu(float, float);
-  //~Menu();
   void draw(sf::RenderWindow&) const;
   bool handleClick(const sf::Vector2f &loc, sf::RenderWindow &window, Controller &c) const;
 
 private:
   sf::Text m_menu;
   std::vector<std::unique_ptr<Button>> m_buttons;
-  //std::vector<Button*> m_buttons;
 };

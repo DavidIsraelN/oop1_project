@@ -3,13 +3,13 @@
 #include "ResourceManage.h"
 
 InfoBar::InfoBar(const float w_width, const float w_height, const float inf_h)
-    : m_timer("00:00", *ResourceManage::Resource()->getFont(), inf_h / 1.75),
-      m_level("LEVEL  ", *ResourceManage::Resource()->getFont(), inf_h / 2),
-      m_score("SCORE  ", *ResourceManage::Resource()->getFont(), inf_h / 2)
+    : m_timer("00:00", ResourceManage::Resource()->getFont(), inf_h / 1.75),
+      m_level("LEVEL  ", ResourceManage::Resource()->getFont(), inf_h / 2),
+      m_score("SCORE  ", ResourceManage::Resource()->getFont(), inf_h / 2)
 {
   for(auto i = size_t(0); i < 4; ++i)
   {
-    m_pacman_icon.push_back(sf::Sprite(*ResourceManage::Resource()->getPacmanT()));
+    m_pacman_icon.push_back(sf::Sprite(ResourceManage::Resource()->getObjTexture(ObjIndex::PACMAN)));
     m_pacman_icon[i].setScale(inf_h / m_pacman_icon[i].getGlobalBounds().width  / 2, inf_h / m_pacman_icon[i].getGlobalBounds().height / 2);
     m_pacman_icon[i].setOrigin(m_pacman_icon[i].getLocalBounds().width / 2, m_pacman_icon[i].getLocalBounds().height / 2);
     m_pacman_icon[i].setPosition(20 + i * 35, w_height + inf_h / 2);

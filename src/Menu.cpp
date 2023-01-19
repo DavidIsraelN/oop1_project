@@ -5,7 +5,7 @@
 #include "Buttons/Mute.h"
 
 Menu::Menu(float width, float height)
-    : m_menu(sf::Text("MENU", *ResourceManage::Resource()->getFont() , height / 20))
+    : m_menu(sf::Text("MENU", ResourceManage::Resource()->getFont() , height / 20))
 {
   m_menu.setPosition({ width / 2, height / 5 });
   m_menu.setOrigin(m_menu.getLocalBounds().width / 2, m_menu.getLocalBounds().height / 2);

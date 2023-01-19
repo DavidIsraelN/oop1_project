@@ -1,32 +1,35 @@
 #include "ResourceManage.h"
 
-ResourceManage* ResourceManage::Resource()
-{
-  static ResourceManage m_instance;
-  return &m_instance;
-}
-
-ResourceManage::ResourceManage()
-    : m_help_file(std::ifstream("Help.txt")),
-      m_board_1(std::ifstream("Level_1.txt")),
-      m_board_2(std::ifstream("Level_2.txt")),
-      m_board_3(std::ifstream("Level_3.txt"))
-{
-  m_font.loadFromFile("Arial.ttf");
-  m_pacman_texture.loadFromFile("pacman.png");
-  m_super_pacman_texture.loadFromFile("super_pacman.png");
-  m_demon_texture.loadFromFile("demon.png");
-  m_wall_texture.loadFromFile("wall.jpg");
-  m_door_texture.loadFromFile("door.png");
-  m_gift_texture.loadFromFile("gift.png");
-  m_key_texture.loadFromFile("key.png");
-  m_cookie_texture.loadFromFile("cookie.png");
-  m_game_start.loadFromFile("game_start.wav");
-  m_eat_cookie.loadFromFile("credit.wav");
-  m_eat_gift.loadFromFile("eat_fruit.wav");
-  m_icon.loadFromFile("pacman.png");
-
-}
+//ResourceManage* ResourceManage::Resource()
+//{
+//  static ResourceManage m_instance;
+//  return &m_instance;
+//}
+//
+//ResourceManage::ResourceManage()
+//  : m_help_file(std::ifstream("Help.txt")),
+//  m_board_1(std::ifstream("Level_1.txt")),
+//  m_board_2(std::ifstream("Level_2.txt")),
+//  m_board_3(std::ifstream("Level_3.txt"))
+//{
+//  for (auto i = size_t(0); i < m_textures_name->size(); ++i)
+//    m_objects_texture[i].loadFromFile(m_textures_name[i]);
+//
+//  //m_pacman_texture.loadFromFile("pacman.png");
+//  m_font.loadFromFile("Arial.ttf");
+//  //m_super_pacman_texture.loadFromFile("super_pacman.png");
+//  //m_demon_texture.loadFromFile("demon.png");
+//  //m_wall_texture.loadFromFile("wall.jpg");
+//  //m_door_texture.loadFromFile("door.png");
+//  //m_gift_texture.loadFromFile("gift.png");
+//  //m_key_texture.loadFromFile("key.png");
+//  //m_cookie_texture.loadFromFile("cookie.png");
+//  m_game_start.loadFromFile("game_start.wav");
+//  m_eat_cookie.loadFromFile("credit.wav");
+//  m_eat_gift.loadFromFile("eat_fruit.wav");
+//  m_icon.loadFromFile("pacman.png");
+//
+//}
 
 //
 //ResourceManage::ResourceManage()

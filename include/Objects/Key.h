@@ -13,8 +13,7 @@ public:
   {
     delObj();
     pacman.collide(*this);
-    static sf::Sound sound(*ResourceManage::Resource()->getEatGift());
-    sound.play();
+    Sound::Sounds()->Play(SoundIndex::GIFTS);
     delRandomDoor();
   }
   void delRandomDoor()

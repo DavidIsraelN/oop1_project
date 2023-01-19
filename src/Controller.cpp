@@ -1,19 +1,18 @@
 #include "Controller.h"
 #include <SFML/Audio.hpp>
 #include "ResourceManage.h"
+#include "Sound.h"
 
-Controller::Controller() : m_game_start(*ResourceManage::Resource()->getGameStart()),
-                           m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
+Controller::Controller() : m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
                            m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), m_level(WIN_WIDTH, WIN_HEIGHT, INFO_HEIGHT)
 {
   auto icon = ResourceManage::Resource()->getIcon();
-  m_window.setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
+  m_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
 void Controller::run()
 {
-//  m_game_start.setLoop(true);
-  m_game_start.play();
+  Sound::Sounds()->Play(SoundIndex::START);
 
   if (runMenu())
     while (m_window.isOpen())
@@ -99,15 +98,3 @@ void Controller::chooseNewLevel(size_t level_num)
   m_level.setCurrentLevel(level_num);
 }
 
-void Controller::mute(bool mute)
-{
-  if (mute) {
-    m_game_start.stop(); return; }
-  m_game_start.play();
-}
-
-
-void Controller::play() const
-{
-
-}

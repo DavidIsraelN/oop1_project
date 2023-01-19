@@ -2,11 +2,7 @@
 #include "Board.h"
 #include "Level.h"
 #include "Menu.h"
-//#include "CurrentLevel.h"
-//#include "DrawGame.h"
 #include "Colors.h"
-
-
 
 const float WIN_HEIGHT = 800;
 const float WIN_WIDTH = 800;
@@ -21,19 +17,9 @@ public:
   bool runMenu();
   void runGame();
   void chooseNewLevel(size_t);
-  void mute(bool);
-  void play() const;
 
 private:
-
-//  CurrentLevel m_current_level;
-//  DrawGame m_draw_game;
   sf::RenderWindow m_window;
-  sf::Sound m_game_start;
-
-  //Board m_my_board;
   Level m_level;
   Menu m_menu;
-
-  //int chooseLevel;
 };
