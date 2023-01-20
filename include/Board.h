@@ -9,19 +9,19 @@
 ////#include "Objects/Wall.h"
 ////#include "Objects/Door.h"
 ////#include "Objects/Key.h"
-//class ResourceManage;
+//class ResourceManager;
 //
 //class Board
 //{
 //public:
 //	Board();
-//	void setCurrentLevel(ResourceManage&, size_t);
+//	void setCurrentLevel(ResourceManager&, size_t);
 //	size_t getCols() const;
 //	size_t getRows() const;
 //	std::vector<std::string> getVector();
 //
 //private:
-//	void chooseBoard(ResourceManage& resource, size_t);
+//	void chooseBoard(ResourceManager& resource, size_t);
 //
 //	//std::ifstream m_board_1;
 //	//std::ifstream m_board_2;

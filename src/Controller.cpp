@@ -1,65 +1,42 @@
 #include "Controller.h"
 #include <SFML/Audio.hpp>
-#include "ResourceManage.h"
+#include "ResourceManager.h"
 #include "Sound.h"
 
-Controller::Controller() : m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "Pacman Game"),
-                           m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), m_level(WIN_WIDTH, WIN_HEIGHT, INFO_HEIGHT)
+//-------------------------------------------------------------------
+Controller::Controller()
+  : m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "PACMAN"),
+  m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), m_levels(WIN_WIDTH, WIN_HEIGHT, INFO_HEIGHT)
 {
-  auto icon = ResourceManage::Resource()->getIcon();
+  auto icon = ResourceManager::Resource()->getIcon();
   m_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
 
+//-------------------------------------------------------------------
 void Controller::run()
 {
   Sound::Sounds()->Play(SoundIndex::START);
-
-  if (runMenu())
+  if (m_menu.run(m_window, m_levels, false))
     while (m_window.isOpen())
       runGame();
 }
 
-bool Controller::runMenu()
+//-------------------------------------------------------------------
+void Controller::runGame()
 {
-  while (m_window.isOpen())
-  {
-    m_window.clear(DeepRed);
-    m_menu.draw(m_window);
-    m_window.display();
-
-    if (auto event = sf::Event{}; m_window.waitEvent(event))
-      switch (event.type)
-      {
-      case sf::Event::Closed:
-        m_window.close();
-        return false;
-
-      case sf::Event::MouseButtonReleased:
-      {
-        auto loc = m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
-        if (m_menu.handleClick(loc, m_window, *this))
-          return true;
-      }
-
-      case sf::Event::KeyReleased:
-      case sf::Event::KeyPressed:
-      {
-        if (event.key.code == sf::Keyboard::BackSpace)
-        {
-        }
-      }
-      }
+  while (m_window.isOpen()) {
+    if (m_levels.run(m_window))
+      if (m_menu.run(m_window, m_levels, true))
+        return;
   }
 }
 
-void Controller::runGame()
-{
-  m_level.buildLevel();
-  while (m_window.isOpen()) {
-    if(m_level.runLevel(m_window))
-      if (runMenu())
-        return;
-  }
+
+
+
+
+
+
   //m_game_start.play();
   //	std::cout << m_level.getRows() << std::endl;
   //	std::cout << m_level.getCols() << std::endl;
@@ -91,10 +68,46 @@ void Controller::runGame()
 
   //		}
   //}
-}
 
-void Controller::chooseNewLevel(size_t level_num)
-{
-  m_level.setCurrentLevel(level_num);
-}
 
+////-------------------------------------------------------------------
+//bool Controller::runMenu(bool back)
+//{
+//  while (m_window.isOpen())
+//  {
+//    //return m_menu.run(m_window, back);
+//    m_window.clear(MAIN_COLOR); // chack semi..
+//    m_menu.draw(m_window, back);
+//    m_window.display();
+//
+//    if (auto event = sf::Event{}; m_window.waitEvent(event))
+//      switch (event.type)
+//      {
+//      case sf::Event::Closed:
+//        m_window.close();
+//        return false;
+//
+//      case sf::Event::MouseButtonReleased:
+//      {
+//        auto loc = m_window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
+//        if (m_menu.handleClick(loc, m_window, m_levels))
+//          return true;
+//        if (back && m_menu.back(loc)) return false;
+//      }
+//
+//      case sf::Event::KeyReleased:
+//      case sf::Event::KeyPressed:
+//      {
+//        if (event.key.code == sf::Keyboard::BackSpace)
+//        {
+//        }
+//      }
+//      }
+//  }
+//}
+// 
+////-------------------------------------------------------------------
+//void Controller::chooseNewLevel(size_t level_num)
+//{
+//  m_level.setCurrentLevel(level_num);
+//}

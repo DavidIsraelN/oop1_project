@@ -1,6 +1,7 @@
 #pragma once
 #include "StaticObj.h"
 #include "Pacman.h"
+#include "Demon.h"
 #include "Sound.h"
 
 //abstract class

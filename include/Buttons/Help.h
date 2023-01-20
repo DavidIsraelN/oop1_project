@@ -2,13 +2,12 @@
 #include "Button.h"
 #include "Buttons/Back.h"
 #include <vector>
-#include <fstream>
 
 class Help : public Button
 {
 public:
   Help(float, float);
-  bool action(sf::RenderWindow&, Controller&) override;
+  bool action(sf::RenderWindow&, LevelManager&) override;
 
 private:
   void readHelpTxt();

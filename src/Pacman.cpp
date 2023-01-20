@@ -2,7 +2,7 @@
 #include "Level.h"
 
 Pacman::Pacman(const sf::Vector2f& position, float width, float height)
-    : MovingObj(ResourceManage::Resource()->getObjTexture(ObjIndex::PACMAN), position, width, height) { }
+    : MovingObj(ResourceManager::Resource()->getObjTexture(ObjIndex::PACMAN), position, width, height) { }
 
 void Pacman::setDirection(sf::Keyboard::Key key)
 {
@@ -84,6 +84,9 @@ bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, flo
     moveObj(-direction, win_height, win_width, obj_h, obj_w);
     return false;
   }
+
+
+
 
   //auto delta_x = getPosition().x;
   //auto delta_y = getPosition().y;

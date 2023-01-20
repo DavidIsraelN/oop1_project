@@ -1,8 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "ResourceManage.h"
+#include "ResourceManager.h"
+#include "LevelManager.h"
+#include "../Colors.h"
 
-class Controller;
+//class Controller;
+class LevelManager;
 
 class Button
 {
@@ -11,7 +14,7 @@ public:
   virtual ~Button() { }
   void draw(sf::RenderWindow&) const;
   bool clickMe(const sf::Vector2f&) const;
-  virtual bool action(sf::RenderWindow&, Controller&) = 0;
+  virtual bool action(sf::RenderWindow&, LevelManager&) = 0;
 
 private:
   sf::Text m_text;

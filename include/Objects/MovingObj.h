@@ -13,7 +13,7 @@ public:
 
 
   //MovingObj(const sf::Texture&, const sf::Vector2f&, float, float, float = 1);
-  //virtual void move(sf::Time) = 0;
+  virtual void move(sf::Time) = 0;
   virtual void setDirection(sf::Keyboard::Key) { }
   //virtual void collusion() = 0;
 };

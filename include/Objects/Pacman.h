@@ -12,7 +12,7 @@ class Pacman : public MovingObj
 public:
   Pacman(const sf::Vector2f&, float, float);
   void setDirection(sf::Keyboard::Key) override;
-  //void move(sf::Time) override;
+  void move(sf::Time) override {};
   void move(sf::Time, float, float, float, float, const Level&);
   //	void collusion() override;
   void collide(Object& object) override {object.collide(*this);}

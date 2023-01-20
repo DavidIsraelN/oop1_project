@@ -6,7 +6,7 @@ class NewGame : public Button
 {
 public:
   NewGame(float, float);
-  bool action(sf::RenderWindow&, Controller&) override;
+  bool action(sf::RenderWindow&, LevelManager&) override;
 
 private:
   void drawLevels(sf::RenderWindow&) const;
@@ -17,8 +17,4 @@ private:
   sf::Text m_levels_txt;
   sf::RectangleShape m_levels_rect;
   std::vector<std::unique_ptr<Button>> m_levels;
-
-  //sf::Text m_back;
-  //std::vector<Button*> m_levels;
-  //bool handleClick(const sf::Vector2f &loc, sf::RenderWindow &window, Controller &c) const;
 };

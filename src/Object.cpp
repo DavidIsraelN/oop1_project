@@ -14,18 +14,6 @@ Object::Object(const sf::Texture& texture, const sf::Vector2f& position, float w
 }
 
 //-------------------------------------------------------------------
-sf::Vector2f Object::getPosition() const
-{
-  return m_sprite.getPosition();
-}
-
-//-------------------------------------------------------------------
-sf::FloatRect Object::getGlobalBounds() const
-{
-  return m_sprite.getGlobalBounds();
-}
-
-//-------------------------------------------------------------------
 void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
 {
 

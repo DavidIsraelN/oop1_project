@@ -1,5 +1,5 @@
 //#include "Board.h"
-//#include "ResourceManage.h"
+//#include "ResourceManager.h"
 //#include <sstream>
 //
 //Board::Board() : m_current_board(nullptr) { }
@@ -7,7 +7,7 @@
 //	m_board_2(std::ifstream("Level_2.txt")),
 //	m_board_3(std::ifstream("Level_3.txt"))*/ 
 //
-//void Board::setCurrentLevel(ResourceManage& resource, size_t board_num)
+//void Board::setCurrentLevel(ResourceManager& resource, size_t board_num)
 //{
 //	chooseBoard(resource, board_num);
 //	std::string line;
@@ -23,7 +23,7 @@
 //  //m_current_board->seekg(0, m_current_board->beg);
 //}
 //
-//void Board::chooseBoard(ResourceManage& resource, size_t board_num)
+//void Board::chooseBoard(ResourceManager& resource, size_t board_num)
 //{
 //	m_current_board = (board_num == 1) ? resource.getBoard1() : 
 //		                (board_num == 2) ? resource.getBoard2() : resource.getBoard3();

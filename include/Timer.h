@@ -5,12 +5,13 @@
 class Timer
 {
 public:
-  void updateTimer(int);
-  void setStart(int);
-  void addTime(int);
+  void updateTimer(size_t);
+  void setStart(size_t);
+  void pause();
+  void addTime(size_t);
   std::string getTimer() const;
 
 private:
-  int m_time_start, m_time_left;
+  size_t m_time_start, m_time_left;
   std::string m_timer;
 };

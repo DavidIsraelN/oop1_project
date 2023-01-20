@@ -1,7 +1,6 @@
 #pragma once
-//#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "ResourceManage.h"
+#include "ResourceManager.h"
 
 class Sound
 {
@@ -30,7 +29,7 @@ private:
   Sound()
   {
     for (auto i = size_t(0); i < SOUND; ++i)
-      m_sounds[i].setBuffer(ResourceManage::Resource()->getsound(SoundIndex(i)));
+      m_sounds[i].setBuffer(ResourceManager::Resource()->getsound(SoundIndex(i)));
   }
 
   static Sound* m_sound;

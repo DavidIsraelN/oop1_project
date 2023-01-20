@@ -3,10 +3,12 @@
 #include <SFML/Audio.hpp>
 #include <fstream>
 
+//-------------------------------------------------------------------
 const size_t OBJECTS = 7;
 const size_t FILES = 4;
 const size_t SOUND = 3;
 
+//-------------------------------------------------------------------
 enum class ObjIndex
 {
   COOKIE, DOOR, GIFT, KEY, WALL, PACMAN, DEMON
@@ -22,12 +24,13 @@ enum class SoundIndex
   START, COOKIE, GIFTS
 };
 
-class ResourceManage
+//-------------------------------------------------------------------
+class ResourceManager
 {
 public:
-  static ResourceManage* Resource()
+  static ResourceManager* Resource()
   {
-    static ResourceManage m_resource;
+    static ResourceManager m_resource;
     return &m_resource;
   }
 
@@ -38,7 +41,7 @@ public:
   sf::SoundBuffer& getsound(SoundIndex type)  { return m_sounds[size_t(type)]; }
 
 private:
-  ResourceManage()
+  ResourceManager()
   { 
     m_font.loadFromFile("Arial.ttf");
     m_icon.loadFromFile("pacman.png");
@@ -53,7 +56,7 @@ private:
       m_sounds[i].loadFromFile(m_sounds_name[i]);
   }
 
-  static ResourceManage* m_resource;
+  static ResourceManager* m_resource;
   std::string m_textures_name[OBJECTS] = 
     {"cookie.png", "door.png", "gift.png", "key.png", "wall.jpg", "pacman.png", "demon.png"};
   sf::Texture m_objects_texture[OBJECTS];
@@ -69,4 +72,4 @@ private:
   sf::Image m_icon;
 };
 
-//ResourceManage* ResourceManage::m_resource = nullptr;
+//ResourceManager* ResourceManager::m_resource = nullptr;
