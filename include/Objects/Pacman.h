@@ -21,6 +21,8 @@ public:
   void collide(Key& key) override {m_score += 7;}
   size_t getLife() const;
   size_t getScore() const;
+  void lifeReduction();
+  void setScore(const size_t);
 
 private:
   bool directionLegal(const sf::Vector2f&, float, float, const Level&, float, float);

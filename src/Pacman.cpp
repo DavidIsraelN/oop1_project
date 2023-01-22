@@ -2,7 +2,7 @@
 #include "Level.h"
 
 Pacman::Pacman(const sf::Vector2f& position, float width, float height)
-    : MovingObj(ResourceManager::Resource()->getObjTexture(ObjIndex::PACMAN), position, width, height) { }
+    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN), position, width, height) { }
 
 void Pacman::setDirection(sf::Keyboard::Key key)
 {
@@ -122,6 +122,17 @@ size_t Pacman::getLife() const
 size_t Pacman::getScore() const
 {
   return m_score;
+}
+
+void Pacman::lifeReduction()
+{
+  if (m_life > 0)
+    --m_life;
+}
+
+void Pacman::setScore(const size_t score)
+{
+  m_score = score;
 }
 
 //

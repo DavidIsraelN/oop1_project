@@ -6,7 +6,7 @@
 
 //-------------------------------------------------------------------
 Menu::Menu(float width, float height)
-  : m_menu(sf::Text("MENU", ResourceManager::Resource()->getFont() , height / 20)),
+  : m_menu(sf::Text("MENU", ResourceManager::Resource().getFont() , height / 20)),
   m_back(std::make_unique<Back>(sf::Vector2f({ width - 50 , 30 }), height / 45))
 
 {

@@ -28,17 +28,20 @@ enum class SoundIndex
 class ResourceManager
 {
 public:
-  static ResourceManager* Resource()
+  static ResourceManager& Resource()
   {
-    static ResourceManager m_resource;
-    return &m_resource;
+    static auto m_resource = ResourceManager();
+    return m_resource;
   }
+
+  ResourceManager(const ResourceManager&) = delete;
+  void operator=(const ResourceManager&) = delete;
 
   sf::Image& getIcon()                        { return m_icon; }
   sf::Font& getFont()                         { return m_font; }
   sf::Texture& getObjTexture(ObjIndex type)   { return m_objects_texture[size_t(type)]; }
   std::ifstream& getTxtFile(TxtIndex type)    { return m_files[size_t(type)]; }
-  sf::SoundBuffer& getsound(SoundIndex type)  { return m_sounds[size_t(type)]; }
+  sf::SoundBuffer& getSound(SoundIndex type)  { return m_sounds[size_t(type)]; }
 
 private:
   ResourceManager()
@@ -56,8 +59,7 @@ private:
       m_sounds[i].loadFromFile(m_sounds_name[i]);
   }
 
-  static ResourceManager* m_resource;
-  std::string m_textures_name[OBJECTS] = 
+  std::string m_textures_name[OBJECTS] =
     {"cookie.png", "door.png", "gift.png", "key.png", "wall.jpg", "pacman.png", "demon.png"};
   sf::Texture m_objects_texture[OBJECTS];
 
@@ -71,5 +73,3 @@ private:
   sf::Font m_font;
   sf::Image m_icon;
 };
-
-//ResourceManager* ResourceManager::m_resource = nullptr;

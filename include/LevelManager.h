@@ -13,13 +13,17 @@ public:
   void chooseNewLevel(size_t);
 
 private:
+  void buildGameOverScreen();
   void setNextLevel(sf::RenderWindow&);
-  void levelAction(sf::Time, sf::Clock);
-  void gameOver(sf::RenderWindow&) const;
+  void levelAction(const sf::Time&);
+  void gameOver(sf::RenderWindow&);
 
   Level m_current_level;
   Timer m_timer;
   InfoBar m_info;
+
+  sf::Text m_game_over;
+  sf::Text m_game_over_score;
 
   float m_win_width, m_win_height, m_info_height;
 };

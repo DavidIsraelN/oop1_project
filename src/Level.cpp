@@ -41,9 +41,9 @@ void Level::setCurrentLevel(size_t board_num)
 //-------------------------------------------------------------------
 void Level::chooseLevel()
 {
-  m_current_board = (m_level_num == 1) ? &ResourceManager::Resource()->getTxtFile(TxtIndex::LEVEL1)
-                  : (m_level_num == 2) ? &ResourceManager::Resource()->getTxtFile(TxtIndex::LEVEL2)
-                                       : &ResourceManager::Resource()->getTxtFile(TxtIndex::LEVEL3);
+  m_current_board = (m_level_num == 1) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
+                  : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
+                                       : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
 }
 
 //-------------------------------------------------------------------
@@ -124,13 +124,19 @@ void Level::setDirection(sf::Keyboard::Key key) const
 size_t Level::getPacmanLife() const { return m_pacman->getLife(); }
 
 //-------------------------------------------------------------------
+void Level::pacmanLifeReduction() { m_pacman->lifeReduction(); }
+
+//-------------------------------------------------------------------
 size_t Level::getPacmanScore() const { return m_pacman->getScore(); }
+
+//-------------------------------------------------------------------
+void Level::setPacmanScore(const size_t score) { return m_pacman->setScore(score); }
 
 //-------------------------------------------------------------------
 size_t Level::getLevelNum() const { return m_level_num; }
 
 //-------------------------------------------------------------------
-void Level::moveObjects(sf::Time deltaTime) const
+void Level::moveObjects(const sf::Time& deltaTime) const
 {
   //m_pacman->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
   m_pacman->move(deltaTime, m_obj_height, m_obj_width, m_level_cols, m_level_rows, *this);

@@ -10,7 +10,7 @@ public:
   {
     delObj();
     pacman.collide(*this);
-    Sound::Sounds()->Play(SoundIndex::COOKIE);
+    Sound::Sounds().Play(SoundIndex::COOKIE);
   }
 
   void collide(Object& obj) override { }

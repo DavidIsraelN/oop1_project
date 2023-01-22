@@ -22,13 +22,15 @@ public:
   void draw(sf::RenderWindow&) const;
   bool isOver() const;
   void setDirection(sf::Keyboard::Key) const;
-  void moveObjects(sf::Time deltaTime) const;
-  bool collideWithWallOrDoor(MovingObj& moving_obj) const;
+  void moveObjects(const sf::Time&) const;
+  bool collideWithWallOrDoor(MovingObj&) const;
   void handleCollision() const;
   void erase();
   size_t getLevelNum() const;
   size_t getPacmanLife() const;
   size_t getPacmanScore() const;
+  void pacmanLifeReduction();
+  void setPacmanScore(size_t);
 
 private:
   void chooseLevel();

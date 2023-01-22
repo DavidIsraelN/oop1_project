@@ -12,7 +12,9 @@ public:
   //-------------------------------------------------------------------
   bool action(sf::RenderWindow& window, LevelManager& level_m) override
   {
-    Sound::Sounds()->Mute();
+    Sound::Sounds().Mute();
+//    m_text.setStyle(Sound::Sounds().isMute() ? sf::Text::StrikeThrough : sf::Text::Regular);
+    m_text.setString(Sound::Sounds().isMute() ? "Unmute" : "Mute");
     return false;
   }
 };

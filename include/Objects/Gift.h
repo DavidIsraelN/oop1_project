@@ -15,7 +15,7 @@ public:
   {
     delObj();
     pacman.collide(*this);
-    Sound::Sounds()->Play(SoundIndex::GIFTS);
+    Sound::Sounds().Play(SoundIndex::GIFTS);
 
 //    RandomGift();
   }
