@@ -10,13 +10,16 @@ class LevelManager
 public:
   LevelManager(const float, const float, const float);
   bool run(sf::RenderWindow&);
-  void chooseNewLevel(size_t);
+  void chooseNewLevel(size_t, size_t = 3, size_t = 0);
 
 private:
   void buildGameOverScreen();
-  void setNextLevel(sf::RenderWindow&);
+  void nextLevel(sf::RenderWindow&);
   void levelAction(const sf::Time&);
   void gameOver(sf::RenderWindow&);
+  void resetLevel(sf::RenderWindow&);
+  void setLevel(sf::RenderWindow&);
+
 
   Level m_current_level;
   Timer m_timer;

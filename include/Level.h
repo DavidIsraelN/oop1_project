@@ -31,6 +31,7 @@ public:
   size_t getPacmanScore() const;
   void pacmanLifeReduction();
   void setPacmanScore(size_t);
+  void setPacmanLife(size_t);
 
 private:
   void chooseLevel();

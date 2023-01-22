@@ -8,9 +8,6 @@
 #include <sstream>
 #include <time.h>
 
-//#include <thread>
-//#include "ResourceManager.h"
-
 //-------------------------------------------------------------------
 Level::Level(const float w_width, const float w_height)
   : m_win_width(w_width), m_win_height(w_height) { }
@@ -133,6 +130,9 @@ size_t Level::getPacmanScore() const { return m_pacman->getScore(); }
 void Level::setPacmanScore(const size_t score) { return m_pacman->setScore(score); }
 
 //-------------------------------------------------------------------
+void Level::setPacmanLife(const size_t life) { return m_pacman->setLife(life); }
+
+//-------------------------------------------------------------------
 size_t Level::getLevelNum() const { return m_level_num; }
 
 //-------------------------------------------------------------------
@@ -184,3 +184,16 @@ void Level::delDoor()
   std::erase_if(m_erasable_obj[size_t(ObjIndex::DOOR)], [] (const auto& m_obj) {return m_obj->isDel();});
 }
 
+
+/*
+//-------------------------------------------------------------------
+void Level::setLevel(size_t board_num)
+{
+  m_level_num = board_num;
+  m_current_board = LevelReader((m_level_num == 1) ? ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
+                                : (m_level_num == 2) ? ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
+                                                     : ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3));
+  buildLevel();
+  m_current_board.backToStart();
+}
+*/

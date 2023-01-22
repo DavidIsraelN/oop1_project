@@ -135,6 +135,11 @@ void Pacman::setScore(const size_t score)
   m_score = score;
 }
 
+void Pacman::setLife(const size_t life)
+{
+  m_life = life;
+}
+
 //
 //void Pacman::move(sf::Time deltaTime)
 //{

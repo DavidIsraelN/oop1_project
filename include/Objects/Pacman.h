@@ -23,6 +23,7 @@ public:
   size_t getScore() const;
   void lifeReduction();
   void setScore(const size_t);
+  void setLife(const size_t);
 
 private:
   bool directionLegal(const sf::Vector2f&, float, float, const Level&, float, float);
