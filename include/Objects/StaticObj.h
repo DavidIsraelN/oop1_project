@@ -1,5 +1,7 @@
 #pragma once
 #include "Object.h"
+#include "Pacman.h"
+#include "Demon.h"
 
 //abstract class
 
@@ -10,10 +12,12 @@ public:
 
   virtual void collide(Object&) = 0;
   virtual void collide(Pacman&) = 0;
-//  virtual void collide(Cookie&) = 0;
-  void collide(Cookie&) override { }
-  void collide(Gift&) override { }
-  void collide(Key&) override { }
+//  virtual void collide( Cookie&) = 0;
+  void collide(Cookie& c) override { }
+  void collide(Gift& c) override { }
+  void collide(Key& c) override { }
+  void collide(Wall& c) override { }
+  void collide(Door& c) override { }
 
-  //virtual ~StaticObj() = 0;
+//  virtual ~StaticObj() = 0;
 };

@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------
 Help::Help(float width, float height) :
     Button("Help", { width / 2 , height / 2 }, height / 30, SoftYellow),
-    m_back({ width - 50 , 30 }, height / 45),
+    m_back({ width - width / 16 , height / 25 }, height / 45),
     m_help_rect({width, height}),
     m_window_width(width), m_window_height(height)
 {

@@ -7,7 +7,7 @@
 //-------------------------------------------------------------------
 Menu::Menu(float width, float height)
   : m_menu(sf::Text("MENU", ResourceManager::Resource().getFont() , height / 20)),
-  m_back(std::make_unique<Back>(sf::Vector2f({ width - 50 , 30 }), height / 45))
+  m_back(std::make_unique<Back>(sf::Vector2f({ width - width / 16 , height / 25 }), height / 45))
 
 {
   m_menu.setPosition({ width / 2, height / 5 });
@@ -18,7 +18,7 @@ Menu::Menu(float width, float height)
   m_buttons.push_back(std::make_unique<NewGame>(width, height));
   m_buttons.push_back(std::make_unique<Help>(width, height));
   m_buttons.push_back(std::make_unique<ExitGame>(width, height));
-  m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f({ 50 , 30 }), height / 45));
+  m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f({ width / 16 , height / 25 }), height / 45));
 }
 
 //-------------------------------------------------------------------

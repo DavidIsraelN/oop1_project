@@ -8,7 +8,7 @@ NewGame::NewGame(float width, float height) :
     m_levels_rect({ width, height }), m_window_width(width), m_window_height(height)
 {
   bulidLevelsTxt();
-  m_levels.push_back(std::make_unique<Back>(sf::Vector2f({ width - 50 , 30 }), height / 45));
+  m_levels.push_back(std::make_unique<Back>(sf::Vector2f({ width - width / 16 , height / 25 }), height / 45));
   m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 2.7f }), height / 30, 1));
   m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 2    }), height / 30, 2));
   m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 1.6f }), height / 30, 3));

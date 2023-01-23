@@ -4,9 +4,9 @@
 #include "Menu.h"
 #include "Colors.h"
 
-const float WIN_HEIGHT = 800;
-const float WIN_WIDTH = 800;
-const float INFO_HEIGHT = 60;
+const float WIN_HEIGHT = 800 * 2;
+const float WIN_WIDTH = 800 * 2;
+const float INFO_HEIGHT = 60 * 2;
 const sf::Color MAIN_COLOR = DeepRed;
 
 class Controller

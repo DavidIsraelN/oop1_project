@@ -47,6 +47,7 @@ private:
   ResourceManager()
   { 
     m_font.loadFromFile("Arial.ttf");
+//    m_font.loadFromFile("pacfont.ttf");
     m_icon.loadFromFile("pacman.png");
 
     for (auto i = size_t(0); i < OBJECTS; ++i)

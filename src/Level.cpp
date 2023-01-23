@@ -70,11 +70,11 @@ void Level::addObject(ObjType type, size_t i, size_t j)
   switch (type)
   {
   case ObjType::PACMAN:
-    m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height); break;
+    m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height, m_win_width, m_win_height); break;
     //m_moving_obj.push_back(std::make_unique<Pacman>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::DEMON:
-    m_moving_obj.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height)); break;
+    m_moving_obj.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height, m_win_width, m_win_height)); break;
 
   case ObjType::WALL:
     m_walls.push_back(std::make_unique<Wall>(position, m_obj_width, m_obj_height)); break;
@@ -139,7 +139,7 @@ size_t Level::getLevelNum() const { return m_level_num; }
 void Level::moveObjects(const sf::Time& deltaTime) const
 {
   //m_pacman->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
-  m_pacman->move(deltaTime, m_obj_height, m_obj_width, m_level_cols, m_level_rows, *this);
+  m_pacman->move(deltaTime);
   for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
     m_moving_obj[i]->move(deltaTime);
 }
@@ -197,3 +197,48 @@ void Level::setLevel(size_t board_num)
   m_current_board.backToStart();
 }
 */
+
+
+/*
+ class Node
+{
+public:
+ Node(sf::Vector2f& position) : m_position(position) {Node::m_nodes.clear();}
+ sf::Vector2f m_position;
+ bool up = 0, right = 0,
+      left = 0, down = 0;
+ static std::vector<Node> m_nodes;
+private:
+
+};
+
+for (auto i = size_t(0); i < Node::m_nodes.size(); ++i)
+  for (auto j = size_t(0); j < Node::m_nodes.size(); ++j)
+  {
+    //      {
+    //        std::cout << "Node i - step: " << m_nodes[i].m_position.x - m_obj_width << ' '
+    //                  << m_nodes[i].m_position.y << std::endl;
+    //        std::cout << "Node j: " << m_nodes[j]->m_position.x << ' '
+    //                  << m_nodes[j]->m_position.y << std::endl;
+
+    if (Node::m_nodes[i].m_position.x == Node::m_nodes[j]->m_position.x &&
+        int(Node::m_nodes[i].m_position.y - m_obj_height) == int(Node::m_nodes[j]->m_position.y))
+    {
+      Node::m_nodes[i].up = true;
+    }
+    if (int(Node::m_nodes[i].m_position.x + m_obj_width) == int(Node::m_nodes[j]->m_position.x) &&
+        Node::m_nodes[i].m_position.y == Node::m_nodes[j]->m_position.y)
+    {
+      Node::m_nodes[i].right = true;
+    }
+    if (Node::m_nodes[i].m_position.x == Node::m_nodes[j]->m_position.x &&
+        int(Node::m_nodes[i].m_position.y + m_obj_height) == int(Node::m_nodes[j]->m_position.y))
+    {
+      Node::m_nodes[i].down = true;
+    }
+    if (int(Node::m_nodes[i].m_position.x - m_obj_width) == int(Node::m_nodes[j]->m_position.x) &&
+        Node::m_nodes[i].m_position.y == Node::m_nodes[j]->m_position.y)
+    {
+      Node::m_nodes[i].left = true;
+    }
+  }*/

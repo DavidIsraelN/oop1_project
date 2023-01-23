@@ -14,9 +14,9 @@ Object::Object(const sf::Texture& texture, const sf::Vector2f& position, float w
 }
 
 //-------------------------------------------------------------------
-void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
+//void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
+void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width)
 {
-
   auto movement = direction;
   if (m_sprite.getPosition().x + movement.x >= win_width)  movement.x = -win_width;
   else if (m_sprite.getPosition().x + movement.x <= 0.f)   movement.x = win_width;
@@ -26,6 +26,7 @@ void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_
   auto delta_x = m_sprite.getPosition().x + movement.x;
   auto delta_y = m_sprite.getPosition().y + movement.y;
   auto epsilon = 0.15f;
+  auto obj_w = m_sprite.getGlobalBounds().width, obj_h = m_sprite.getGlobalBounds().height;
 
   while (delta_x >= obj_w) delta_x -= obj_w;
   if (delta_x >= obj_w / 2 - epsilon && delta_x <= obj_w / 2 + epsilon) delta_x = obj_w / 2 - delta_x;

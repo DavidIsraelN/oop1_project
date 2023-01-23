@@ -1,8 +1,13 @@
 #include "Objects/Pacman.h"
 #include "Level.h"
 
-Pacman::Pacman(const sf::Vector2f& position, float width, float height)
-    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN), position, width, height) { }
+Pacman::Pacman(const sf::Vector2f& position, float width, float height, float win_width, float win_height)
+    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN),
+                position, width, height, win_width, win_height)
+{
+  m_move = std::make_unique<PacmanMovement>();
+}
+//      m_obj_h_w(width) { }
 
 void Pacman::setDirection(sf::Keyboard::Key key)
 {
@@ -15,16 +20,28 @@ void Pacman::setDirection(sf::Keyboard::Key key)
   }
 }
 
-//void Pacman::move(sf::Time deltaTime, float win_height, float win_width, const Level& level)
-void Pacman::move(sf::Time deltaTime, float obj_h, float obj_w, float cols, float rows, const Level& level)
+void Pacman::move(const sf::Time& deltaTime, const Level& level)
+//void Pacman::move(sf::Time deltaTime, float obj_h, float obj_w, float cols, float rows, const Level& level)
 {
-  auto win_height = obj_h * rows, win_width = obj_w * cols;
+  m_move->action(deltaTime, level, *this);
 
-  if (directionLegal(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
+//  auto win_height = obj_h * rows, win_width = obj_w * cols;
+
+  if (directionLegal(m_new_direction * (obj_h / 2), win_height, win_width, level, obj_h, obj_w))
+  {
+    moveObj(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
     m_cur_direction = m_new_direction;
+  }
 
-  else
-    directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w);
+  else if(directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
+    moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
+
+//
+//  if (directionLegal(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
+//    m_cur_direction = m_new_direction;
+//
+//  else
+//    directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w);
 
   rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
 //  if(m_cur_direction.x == -1 && m_scale == false)
@@ -84,6 +101,7 @@ bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, flo
     moveObj(-direction, win_height, win_width, obj_h, obj_w);
     return false;
   }
+  moveObj(-direction, win_height, win_width, obj_h, obj_w);
 
 
 
@@ -138,6 +156,37 @@ void Pacman::setScore(const size_t score)
 void Pacman::setLife(const size_t life)
 {
   m_life = life;
+}
+
+void Pacman::collide(Object& object)
+{
+  object.collide(*this);
+}
+
+void Pacman::collide(Cookie& cookie)
+{
+  m_score += 2;
+}
+
+void Pacman::collide(Gift& gift)
+{
+  m_score += 5;
+  m_sprite.setColor(sf::Color(163, 23, 168));
+}
+
+void Pacman::collide(Key& key)
+{
+  m_score += 7;
+}
+
+void Pacman::collide(Wall& wall)
+{
+  moveObj(-m_lest_movement, m_win_height, m_win_width);
+}
+
+void Pacman::collide(Door& door)
+{
+  moveObj(-m_lest_movement, m_win_height, m_win_width);
 }
 
 //

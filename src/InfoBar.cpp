@@ -14,7 +14,7 @@ InfoBar::InfoBar(const float w_width, const float w_height, const float inf_h)
     m_pacman_icon.push_back(sf::Sprite(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN)));
     m_pacman_icon[i].setScale(inf_h / m_pacman_icon[i].getGlobalBounds().width  / 2, inf_h / m_pacman_icon[i].getGlobalBounds().height / 2);
     m_pacman_icon[i].setOrigin(m_pacman_icon[i].getLocalBounds().width / 2, m_pacman_icon[i].getLocalBounds().height / 2);
-    m_pacman_icon[i].setPosition(20 + i * 35, w_height + inf_h / 2);
+    m_pacman_icon[i].setPosition(w_width / 40 + i * w_width / 23, w_height + inf_h / 2);
   }
   m_rect.setSize({w_width, inf_h});
   m_rect.setPosition({0, w_height});
@@ -51,7 +51,6 @@ void InfoBar::drawLife(sf::RenderWindow & window) const
 }
 
 //-------------------------------------------------------------------
-//void InfoBar::setInfo(size_t life, std::string timer, size_t level, size_t score)
 void InfoBar::setInfo(Level& level, Timer& timer)
 {
   m_life = level.getPacmanLife();
@@ -60,12 +59,3 @@ void InfoBar::setInfo(Level& level, Timer& timer)
   m_level.setString("LEVEL " + std::to_string(level.getLevelNum()));
   m_score.setString("SCORE " + std::to_string(level.getPacmanScore()));
 }
-
-////-------------------------------------------------------------------
-//void InfoBar::setTimerColor(std::string timer)
-//{
-//  if ((timer[0] - '0') * 600 + (timer[1] - '0') * 60 + (timer[3] - '0') * 10 + timer[4] - '0' == 30)
-//    m_timer.setFillColor(sf::Color::Red);
-//  else
-//    m_timer.setFillColor(DeepRed);
-//}
