@@ -8,16 +8,15 @@
 class StaticObj : public Object
 {
 public:
-  StaticObj(const sf::Texture&, const sf::Vector2f&, float, float, float = 1);
+  StaticObj(const sf::Texture& texture, const sf::Vector2f& position,
+    float width, float height, float scale = 1)
+    : Object(texture, position, width, height, scale) { }
 
-  virtual void collide(Object&) = 0;
+  virtual void collide(Object&) { }
   virtual void collide(Pacman&) = 0;
-//  virtual void collide( Cookie&) = 0;
-  void collide(Cookie& c) override { }
-  void collide(Gift& c) override { }
-  void collide(Key& c) override { }
-  void collide(Wall& c) override { }
-  void collide(Door& c) override { }
-
-//  virtual ~StaticObj() = 0;
+  void collide(Cookie&) override { }
+  void collide(Gift&) override { }
+  void collide(Key&) override { }
+  void collide(Wall&) override { }
+  void collide(Door&) override { }
 };

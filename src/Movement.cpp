@@ -2,44 +2,32 @@
 #include "Objects/MovingObj.h"
 #include "Level.h"
 
-
-void PacmanMovement::action(const sf::Time& delta_time, const Level& level, MovingObj& obj)
+//-------------------------------------------------------------------
+bool PacmanMovement::isLegal(const sf::Vector2f& movement, const Level& level,
+	MovingObj& obj, float win_height, float win_width)
 {
-  if (directionLegal(obj.m_new_direction * (obj_h / 2), win_height, win_width, level, obj_h, obj_w))
-  {
-    moveObj(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
-    m_cur_direction = m_new_direction;
-  }
-
-  else if(directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
-    moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
-
-
-  moveObj(direction, win_height, win_width, obj_h, obj_w);
-  if (level.collideWithWallOrDoor(*this))
-  {
-    moveObj(-direction, win_height, win_width, obj_h, obj_w);
-    return false;
-  }
-  moveObj(-direction, win_height, win_width, obj_h, obj_w);
+	obj.moveObj(movement, win_height, win_width);
+	auto collide = (!level.collideWithWall(obj) && !level.collideWithDoor(obj));
+	obj.moveObj(-movement, win_height, win_width);
+	return collide;
 }
 
-void PacmanMovement::directionLegal(const sf::Time& delta_time, const Level& level, MovingObj& obj)
+//-------------------------------------------------------------------
+bool SPacmanMovement::isLegal(const sf::Vector2f& movement, const Level& level,
+	MovingObj& obj, float win_height, float win_width)
 {
-
+	obj.moveObj(movement, win_height, win_width);
+	auto collide = !level.collideWithWall(obj);
+	obj.moveObj(-movement, win_height, win_width);
+	return collide;
 }
 
-void sPacmanMovement::action(const sf::Time& delta_time, const Level& level, MovingObj& obj)
+//-------------------------------------------------------------------
+bool randomMovement::isLegal(const sf::Vector2f& movement, const Level& level,
+	MovingObj& obj, float win_height, float win_width)
 {
-
-}
-
-void randomMovement::action(const sf::Time& delta_time, const Level& level, MovingObj& obj)
-{
-
-}
-
-void smartMovement::action(const sf::Time& delta_time, const Level& level, MovingObj& obj)
-{
-
+	obj.moveObj(movement, win_height, win_width);
+	auto collide = (!level.collideWithWall(obj) && !level.collideWithDoor(obj));
+	obj.moveObj(-movement, win_height, win_width);
+	return collide;
 }

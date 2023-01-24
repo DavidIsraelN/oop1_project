@@ -3,8 +3,6 @@
 #include "ResourceManager.h"
 #include <iostream>
 
-//const float PIXELS = 34;
-
 class Pacman;
 class Wall;
 class Cookie;
@@ -19,6 +17,7 @@ public:
   virtual ~Object() { }
   void draw(sf::RenderWindow&) const;
   bool collidesWith(Object&) const;
+  void moveObj(const sf::Vector2f&, float, float);
 
   virtual void collide(Object&) = 0;
   virtual void collide(Pacman&) = 0;
@@ -33,8 +32,6 @@ public:
 
 protected:
 //  void moveObj(const sf::Vector2f&, float, float, float, float);
-  void moveObj(const sf::Vector2f&, float, float);
   void rotateObj(float);
   sf::Sprite m_sprite;
-//  std::queue<sf::Sound> m_sound_obj;
 };

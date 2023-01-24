@@ -25,14 +25,22 @@ void Level::clearLevel()
 void Level::setCurrentLevel(size_t board_num)
 {
   m_level_num = board_num;
-  chooseLevel();
+  chooseLevel(); 
   std::string line;
   std::getline(*m_current_board, line);
   auto size = std::istringstream(line);
   size >> m_level_rows >> m_level_cols;
 
+  resetLevel();
+}
+
+//-------------------------------------------------------------------
+void Level::resetLevel()
+{
   buildLevel();
   m_current_board->seekg(0, m_current_board->beg);
+  std::string line;
+  std::getline(*m_current_board, line);
 }
 
 //-------------------------------------------------------------------
@@ -41,6 +49,12 @@ void Level::chooseLevel()
   m_current_board = (m_level_num == 1) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
                   : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
                                        : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
+
+  //m_current_board =
+  //  (m_level_num == 1) ? std::make_unique<std::ifstream>(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1))
+  //: (m_level_num == 2) ? std::make_unique<std::ifstream>(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2))
+  //: /*(level_num == 3)*/ std::make_unique<std::ifstream>(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3));
+
 }
 
 //-------------------------------------------------------------------
@@ -70,11 +84,11 @@ void Level::addObject(ObjType type, size_t i, size_t j)
   switch (type)
   {
   case ObjType::PACMAN:
-    m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height, m_win_width, m_win_height); break;
+    m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height); break;
     //m_moving_obj.push_back(std::make_unique<Pacman>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::DEMON:
-    m_moving_obj.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height, m_win_width, m_win_height)); break;
+    m_moving_obj.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::WALL:
     m_walls.push_back(std::make_unique<Wall>(position, m_obj_width, m_obj_height)); break;
@@ -138,31 +152,34 @@ size_t Level::getLevelNum() const { return m_level_num; }
 //-------------------------------------------------------------------
 void Level::moveObjects(const sf::Time& deltaTime) const
 {
-  //m_pacman->move(deltaTime, m_level_rows * m_obj_height, m_level_cols * m_obj_width, *this);
-  m_pacman->move(deltaTime);
+  m_pacman->move(deltaTime, *this, m_win_height, m_win_width);
   for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-    m_moving_obj[i]->move(deltaTime);
+    m_moving_obj[i]->move(deltaTime, *this, m_win_height, m_win_width);
 }
 
 //-------------------------------------------------------------------
 void Level::erase()
 {
+  auto keys = m_erasable_obj[size_t(ObjIndex::KEY)].size();
   for (auto i = size_t(0); i < m_erasable_obj.size(); ++i)
     std::erase_if(m_erasable_obj[i], [](const auto& m_erasable_obj) {return m_erasable_obj->isDel(); });
 
-  if (m_erasable_obj[size_t(ObjIndex::KEY)].size() < m_erasable_obj[size_t(ObjIndex::DOOR)].size())
-    delDoor();
+  if (m_erasable_obj[size_t(ObjIndex::KEY)].size() < keys) delRandomDoor();
 }
 
 //-------------------------------------------------------------------
-bool Level::collideWithWallOrDoor(MovingObj& moving_obj) const 
+bool Level::collideWithWall(MovingObj& moving_obj) const 
 {
   for (auto i = size_t(0); i < m_walls.size(); ++i)
     if (m_walls[i]->collidesWith(moving_obj)) return true;
+  return false;
+}
 
+//-------------------------------------------------------------------
+bool Level::collideWithDoor(MovingObj& moving_obj) const 
+{
   for (auto i = size_t(0); i < m_erasable_obj[size_t(ObjIndex::DOOR)].size(); ++i)
     if (m_erasable_obj[size_t(ObjIndex::DOOR)][i]->collidesWith(moving_obj)) return true;
-
   return false;
 }
 
@@ -176,8 +193,9 @@ void Level::handleCollision() const
 }
 
 //-------------------------------------------------------------------
-void Level::delDoor()
+void Level::delRandomDoor()
 {
+  if (m_erasable_obj[size_t(ObjIndex::DOOR)].empty()) return;
   srand(time(0));
   auto choice = (rand() % m_erasable_obj[size_t(ObjIndex::DOOR)].size());
   m_erasable_obj[size_t(ObjIndex::DOOR)][choice]->delObj();

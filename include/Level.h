@@ -19,11 +19,13 @@ class Level
 public:
   Level(const float, const float);
   void setCurrentLevel(size_t);
+  void resetLevel();
   void draw(sf::RenderWindow&) const;
   bool isOver() const;
   void setDirection(sf::Keyboard::Key) const;
   void moveObjects(const sf::Time&) const;
-  bool collideWithWallOrDoor(MovingObj&) const;
+  bool collideWithWall(MovingObj&) const;
+  bool collideWithDoor(MovingObj&) const;
   void handleCollision() const;
   void erase();
   size_t getLevelNum() const;
@@ -38,8 +40,9 @@ private:
   void clearLevel();
   void buildLevel();
   void addObject(ObjType, size_t, size_t);
-  void delDoor();
+  void delRandomDoor();
 
+    //std::unique_ptr<std::ifstream> m_current_board;
   std::ifstream* m_current_board = nullptr;
   std::vector<std::unique_ptr<MovingObj>> m_moving_obj;
   std::unique_ptr<Pacman> m_pacman;

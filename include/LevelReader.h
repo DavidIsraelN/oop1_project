@@ -12,7 +12,9 @@ public:
       auto size = std::istringstream(line);
       size >> m_level_rows >> m_level_cols;
   }
+
   LevelReader(const LevelReader& other) : LevelReader(other.m_level_board) { }
+  
   LevelReader& operator=(const LevelReader& other)
   {
     auto temp = other;         //copy with copy c-tor

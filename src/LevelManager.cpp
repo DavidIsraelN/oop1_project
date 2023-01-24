@@ -76,10 +76,13 @@ void LevelManager::nextLevel(sf::RenderWindow& window)
 void LevelManager::resetLevel(sf::RenderWindow& window)
 {
   m_current_level.pacmanLifeReduction();
-  if (m_current_level.getPacmanLife() == 0)
+  auto life = m_current_level.getPacmanLife();
+  if (life <= 0)
     gameOver(window);
-
-
+  auto score = m_current_level.getPacmanScore();
+  m_current_level.resetLevel();
+  m_current_level.setPacmanLife(life);
+  m_current_level.setPacmanScore(score);
 }
 
 //-------------------------------------------------------------------

@@ -1,9 +1,10 @@
 #include "Objects/Demon.h"
+#include "Level.h"
 
-Demon::Demon(const sf::Vector2f& position, float width, float height, float win_width, float win_height)
-    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::DEMON), position, width, height, win_width, win_height) { }
+Demon::Demon(const sf::Vector2f& position, float width, float height)
+    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::DEMON), position, width, height) { }
 
-void Demon::move(sf::Time deltaTime)
+void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height, float win_width)
 {
 
 }

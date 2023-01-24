@@ -4,10 +4,9 @@
 class Demon : public MovingObj
 {
 public:
-  Demon(const sf::Vector2f&, float, float, float, float);
-  void move(sf::Time) override;
+  Demon(const sf::Vector2f&, float, float);
+  void move(const sf::Time&, const Level&, float, float) override;
 
-//	void collusion() override;
   void collide(Object& object) override { }
   void collide(Cookie& cookie) override { }
   void collide(Gift& gift) override { }

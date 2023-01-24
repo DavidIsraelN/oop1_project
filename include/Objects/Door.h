@@ -1,17 +1,17 @@
 #pragma once
 #include "Erasable.h"
 
-//class Erasable;
-
 class Door : public Erasable
 {
 public:
-  Door(const sf::Vector2f&, float, float);
-//	~Door();
-  void collide(Pacman& pacman) override { pacman.collide(*this); }
-  void collide(Object& obj) override {
+  Door(const sf::Vector2f& position, float width, float height)
+    : Erasable(ResourceManager::Resource().getObjTexture(ObjIndex::DOOR),
+      position, width, height) { }
+
+  void collide(Pacman& pacman) override
+  {
     delObj();
-    obj.collide(*this); }
-private:
+    pacman.collide(*this);
+  }
 
 };

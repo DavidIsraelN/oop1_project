@@ -8,8 +8,6 @@ class InfoBar {
 public:
   InfoBar(const float, const float, const float);
   void draw(sf::RenderWindow&) const;
-  
-//  void setInfo(Level&, std::string);
   void setInfo(Level&, Timer&);
 
 private:
