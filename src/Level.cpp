@@ -29,11 +29,6 @@ void Level::setCurrentLevel(size_t board_num)
 {
   m_level_num = board_num;
   chooseLevel();
-  std::string line;
-  std::getline(*m_current_board, line);
-  auto size = std::istringstream(line);
-  size >> m_level_rows >> m_level_cols;
-
   resetLevel();
 }
 
@@ -42,8 +37,6 @@ void Level::resetLevel()
 {
   buildLevel();
   m_current_board->seekg(0, m_current_board->beg);
-  std::string line;
-  std::getline(*m_current_board, line);
 }
 
 //-------------------------------------------------------------------
@@ -65,6 +58,12 @@ void Level::buildLevel()
 {
   srand(time(NULL));
   clearLevel();
+
+  std::string line;
+  std::getline(*m_current_board, line);
+  auto size = std::istringstream(line);
+  size >> m_level_rows >> m_level_cols;
+
   m_obj_width = m_win_width / m_level_cols;
   m_obj_height = m_win_height / m_level_rows;
 

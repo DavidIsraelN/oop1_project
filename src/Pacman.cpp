@@ -90,6 +90,7 @@ void Pacman::stopSPacman()
   m_sprite.setColor(sf::Color(255, 255, 255));
   m_spacman_clock = 0;
   is_super_pacman = false;
+  Sound::Sounds().Stop(SoundIndex::S_PACMAN);
 }
 
 //-------------------------------------------------------------------
@@ -145,9 +146,9 @@ void Pacman::collide(SuperPGift& super_p)
   is_super_pacman = true;
   m_move = std::make_unique<SPacmanMovement>();
   m_spacman_clock = 0;
-  //20 sec....
   m_score += 5;
   m_sprite.setColor(sf::Color(163, 23, 168));
+  Sound::Sounds().Play(SoundIndex::S_PACMAN);
 }
 
 //-------------------------------------------------------------------

@@ -6,7 +6,7 @@
 //-------------------------------------------------------------------
 const size_t OBJECTS = 11;
 const size_t FILES = 4;
-const size_t SOUND = 3;
+const size_t SOUND = 6;
 
 //-------------------------------------------------------------------
 enum class ObjIndex
@@ -22,7 +22,7 @@ enum class TxtIndex
 
 enum class SoundIndex
 {
-  START, COOKIE, GIFTS
+  START, LEVEL_RUN, COOKIE, GIFTS, S_PACMAN, DEATH
 };
 
 //-------------------------------------------------------------------
@@ -62,12 +62,13 @@ private:
   }
 
   std::string m_textures_name[OBJECTS] =
-      {"cookie.png","door.png","key.png","gift.png","freeze.png", "timer.png",
-       "life.png","wall.jpg","pacman_open.png","pacman_close.png","demon.png"};
+  { "cookie.png","door.png","key.png","gift.png","freeze.png", "timer.png",
+   "life.png","wall.jpg","pacman_open.png","pacman_close.png","demon.png" };
   sf::Texture m_objects_texture[OBJECTS];
 
   std::string m_sounds_name[SOUND] =
-      { "game_start.wav", "credit.wav", "eat_fruit.wav" };
+    { "intermission.wav", "game_start.wav", "credit.wav", "eat_fruit.wav" , 
+      "retreating.wav", "death_1.wav" };
   sf::SoundBuffer m_sounds[SOUND];
 
   std::string m_files_name[FILES] = { "Level_1.txt", "Level_2.txt", "Level_3.txt", "Help.txt" };

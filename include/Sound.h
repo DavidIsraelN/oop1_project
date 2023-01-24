@@ -20,12 +20,18 @@ public:
     m_sounds[size_t(type)].play();
   }
 
+  void Stop(SoundIndex type)
+  {
+    m_sounds[size_t(type)].stop();
+  }
+
   void Mute()
   { 
     m_muted = !m_muted;
     if(!m_muted) return;
     for (auto i = size_t(0); i < SOUND; ++i)
-      m_sounds[i].stop();
+      //m_sounds[i].stop();
+      Stop(SoundIndex(i));
   }
 
   bool isMute() const { return m_muted;}
@@ -34,8 +40,9 @@ private:
   Sound()
   {
     for (auto i = size_t(0); i < SOUND; ++i)
-      m_sounds[i].setBuffer(
-          ResourceManager::Resource().getSound(SoundIndex(i)));
+      m_sounds[i].setBuffer(ResourceManager::Resource().getSound(SoundIndex(i)));
+
+    m_sounds[size_t(SoundIndex::S_PACMAN)].setLoop(true);
   }
 
   sf::Sound m_sounds [SOUND];

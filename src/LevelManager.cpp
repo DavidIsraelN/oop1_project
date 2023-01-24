@@ -58,6 +58,7 @@ void LevelManager::setLevel(sf::RenderWindow& window)
 
   else if (m_timer.isOver())
   {
+    Sound::Sounds().Play(SoundIndex::DEATH);
     resetLevel(window);
     m_timer.setStart(m_current_level.getLevelNum());
   }
@@ -75,8 +76,8 @@ void LevelManager::nextLevel(sf::RenderWindow& window)
 //-------------------------------------------------------------------
 void LevelManager::resetLevel(sf::RenderWindow& window)
 {
-  m_current_level.pacmanLifeReduction();
-  auto life = m_current_level.getPacmanLife();
+  //m_current_level.pacmanLifeReduction();
+  auto life = m_current_level.getPacmanLife() - 1;
   if (life <= 0)
     gameOver(window);
   auto score = m_current_level.getPacmanScore();
@@ -110,7 +111,7 @@ void LevelManager::chooseNewLevel(size_t level_num, size_t life, size_t score)
   m_current_level.setPacmanLife(life);
   m_current_level.setPacmanScore(score);
   m_timer.setStart(level_num);
-  Sound::Sounds().Play(SoundIndex::START);
+  Sound::Sounds().Play(SoundIndex::LEVEL_RUN);
 }
 
 //-------------------------------------------------------------------
