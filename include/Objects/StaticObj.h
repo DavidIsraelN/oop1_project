@@ -14,9 +14,12 @@ public:
 
   virtual void collide(Object&) { }
   virtual void collide(Pacman&) = 0;
-  void collide(Cookie&) override { }
-  void collide(Gift&) override { }
-  void collide(Key&) override { }
-  void collide(Wall&) override { }
-  void collide(Door&) override { }
+  void collide(Cookie&)     override { }
+  void collide(SuperPGift&) override { }
+  void collide(FreezeGift&) override { }
+  void collide(TimeGift&)   override { }
+  void collide(LifeGift&)   override { }
+  void collide(Key&)        override { }
+  void collide(Wall&)       override { }
+  void collide(Door&)       override { }
 };

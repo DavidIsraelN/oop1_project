@@ -31,7 +31,7 @@ bool LevelManager::run(sf::RenderWindow& window)
 
       case sf::Event::KeyPressed:
         if (event.key.code == sf::Keyboard::Escape) return true;
-        m_current_level.setDirection(event.key.code);
+        else m_current_level.setDirection(event.key.code);
         break;
       }
 
@@ -81,6 +81,7 @@ void LevelManager::resetLevel(sf::RenderWindow& window)
     gameOver(window);
   auto score = m_current_level.getPacmanScore();
   m_current_level.resetLevel();
+//  m_current_level.resetMovingObj();
   m_current_level.setPacmanLife(life);
   m_current_level.setPacmanScore(score);
 }

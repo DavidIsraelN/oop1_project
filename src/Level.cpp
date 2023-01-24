@@ -4,13 +4,16 @@
 #include "Objects/Cookie.h"
 #include "Objects/Door.h"
 #include "Objects/Key.h"
-#include "Objects/Gift.h"
+#include "Objects/SuperPGift.h"
+#include "Objects/TimeGift.h"
+#include "Objects/LifeGift.h"
+#include "Objects/FreezeGift.h"
 #include <sstream>
 #include <time.h>
 
 //-------------------------------------------------------------------
 Level::Level(const float w_width, const float w_height)
-  : m_win_width(w_width), m_win_height(w_height) { }
+    : m_win_width(w_width), m_win_height(w_height) { }
 
 //-------------------------------------------------------------------
 void Level::clearLevel()
@@ -25,7 +28,7 @@ void Level::clearLevel()
 void Level::setCurrentLevel(size_t board_num)
 {
   m_level_num = board_num;
-  chooseLevel(); 
+  chooseLevel();
   std::string line;
   std::getline(*m_current_board, line);
   auto size = std::istringstream(line);
@@ -47,8 +50,8 @@ void Level::resetLevel()
 void Level::chooseLevel()
 {
   m_current_board = (m_level_num == 1) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
-                  : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
-                                       : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
+                                       : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
+                                                            : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
 
   //m_current_board =
   //  (m_level_num == 1) ? std::make_unique<std::ifstream>(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1))
@@ -60,6 +63,7 @@ void Level::chooseLevel()
 //-------------------------------------------------------------------
 void Level::buildLevel()
 {
+  srand(time(NULL));
   clearLevel();
   m_obj_width = m_win_width / m_level_cols;
   m_obj_height = m_win_height / m_level_rows;
@@ -97,13 +101,26 @@ void Level::addObject(ObjType type, size_t i, size_t j)
     m_erasable_obj[size_t(ObjIndex::COOKIE)].push_back(std::make_unique<Cookie>(position, m_obj_width, m_obj_height));break;
 
   case ObjType::GIFT:
-    m_erasable_obj[size_t(ObjIndex::GIFT)].push_back(std::make_unique<Gift>(position, m_obj_width, m_obj_height)); break;
+    m_erasable_obj[size_t(ObjIndex::GIFT)].push_back(chooseRandomGift(position)); break;
 
   case ObjType::DOOR:
     m_erasable_obj[size_t(ObjIndex::DOOR)].push_back(std::make_unique<Door>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::KEY:
     m_erasable_obj[size_t(ObjIndex::KEY)].push_back(std::make_unique<Key>(position, m_obj_width, m_obj_height));
+  }
+}
+
+//-------------------------------------------------------------------
+std::unique_ptr<Gift> Level::chooseRandomGift(const sf::Vector2f& position) const
+{
+  auto choice = rand() % 8;
+  switch (choice)
+  {
+  case 0: case 1: case 2: return std::make_unique<SuperPGift>(position, m_obj_width, m_obj_height);
+  case 3: case 4:         return std::make_unique<FreezeGift>(position, m_obj_width, m_obj_height);
+  case 5: case 6:         return std::make_unique<TimeGift>(position, m_obj_width, m_obj_height);
+  case 7:                 return std::make_unique<LifeGift>(position, m_obj_width, m_obj_height);
   }
 }
 
@@ -150,11 +167,21 @@ void Level::setPacmanLife(const size_t life) { return m_pacman->setLife(life); }
 size_t Level::getLevelNum() const { return m_level_num; }
 
 //-------------------------------------------------------------------
-void Level::moveObjects(const sf::Time& deltaTime) const
+void Level::moveObjects(const sf::Time& delta_time) const
 {
-  m_pacman->move(deltaTime, *this, m_win_height, m_win_width);
+  m_pacman->SPacmanClock(delta_time);
+  m_pacman->setAnimate(delta_time);
+  m_pacman->move(delta_time, *this, m_win_height, m_win_width);
+
+//  for (auto i = size_t(0); i < m_erasable_obj[size_t(ObjIndex::GIFT)].size(); ++i)
+//    if (typeid(m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(FreezeGift)/* &&
+//        m_erasable_obj[size_t(ObjIndex::GIFT)][i]->isDel()*/)
+//      std::cout << "h";
+////      for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
+////        m_moving_obj[i]->freeze();
+
   for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-    m_moving_obj[i]->move(deltaTime, *this, m_win_height, m_win_width);
+    m_moving_obj[i]->move(delta_time, *this, m_win_height, m_win_width);
 }
 
 //-------------------------------------------------------------------
@@ -168,7 +195,7 @@ void Level::erase()
 }
 
 //-------------------------------------------------------------------
-bool Level::collideWithWall(MovingObj& moving_obj) const 
+bool Level::collideWithWall(MovingObj& moving_obj) const
 {
   for (auto i = size_t(0); i < m_walls.size(); ++i)
     if (m_walls[i]->collidesWith(moving_obj)) return true;
@@ -176,7 +203,7 @@ bool Level::collideWithWall(MovingObj& moving_obj) const
 }
 
 //-------------------------------------------------------------------
-bool Level::collideWithDoor(MovingObj& moving_obj) const 
+bool Level::collideWithDoor(MovingObj& moving_obj) const
 {
   for (auto i = size_t(0); i < m_erasable_obj[size_t(ObjIndex::DOOR)].size(); ++i)
     if (m_erasable_obj[size_t(ObjIndex::DOOR)][i]->collidesWith(moving_obj)) return true;
@@ -202,6 +229,15 @@ void Level::delRandomDoor()
   std::erase_if(m_erasable_obj[size_t(ObjIndex::DOOR)], [] (const auto& m_obj) {return m_obj->isDel();});
 }
 
+//-------------------------------------------------------------------
+void Level::resetMovingObj()
+{
+  m_pacman->stopSPacman();
+  m_pacman->resetDirections();
+  m_pacman->resetPosition();
+  for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
+    m_moving_obj[i]->resetPosition();
+}
 
 /*
 //-------------------------------------------------------------------

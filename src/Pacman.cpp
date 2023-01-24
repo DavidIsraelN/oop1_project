@@ -3,7 +3,7 @@
 
 //-------------------------------------------------------------------
 Pacman::Pacman(const sf::Vector2f& position, float width, float height)
-    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN),
+    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_OPEN),
                 position, width, height)
 {
   m_move = std::make_unique<PacmanMovement>();
@@ -70,6 +70,58 @@ void Pacman::setLife(const size_t life)
 }
 
 //-------------------------------------------------------------------
+void Pacman::setAnimate(const sf::Time& delta_time)
+{
+  m_counter_seconds += delta_time.asSeconds();
+  if (m_counter_seconds >= 0.2)
+  {
+    if (m_sprite.getTexture() == &ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_CLOSE))
+      m_sprite.setTexture(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_OPEN));
+    else
+      m_sprite.setTexture(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_CLOSE));
+    m_counter_seconds -= 0.2;
+  }
+}
+
+//-------------------------------------------------------------------
+void Pacman::stopSPacman()
+{
+  m_move = std::make_unique<PacmanMovement>();
+  m_sprite.setColor(sf::Color(255, 255, 255));
+  m_spacman_clock = 0;
+  is_super_pacman = false;
+}
+
+//-------------------------------------------------------------------
+void Pacman::resetDirections()
+{
+  m_cur_direction = { 0, 0 };
+  m_new_direction = { 0, 0 };
+}
+
+//-------------------------------------------------------------------
+void Pacman::SPacmanClock(const sf::Time& delta_time)
+{
+  if (!is_super_pacman)
+    return;
+  m_spacman_clock += delta_time.asSeconds();
+  if (m_spacman_clock >= 15)
+    stopSPacman();
+
+  if (m_spacman_clock < 12.5)
+    return;
+  m_colors_clock += delta_time.asSeconds();
+  if (m_colors_clock >= 0.2)
+  {
+    if (m_sprite.getColor() == sf::Color(163, 23, 168))
+      m_sprite.setColor(sf::Color(255, 255, 255));
+    else
+      m_sprite.setColor(sf::Color(163, 23, 168));
+    m_colors_clock -= 0.2;
+  }
+}
+
+//-------------------------------------------------------------------
 void Pacman::collide(Object& object)
 {
   object.collide(*this);
@@ -82,43 +134,52 @@ void Pacman::collide(Cookie& cookie)
 }
 
 //-------------------------------------------------------------------
-void Pacman::collide(Gift& gift)
-{
-  m_move = std::make_unique<SPacmanMovement>();
-                                                   //20 sec....
-  m_score += 5;
-  m_sprite.setColor(sf::Color(163, 23, 168));
-}
-
-//-------------------------------------------------------------------
 void Pacman::collide(Key& key)
 {
   m_score += 7;
 }
 
 //-------------------------------------------------------------------
-void Pacman::collide(Wall& wall)
+void Pacman::collide(SuperPGift& super_p)
 {
-  //moveObj(-m_lest_movement, m_win_height, m_win_width);
+  is_super_pacman = true;
+  m_move = std::make_unique<SPacmanMovement>();
+  m_spacman_clock = 0;
+  //20 sec....
+  m_score += 5;
+  m_sprite.setColor(sf::Color(163, 23, 168));
 }
 
 //-------------------------------------------------------------------
-void Pacman::collide(Door& door)
+void Pacman::collide(FreezeGift& freeze)
 {
-  //moveObj(-m_lest_movement, m_win_height, m_win_width);
+  m_score += 5;
+}
+
+//-------------------------------------------------------------------
+void Pacman::collide(TimeGift& time)
+{
+  m_score += 5;
+}
+
+//-------------------------------------------------------------------
+void Pacman::collide(LifeGift& life)
+{
+  ++m_life;
+  m_score += 5;
 }
 
 
 
 //  auto win_height = obj_h * rows, win_width = obj_w * cols;
 
-  //if (directionLegal(m_new_direction * (obj_h / 2), win_height, win_width, level, obj_h, obj_w))
-  //{
-  //  moveObj(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
-  //}
+//if (directionLegal(m_new_direction * (obj_h / 2), win_height, win_width, level, obj_h, obj_w))
+//{
+//  moveObj(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
+//}
 
-  //else if(directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
-  //  moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
+//else if(directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
+//  moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, obj_h, obj_w);
 
 //
 //  if (directionLegal(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level, obj_h, obj_w))
@@ -151,29 +212,29 @@ void Pacman::collide(Door& door)
 //  }
 
 
-  //  if(m_cur_direction.x == 1)
+//  if(m_cur_direction.x == 1)
 //    m_sprite.scale(1, 1);
 
 
-  //else if (!directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level))
-  //  m_cur_direction = { 0, 0 };
+//else if (!directionLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width, level))
+//  m_cur_direction = { 0, 0 };
 
 
-  //if (directionLegal(getPosition() + m_new_direction * speedPerSecond * deltaTime.asSeconds(), level))
-  //  m_cur_direction = m_new_direction;
+//if (directionLegal(getPosition() + m_new_direction * speedPerSecond * deltaTime.asSeconds(), level))
+//  m_cur_direction = m_new_direction;
 
-  //else if (!directionLegal(getPosition() + m_cur_direction * speedPerSecond * deltaTime.asSeconds(), level))
-  //  m_cur_direction = { 0, 0 };
+//else if (!directionLegal(getPosition() + m_cur_direction * speedPerSecond * deltaTime.asSeconds(), level))
+//  m_cur_direction = { 0, 0 };
 
-  //auto direction = (m_cur_direction * speedPerSecond * deltaTime.asSeconds());
+//auto direction = (m_cur_direction * speedPerSecond * deltaTime.asSeconds());
 
-  //if (getPosition().x + direction.x >= win_width)   direction.x = - win_width;
-  //else if (getPosition().x + direction.x <= 0.f)    direction.x = win_width;
-  //if (getPosition().y + direction.y >= win_height)  direction.y = -win_height;
-  //else if (getPosition().y + direction.y <= 0.f)    direction.y = win_height;
+//if (getPosition().x + direction.x >= win_width)   direction.x = - win_width;
+//else if (getPosition().x + direction.x <= 0.f)    direction.x = win_width;
+//if (getPosition().y + direction.y >= win_height)  direction.y = -win_height;
+//else if (getPosition().y + direction.y <= 0.f)    direction.y = win_height;
 
-  //moveObj(direction, win_height, win_width);
-  //rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
+//moveObj(direction, win_height, win_width);
+//rotateObj(m_cur_direction.y == 1 ? 90: m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
 
 //
 //bool Pacman::directionLegal(const sf::Vector2f& direction, float win_height, float win_width, const Level& level, float obj_h, float obj_w)

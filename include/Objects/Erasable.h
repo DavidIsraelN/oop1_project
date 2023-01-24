@@ -9,10 +9,9 @@ public:
   Erasable(const sf::Texture& texture, const sf::Vector2f& position,
     float width, float height, float scale = 1)
     : StaticObj(texture, position, width, height, scale) { }
-  //virtual ~Erasable() = 0;
 
+//  virtual ~Erasable()  { } = 0;
   bool isDel() const { return m_obj_del; }
-
   void delObj() { m_obj_del = true; }
 
 private:

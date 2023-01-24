@@ -6,9 +6,12 @@
 class Pacman;
 class Wall;
 class Cookie;
-class Gift;
 class Key;
 class Door;
+class SuperPGift;
+class FreezeGift;
+class TimeGift;
+class LifeGift;
 
 class Object
 {
@@ -22,7 +25,10 @@ public:
   virtual void collide(Object&) = 0;
   virtual void collide(Pacman&) = 0;
   virtual void collide(Cookie&) = 0;
-  virtual void collide(Gift&) = 0;
+  virtual void collide(SuperPGift&) = 0;
+  virtual void collide(FreezeGift&) = 0;
+  virtual void collide(TimeGift&) = 0;
+  virtual void collide(LifeGift&) = 0;
   virtual void collide(Key&) = 0;
   virtual void collide(Wall&) = 0;
   virtual void collide(Door&) = 0;

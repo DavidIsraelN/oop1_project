@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 
+class Gift;
+
 enum class ObjType
 {
   COOKIE = '*', DEMON = '&', DOOR = 'D',
@@ -34,6 +36,7 @@ public:
   void pacmanLifeReduction();
   void setPacmanScore(size_t);
   void setPacmanLife(size_t);
+  void resetMovingObj();
 
 private:
   void chooseLevel();
@@ -41,6 +44,7 @@ private:
   void buildLevel();
   void addObject(ObjType, size_t, size_t);
   void delRandomDoor();
+  std::unique_ptr<Gift> chooseRandomGift(const sf::Vector2f&) const;
 
     //std::unique_ptr<std::ifstream> m_current_board;
   std::ifstream* m_current_board = nullptr;
@@ -48,6 +52,9 @@ private:
   std::unique_ptr<Pacman> m_pacman;
   std::vector<std::vector<std::unique_ptr<Erasable>>> m_erasable_obj;
   std::vector<std::unique_ptr<Wall>> m_walls;
+
+  sf::Vector2f m_pacman_original_position;
+  std::vector<sf::Vector2f> m_demons_original_position;
 
   float m_win_width, m_win_height;
   float m_obj_width = 0, m_obj_height = 0;

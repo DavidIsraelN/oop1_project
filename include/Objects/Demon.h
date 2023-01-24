@@ -7,14 +7,15 @@ public:
   Demon(const sf::Vector2f&, float, float);
   void move(const sf::Time&, const Level&, float, float) override;
 
-  void collide(Object& object) override { }
-  void collide(Cookie& cookie) override { }
-  void collide(Gift& gift) override { }
-  void collide(Key& key) override { }
-  void collide(Door& door) override { }
-  void collide(Wall& wall) override { }
-
+  void collide(Object&)     override { }
+  void collide(Cookie&)     override { }
+  void collide(SuperPGift&) override { }
+  void collide(FreezeGift&) override { }
+  void collide(TimeGift&)   override { }
+  void collide(LifeGift&)   override { }
+  void collide(Key&)        override { }
+  void collide(Wall&)       override { }
+  void collide(Door&)       override { }
 
 private:
-
 };

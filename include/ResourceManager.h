@@ -4,14 +4,15 @@
 #include <fstream>
 
 //-------------------------------------------------------------------
-const size_t OBJECTS = 7;
+const size_t OBJECTS = 11;
 const size_t FILES = 4;
 const size_t SOUND = 3;
 
 //-------------------------------------------------------------------
 enum class ObjIndex
 {
-  COOKIE, DOOR, GIFT, KEY, WALL, PACMAN, DEMON
+  COOKIE, DOOR, KEY, GIFT, FREEZE, TIMER,
+  LIFE, WALL, PACMAN_OPEN, PACMAN_CLOSE, DEMON
 };
 
 enum class TxtIndex
@@ -45,14 +46,14 @@ public:
 
 private:
   ResourceManager()
-  { 
+  {
     m_font.loadFromFile("Arial.ttf");
 //    m_font.loadFromFile("pacfont.ttf");
     m_icon.loadFromFile("pacman.png");
 
     for (auto i = size_t(0); i < OBJECTS; ++i)
-      m_objects_texture[i].loadFromFile(m_textures_name[i]); 
-    
+      m_objects_texture[i].loadFromFile(m_textures_name[i]);
+
     for (auto i = size_t(0); i < FILES; ++i)
       m_files[i] = std::ifstream(m_files_name[i]);
 
@@ -61,11 +62,12 @@ private:
   }
 
   std::string m_textures_name[OBJECTS] =
-    {"cookie.png", "door.png", "gift.png", "key.png", "wall.jpg", "pacman.png", "demon.png"};
+      {"cookie.png","door.png","key.png","gift.png","freeze.png", "timer.png",
+       "life.png","wall.jpg","pacman_open.png","pacman_close.png","demon.png"};
   sf::Texture m_objects_texture[OBJECTS];
 
   std::string m_sounds_name[SOUND] =
-  { "game_start.wav", "credit.wav", "eat_fruit.wav" };
+      { "game_start.wav", "credit.wav", "eat_fruit.wav" };
   sf::SoundBuffer m_sounds[SOUND];
 
   std::string m_files_name[FILES] = { "Level_1.txt", "Level_2.txt", "Level_3.txt", "Help.txt" };

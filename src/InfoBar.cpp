@@ -11,7 +11,7 @@ InfoBar::InfoBar(const float w_width, const float w_height, const float inf_h)
 {
   for(auto i = size_t(0); i < 4; ++i)
   {
-    m_pacman_icon.push_back(sf::Sprite(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN)));
+    m_pacman_icon.push_back(sf::Sprite(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_OPEN)));
     m_pacman_icon[i].setScale(inf_h / m_pacman_icon[i].getGlobalBounds().width  / 2, inf_h / m_pacman_icon[i].getGlobalBounds().height / 2);
     m_pacman_icon[i].setOrigin(m_pacman_icon[i].getLocalBounds().width / 2, m_pacman_icon[i].getLocalBounds().height / 2);
     m_pacman_icon[i].setPosition(w_width / 40 + i * w_width / 23, w_height + inf_h / 2);
