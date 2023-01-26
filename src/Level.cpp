@@ -200,7 +200,7 @@ void Level::moveObjects(const sf::Time& delta_time) const
 ////      for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
 ////        m_moving_obj[i]->freeze();
 
-  for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
+   for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
     m_moving_obj[i]->move(delta_time, *this, m_win_height, m_win_width);
 }
 
