@@ -145,7 +145,8 @@ std::unique_ptr<Gift> Level::chooseRandomGift(const sf::Vector2f& position) cons
 }
 
 //-------------------------------------------------------------------
-bool Level::isOver() const {
+bool Level::isOver() const 
+{
   return m_erasable_obj[size_t(ObjIndex::COOKIE)].empty();
 }
 
@@ -187,8 +188,14 @@ void Level::setPacmanLife(const size_t life) { return m_pacman->setLife(life); }
 size_t Level::getLevelNum() const { return m_level_num; }
 
 //-------------------------------------------------------------------
-void Level::moveObjects(const sf::Time& delta_time) const
+void Level::addFinalScore()
 {
+  m_pacman->setScore(m_pacman->getScore() + 50 + 2 * m_moving_obj.size());
+}
+
+//-------------------------------------------------------------------
+void Level::moveObjects(const sf::Time& delta_time) const
+{ 
   m_pacman->SPacmanClock(delta_time);
   m_pacman->setAnimate(delta_time);
   m_pacman->move(delta_time, *this, m_win_height, m_win_width);
@@ -223,7 +230,6 @@ void Level::updateMat()
 
 }
 
-
 //-------------------------------------------------------------------
 void Level::erase()
 {
@@ -257,6 +263,10 @@ void Level::handleCollision() const
     for (auto j = size_t(0); j < m_erasable_obj[i].size(); ++j)
       if(m_erasable_obj[i][j]->collidesWith(*m_pacman))
         m_erasable_obj[i][j]->collide(*m_pacman);
+
+  for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
+    if (m_moving_obj[i]->collidesWith(*m_pacman))
+      m_moving_obj[i]->collide(*m_pacman);
 }
 
 //-------------------------------------------------------------------

@@ -4,6 +4,7 @@
 #include <memory>
 
 class Level;
+const auto speedPerSecond = 130.f;
 
 //abstract class
 class MovingObj : public Object
@@ -33,5 +34,8 @@ protected:
   sf::Vector2f m_original_position;
   sf::Vector2f m_cur_direction = { 0, 0 };
   sf::Vector2f m_new_direction = { 0, 0 };
+
+  //sf::Vector2f m_cur_direction = { 1, 0 };
+  //sf::Vector2f m_new_direction = { 0, -1 };
 
 };

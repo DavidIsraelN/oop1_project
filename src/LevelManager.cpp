@@ -68,8 +68,11 @@ void LevelManager::setLevel(sf::RenderWindow& window)
 //-------------------------------------------------------------------
 void LevelManager::nextLevel(sf::RenderWindow& window)
 {
+  m_current_level.addFinalScore();
   if (m_current_level.getLevelNum() < LEVELS)
-    chooseNewLevel(m_current_level.getLevelNum() + 1, m_current_level.getPacmanLife(), m_current_level.getPacmanScore());
+    chooseNewLevel(m_current_level.getLevelNum() + 1,
+                   m_current_level.getPacmanLife(),
+                   m_current_level.getPacmanScore());
   else
     gameOver(window);
 }
@@ -125,8 +128,9 @@ void LevelManager::buildGameOverScreen()
   m_game_over.setLetterSpacing(2);
   m_game_over.setOrigin(m_game_over.getGlobalBounds().width / 2, m_game_over.getGlobalBounds().height / 2);
 
-  m_game_over_score.setFillColor(sf::Color::White);
+  m_game_over_score.setFillColor(SoftYellow);
   m_game_over_score.setPosition(m_win_width / 2, m_win_height / 1.6);
   m_game_over_score.setString("Your Score Is: " + std::to_string(m_current_level.getPacmanScore()));
-  m_game_over_score.setOrigin(m_game_over_score.getGlobalBounds().width / 2, m_game_over_score.getGlobalBounds().height / 2);
+  m_game_over_score.setOrigin(m_game_over_score.getGlobalBounds().width / 2,
+                              m_game_over_score.getGlobalBounds().height / 2);
 }

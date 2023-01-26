@@ -51,6 +51,7 @@ sf::Color Timer::getColor() const
   return m_time_left > 30 ? DeepRed : sf::Color::Red;
 }
 
+//-------------------------------------------------------------------
 bool Timer::isOver() const
 {
   return m_time_left == 0 ? true : false;

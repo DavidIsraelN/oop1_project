@@ -8,6 +8,8 @@
 #include <vector>
 
 class Gift;
+//class Erasable;
+//class MovingObj;
 
 enum class ObjType
 {
@@ -35,6 +37,7 @@ public:
   size_t getPacmanScore() const;
   void pacmanLifeReduction();
   void setPacmanScore(size_t);
+  void addFinalScore();
   void setPacmanLife(size_t);
   void resetMovingObj();
   void updateMat();

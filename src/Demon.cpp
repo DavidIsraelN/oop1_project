@@ -2,11 +2,97 @@
 #include "Level.h"
 
 Demon::Demon(const sf::Vector2f& position, float width, float height)
-    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::DEMON), position, width, height){
+    : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::DEMON), position, width, height)
+{
   m_move = std::make_unique<PacmanMovement>();
 }
 
 void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height, float win_width)
+{
+  auto pac = level.getPacmanPosition();
+  m_cur_direction = setDirection(pac, deltaTime, level, win_height, win_width);
+  moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width);
+
+  //if(m_move->isLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), level, *this, win_height, win_width))
+  //  moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width);
+
+  //else if(m_move->isLegal(m_new_direction * (m_sprite.getGlobalBounds().height / 3), level, *this, win_height, win_width))
+  //{
+  //  moveObj(m_new_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width);
+  //  m_cur_direction = m_new_direction;
+  //}
+
+
+}
+
+sf::Vector2f Demon::setDirection(const sf::Vector2f& pacman, const sf::Time& deltaTime,
+                                 const Level& level, float win_h, float win_w)
+{
+  m_distance_x = pacman.x - m_sprite.getPosition().x;
+  m_distance_y = pacman.y - m_sprite.getPosition().y;
+
+  sf::Vector2f directions[4];
+  directions[3] = m_cur_direction;
+
+  setNonRandomDirection(directions);
+
+  for (int i = 0; i < 3; ++i)
+    if (m_move->isLegal(directions[i] * speedPerSecond * deltaTime.asSeconds(), level, *this, win_h, win_w))
+      return directions[i];
+
+  std::cout << "ERROR" << std::endl;
+  return { -1, 0 };
+  //
+  //  m_demons[j] = m_old_demons[j];
+}
+
+void Demon::setNonRandomDirection(sf::Vector2f directions[])
+{
+  setFirstAndSecondDirection(directions);
+  setThirdDirection(directions);
+}
+
+void Demon::setFirstAndSecondDirection(sf::Vector2f directions[])
+{
+  auto x_direction = m_distance_x > 0 ? sf::Vector2f(1, 0) : sf::Vector2f(-1, 0);
+  auto y_direction = m_distance_y > 0 ? sf::Vector2f(0, 1) : sf::Vector2f(0, -1);
+
+  if (std::abs(m_distance_y) > std::abs(m_distance_x))
+  {
+    directions[0] = y_direction;
+    directions[1] = x_direction;
+  }
+  else
+  {
+    directions[0] = x_direction;
+    directions[1] = y_direction;
+  }
+}
+
+void Demon::setThirdDirection(sf::Vector2f directions[])
+{
+  if (directions[3] == sf::Vector2f{ 0, 0 })
+  {
+    directions[2] = { 1, 0 };
+  }
+
+  directions[2] = directions[0] + directions[1] + directions[3];
+  if (directions[2].x != 0)
+    directions[2].x *= (-1);
+
+  if (directions[2].y != 0)
+    directions[2].y *= (-1);
+
+  //  if (directions[2].x != 0 && directions[2].y != 0)
+  //    directions[2] = {1, 0};
+
+}
+
+
+
+
+
+void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height, float win_width, int l)
 {
   if (m_distance_x >= level.getObjDimensions().x || m_distance_y >= level.getObjDimensions().y)
   {
@@ -90,7 +176,8 @@ void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height
 //{
 //  Null, Up, Right, Down, Left
 //};
-//
+
+
 sf::Vector2f Demon::setDirection(const std::vector<std::vector<size_t>>& mat, const sf::Vector2f& demon, const sf::Vector2f& pacman)
 {
   sf::Vector2f directions[4];
@@ -112,7 +199,9 @@ sf::Vector2f Demon::setDirection(const std::vector<std::vector<size_t>>& mat, co
 //
 //  m_demons[j] = m_old_demons[j];
 }
-//
+
+
+
 void Demon::setNonrandomDirection(sf::Vector2f directions[], const std::vector<std::vector<size_t>>& mat, const sf::Vector2f& demon, const sf::Vector2f& pacman)
 {
   setFirstAndSecondLocation(directions, mat, demon, pacman);

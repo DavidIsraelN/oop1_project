@@ -5,11 +5,16 @@ class Demon : public MovingObj
 {
 public:
   Demon(const sf::Vector2f&, float, float);
-  //void move(const sf::Time&, const Level&, float, float) override;
+
+  void move(const sf::Time&, const Level&, float, float) override;
+  sf::Vector2f setDirection(const sf::Vector2f&, const sf::Time&, const Level&, float, float);
+  void setNonRandomDirection(sf::Vector2f[]);
+  void setFirstAndSecondDirection(sf::Vector2f[]);
+  void setThirdDirection(sf::Vector2f[]);
 
 
 
-  void move(const sf::Time& deltaTime, const Level& level, float, float);
+  void move(const sf::Time&, const Level&, float, float, int);
 
   sf::Vector2f setDirection(const std::vector<std::vector<size_t>>&, const sf::Vector2f&, const sf::Vector2f&);
   //

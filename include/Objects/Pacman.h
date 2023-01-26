@@ -1,8 +1,6 @@
 #pragma once
 #include "MovingObj.h"
 
-const auto speedPerSecond = 130.f;
-
 class Pacman : public MovingObj
 {
 public:
