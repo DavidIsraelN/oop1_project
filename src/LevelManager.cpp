@@ -43,6 +43,7 @@ bool LevelManager::run(sf::RenderWindow& window)
 //-------------------------------------------------------------------
 void LevelManager::levelAction(const sf::Time& deltaTime)
 {
+//  m_current_level.updateMat();
   m_current_level.moveObjects(deltaTime);
   m_current_level.handleCollision();
   m_timer.updateTimer(deltaTime);

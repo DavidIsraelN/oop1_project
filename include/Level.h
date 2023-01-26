@@ -37,6 +37,12 @@ public:
   void setPacmanScore(size_t);
   void setPacmanLife(size_t);
   void resetMovingObj();
+  void updateMat();
+  sf::Vector2f getObjDimensions() const;
+  sf::Vector2f getPacmanPosition() const;
+  std::vector<std::vector<size_t>> getMat() const;
+
+
 
 private:
   void chooseLevel();
@@ -54,10 +60,11 @@ private:
   std::vector<std::unique_ptr<Wall>> m_walls;
 
   sf::Vector2f m_pacman_original_position;
-  std::vector<sf::Vector2f> m_demons_original_position;
+//  std::vector<sf::Vector2f> m_demons_original_position;
 
   float m_win_width, m_win_height;
   float m_obj_width = 0, m_obj_height = 0;
   size_t m_level_cols = 0, m_level_rows = 0;
   size_t m_level_num = 0;
+  std::vector<std::vector<size_t>> m_mat;
 };

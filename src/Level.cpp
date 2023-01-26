@@ -68,13 +68,27 @@ void Level::buildLevel()
   m_obj_height = m_win_height / m_level_rows;
 
   for (auto i = size_t(0); i < m_level_rows; ++i)
+  {
+    m_mat.resize(m_level_rows);
     for (auto j = size_t(0); j < m_level_cols; ++j)
     {
       char c = m_current_board->get();
       if (c == '\n') { --j;  continue; }
-      if (c == char(ObjType::SPACE)) continue;
+      if (c == char(ObjType::SPACE))
+      {
+        m_mat[i].push_back(0);
+        continue;
+      };
       addObject(ObjType(c), i, j);
     }
+  }
+  for (auto i = size_t(0); i < m_level_rows; ++i)
+  {
+    for (auto j = size_t(0); j < m_level_cols; ++j)
+      std::cout << m_mat[i][j] << ' ';
+    std::cout << std::endl;
+  }
+  updateMat();
 }
 
 //-------------------------------------------------------------------
@@ -87,25 +101,32 @@ void Level::addObject(ObjType type, size_t i, size_t j)
   switch (type)
   {
   case ObjType::PACMAN:
+    m_mat[i].push_back(0);
     m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height); break;
     //m_moving_obj.push_back(std::make_unique<Pacman>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::DEMON:
+    m_mat[i].push_back(0);
     m_moving_obj.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::WALL:
+    m_mat[i].push_back(1);
     m_walls.push_back(std::make_unique<Wall>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::COOKIE:
+    m_mat[i].push_back(0);
     m_erasable_obj[size_t(ObjIndex::COOKIE)].push_back(std::make_unique<Cookie>(position, m_obj_width, m_obj_height));break;
 
   case ObjType::GIFT:
+    m_mat[i].push_back(0);
     m_erasable_obj[size_t(ObjIndex::GIFT)].push_back(chooseRandomGift(position)); break;
 
   case ObjType::DOOR:
+    m_mat[i].push_back(1);
     m_erasable_obj[size_t(ObjIndex::DOOR)].push_back(std::make_unique<Door>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::KEY:
+    m_mat[i].push_back(0);
     m_erasable_obj[size_t(ObjIndex::KEY)].push_back(std::make_unique<Key>(position, m_obj_width, m_obj_height));
   }
 }
@@ -183,6 +204,26 @@ void Level::moveObjects(const sf::Time& delta_time) const
     m_moving_obj[i]->move(delta_time, *this, m_win_height, m_win_width);
 }
 
+
+void Level::updateMat()
+{
+//  std::cout << "obj_width: " << m_obj_width << std::endl;
+//  std::cout << "obj_height: " << m_obj_height << std::endl;
+//
+//  auto position = m_pacman->getPosition();
+//
+//  auto x_pos = position.x;
+//  auto y_pos = position.y;
+//
+//   auto j = (x_pos + m_obj_width / 2) / m_obj_width;
+//  std::cout << j << std::endl;
+//
+//  auto i = (y_pos + m_obj_height / 2) / m_obj_height;
+//  std::cout << i << std::endl;
+
+}
+
+
 //-------------------------------------------------------------------
 void Level::erase()
 {
@@ -236,6 +277,21 @@ void Level::resetMovingObj()
   m_pacman->resetPosition();
   for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
     m_moving_obj[i]->resetPosition();
+}
+
+sf::Vector2f Level::getObjDimensions() const
+{
+  return {m_obj_width, m_obj_height};
+}
+
+sf::Vector2f Level::getPacmanPosition() const
+{
+  return {m_pacman->getPosition()};
+}
+
+std::vector<std::vector<size_t>> Level::getMat() const
+{
+  return m_mat;
 }
 
 /*

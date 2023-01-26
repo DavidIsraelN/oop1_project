@@ -35,8 +35,7 @@ public:
 
 private:
   bool directionLegal(const sf::Vector2f&, float, float, const Level&, float, float);
-  sf::Vector2f m_cur_direction = { 0, 0 };
-  sf::Vector2f m_new_direction = { 0, 0 };
+
   //sf::Vector2f m_lest_movement = { 0, 0 };
   size_t m_life = 3;
   size_t m_score = 0;

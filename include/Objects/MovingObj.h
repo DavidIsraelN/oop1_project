@@ -23,6 +23,7 @@ public:
 
   virtual void move(const sf::Time&, const Level&, float, float) = 0;
 
+  sf::Vector2f getPosition() const { return m_sprite.getPosition(); }
   void freeze() { std::cout << "hi";}
 
 protected:
@@ -30,4 +31,7 @@ protected:
   std::unique_ptr<Movement> m_move;
   //std::unique_ptr<Movement> m_move;
   sf::Vector2f m_original_position;
+  sf::Vector2f m_cur_direction = { 0, 0 };
+  sf::Vector2f m_new_direction = { 0, 0 };
+
 };
