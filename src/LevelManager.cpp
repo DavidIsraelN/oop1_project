@@ -6,8 +6,8 @@
 LevelManager::LevelManager(const float w_width, const float w_height, const float inf_h)
   : m_win_width(w_width), m_win_height(w_height),
   m_current_level(w_width, w_height), m_info(w_width, w_height, inf_h),
-      m_game_over("GAME OVER", ResourceManager::Resource().getFont(), w_height / 9),
-      m_game_over_score("", ResourceManager::Resource().getFont(), w_height / 15) { }
+      m_game_over("GAME OVER", ResourceManager::Resource().getFont(FontIndex::PACMAN), w_height / 7),
+      m_game_over_score("", ResourceManager::Resource().getFont(FontIndex::PACMAN), w_height / 15) { }
 
 //-------------------------------------------------------------------
 bool LevelManager::run(sf::RenderWindow& window)
@@ -82,7 +82,7 @@ void LevelManager::nextLevel(sf::RenderWindow& window)
 //-------------------------------------------------------------------
 void LevelManager::resetLevel()
 {
-  auto life = m_current_level.getPacmanLife();
+  auto life = m_current_level.getPacmanLife() - 1;
   auto score = m_current_level.getPacmanScore();
   m_current_level.resetLevel();
   m_current_level.setPacmanLife(life);
@@ -122,7 +122,7 @@ void LevelManager::buildGameOverScreen()
   m_game_over.setFillColor(DeepRed);
   m_game_over.setOutlineThickness(6);
   m_game_over.setOutlineColor(sf::Color::White);
-  m_game_over.setPosition(m_win_width / 2, m_win_height / 2.6);
+  m_game_over.setPosition(m_win_width / 2, m_win_height / 3);
   m_game_over.setLetterSpacing(2);
   m_game_over.setOrigin(m_game_over.getGlobalBounds().width / 2, m_game_over.getGlobalBounds().height / 2);
 

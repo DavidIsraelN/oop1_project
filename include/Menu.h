@@ -4,7 +4,7 @@
 
 enum class ButtonIdx
 {
-  /*N, H, E, M*/    NEW_GAME, HELP, EXIT, MUTE
+  NEW_GAME, HELP, EXIT, MUTE
 };
 
 class Menu {

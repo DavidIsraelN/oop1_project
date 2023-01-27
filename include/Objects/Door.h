@@ -11,7 +11,5 @@ public:
   void collide(Pacman& pacman) override
   {
     delObj();
-    pacman.collide(*this);
   }
-
 };

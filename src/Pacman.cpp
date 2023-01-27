@@ -51,11 +51,11 @@ size_t Pacman::getScore() const
 }
 
 //-------------------------------------------------------------------
-void Pacman::lifeReduction()
-{
-  if (m_life > 0)
-    --m_life;
-}
+//void Pacman::lifeReduction()
+//{
+//  if (m_life > 0)
+//    --m_life;
+//}
 
 //-------------------------------------------------------------------
 void Pacman::setScore(const size_t score)

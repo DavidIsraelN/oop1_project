@@ -152,7 +152,7 @@ void Level::setDirection(sf::Keyboard::Key key) const
 size_t Level::getPacmanLife() const { return m_pacman->getLife(); }
 
 //-------------------------------------------------------------------
-void Level::pacmanLifeReduction() { m_pacman->lifeReduction(); }
+//void Level::pacmanLifeReduction() { m_pacman->lifeReduction(); }
 
 //-------------------------------------------------------------------
 size_t Level::getPacmanScore() const { return m_pacman->getScore(); }

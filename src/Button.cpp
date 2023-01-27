@@ -5,7 +5,7 @@
 Button::Button(const std::string& text, const sf::Vector2f& position, size_t size, sf::Color color)
 {
   m_text.setString(text);
-  m_text.setFont(ResourceManager::Resource().getFont());
+  m_text.setFont(ResourceManager::Resource().getFont(FontIndex::PACMAN));
   m_text.setPosition(position);
   m_text.setCharacterSize(size);
   m_text.setFillColor(color);

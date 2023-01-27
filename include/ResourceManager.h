@@ -7,6 +7,7 @@
 const size_t OBJECTS = 11;
 const size_t FILES = 4;
 const size_t SOUND = 7;
+const size_t FONTS = 2;
 
 //-------------------------------------------------------------------
 enum class ObjIndex
@@ -25,6 +26,11 @@ enum class SoundIndex
   START, LEVEL_RUN, COOKIE, GIFTS, S_PACMAN, DEATH, GHOST
 };
 
+enum class FontIndex
+{
+  PACMAN, ARIEL
+};
+
 //-------------------------------------------------------------------
 class ResourceManager
 {
@@ -38,17 +44,18 @@ public:
   ResourceManager(const ResourceManager&) = delete;
   void operator=(const ResourceManager&) = delete;
 
-  sf::Image& getIcon()                        { return m_icon; }
-  sf::Font& getFont()                         { return m_font; }
-  sf::Texture& getObjTexture(ObjIndex type)   { return m_objects_texture[size_t(type)]; }
-  std::ifstream& getTxtFile(TxtIndex type)    { return m_files[size_t(type)]; }
-  sf::SoundBuffer& getSound(SoundIndex type)  { return m_sounds[size_t(type)]; }
+  sf::Image&        getIcon()                     { return m_icon; }
+  sf::Font&         getFont(FontIndex type)       { return m_fonts[size_t(type)]; }
+  sf::Texture&      getObjTexture(ObjIndex type)  { return m_objects_texture[size_t(type)]; }
+  sf::SoundBuffer&  getSound(SoundIndex type)     { return m_sounds[size_t(type)]; }
+  std::ifstream&    getTxtFile(TxtIndex type)     { return m_files[size_t(type)]; }
+
 
 private:
   ResourceManager()
   {
 //    m_font.loadFromFile("Arial.ttf");
-    m_font.loadFromFile("crackman.front-regular.otf");
+    //m_font.loadFromFile("crackman.front-regular.otf");
     m_icon.loadFromFile("pacman.png");
 
     for (auto i = size_t(0); i < OBJECTS; ++i)
@@ -59,6 +66,9 @@ private:
 
     for (auto i = size_t(0); i < SOUND; ++i)
       m_sounds[i].loadFromFile(m_sounds_name[i]);
+
+    for (auto i = size_t(0); i < FONTS; ++i)
+      m_fonts[i].loadFromFile(m_fonts_name[i]);
   }
 
   std::string m_textures_name[OBJECTS] =
@@ -74,6 +84,9 @@ private:
   std::string m_files_name[FILES] = { "Level_1.txt", "Level_2.txt", "Level_3.txt", "Help.txt" };
   std::ifstream m_files[FILES];
 
-  sf::Font m_font;
+  std::string m_fonts_name[FONTS] = { "crackman.front-regular.otf", "Arial.ttf" };
+  sf::Font m_fonts[FONTS];
+
+  //sf::Font m_font;
   sf::Image m_icon;
 };

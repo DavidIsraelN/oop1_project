@@ -1,6 +1,8 @@
 #pragma once
 #include "MovingObj.h"
 
+const auto speedPerSecond = 130.f;
+
 class Pacman : public MovingObj
 {
 public:
@@ -11,7 +13,7 @@ public:
 
   size_t getLife() const;
   size_t getScore() const;
-  void lifeReduction();
+  //void lifeReduction();
   void setScore(const size_t);
   void setLife(const size_t);
   void setAnimate(const sf::Time&);
@@ -27,8 +29,6 @@ public:
   void collide(LifeGift&)   override;
   void collide(Key&)        override;
   void collide(Demon&)      override;
-  void collide(Wall&)       override { }
-  void collide(Door&)       override { }
 
 private:
 

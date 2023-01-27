@@ -5,9 +5,9 @@
 
 //-------------------------------------------------------------------
 InfoBar::InfoBar(const float w_width, const float w_height, const float inf_h)
-    : m_timer("00:00", ResourceManager::Resource().getFont(), inf_h / 1.75),
-      m_level("LEVEL  ", ResourceManager::Resource().getFont(), inf_h / 2),
-      m_score("SCORE  ", ResourceManager::Resource().getFont(), inf_h / 2)
+    : m_timer("00:00", ResourceManager::Resource().getFont(FontIndex::PACMAN), inf_h / 1.2),
+      m_level("LEVEL  ", ResourceManager::Resource().getFont(FontIndex::PACMAN), inf_h / 1.4),
+      m_score("SCORE  ", ResourceManager::Resource().getFont(FontIndex::PACMAN), inf_h / 1.4)
 {
   for(auto i = size_t(0); i < 4; ++i)
   {
@@ -24,9 +24,9 @@ InfoBar::InfoBar(const float w_width, const float w_height, const float inf_h)
   m_score.setFillColor(DeepRed);
   m_level.setFillColor(DeepRed);
 
-  m_timer.setPosition(w_width / 2, w_height + inf_h / 2.8);
-  m_score.setPosition(w_width / 4, w_height + inf_h / 2.5);
-  m_level.setPosition(3 * w_width / 4, w_height + inf_h / 2.5);
+  m_timer.setPosition(w_width / 2, w_height + inf_h / 5.5);
+  m_score.setPosition(3 * w_width / 4, w_height + inf_h / 4.5);
+  m_level.setPosition(w_width / 4, w_height + inf_h / 4.5);
 
   m_timer.setOrigin(m_timer.getLocalBounds().width / 2, m_timer.getLocalBounds().height / 2);
   m_score.setOrigin(m_score.getLocalBounds().width / 2, m_score.getLocalBounds().height / 2);

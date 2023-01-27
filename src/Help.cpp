@@ -4,8 +4,8 @@
 
 //-------------------------------------------------------------------
 Help::Help(float width, float height) :
-    Button("Help", { width / 2 , height / 2 }, height / 30, SoftYellow),
-    m_back({ width - width / 16 , height / 25 }, height / 45),
+    Button("Help", { width / 2 , height / 1.75f }, height / 15, SoftYellow),
+    m_back({ width - width / 13 , height / 25 }, height / 35),
     m_help_rect({width, height}),
     m_window_width(width), m_window_height(height)
 {
@@ -57,8 +57,8 @@ void Help::bulidHelpScreen()
   {
     if (m_help_str[i].empty())
       continue;
-    auto line = sf::Text(m_help_str[i], ResourceManager::Resource().getFont(),
-                (m_help_txt.size() == 0)? line_height : line_height / 1.5);
+    auto line = sf::Text(m_help_str[i], ResourceManager::Resource().getFont(FontIndex::ARIEL),
+                (m_help_txt.size() == 0)? line_height * 2 : line_height / 1.5);
     line.setFillColor(DeepRed);
     line.setPosition({m_window_width / 2, line_height * i});
     line.setOrigin(line.getLocalBounds().width / 2, line.getLocalBounds().height / 2);
@@ -66,6 +66,7 @@ void Help::bulidHelpScreen()
   }
 
   if (m_help_txt.size() < 1) return;
+  m_help_txt[0].setFont(ResourceManager::Resource().getFont(FontIndex::PACMAN));
   m_help_txt[0].setStyle(sf::Text::Underlined);
 }
 

@@ -4,21 +4,21 @@
 
 //-------------------------------------------------------------------
 NewGame::NewGame(float width, float height) :
-    Button("New Game", { width / 2 , height / 2.7f }, height / 30, SoftYellow),
+    Button("New Game", { width / 2 , height / 2.6f }, height / 15, SoftYellow),
     m_levels_rect({ width, height }), m_window_width(width), m_window_height(height)
 {
   bulidLevelsTxt();
-  m_levels.push_back(std::make_unique<Back>(sf::Vector2f({ width - width / 16 , height / 25 }), height / 45));
-  m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 2.7f }), height / 30, 1));
-  m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 2    }), height / 30, 2));
-  m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 1.6f }), height / 30, 3));
+  m_levels.push_back(std::make_unique<Back>(sf::Vector2f({ width - width / 13 , height / 25 }), height / 35));
+  m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 2.6f }), height / 15, 1));
+  m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 1.75f}), height / 15, 2));
+  m_levels.push_back(std::make_unique<ChooseLevel>(sf::Vector2f({ width / 2 , height / 1.3f }), height / 15, 3));
 }
 
 //-------------------------------------------------------------------
 void NewGame::bulidLevelsTxt()
 {
-  m_levels_txt = sf::Text("Choose Level", ResourceManager::Resource().getFont(), m_window_height / 20);
-  m_levels_txt.setPosition({ m_window_width / 2, m_window_height / 5 });
+  m_levels_txt = sf::Text("Choose  Level", ResourceManager::Resource().getFont(FontIndex::PACMAN), m_window_height / 10);
+  m_levels_txt.setPosition({ m_window_width / 2, m_window_height / 6 });
   m_levels_txt.setOrigin(m_levels_txt.getLocalBounds().width / 2, m_levels_txt.getLocalBounds().height / 2);
   m_levels_txt.setFillColor(sf::Color::White);
   m_levels_txt.setStyle(sf::Text::Underlined);

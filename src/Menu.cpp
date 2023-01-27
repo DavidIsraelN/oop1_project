@@ -6,19 +6,19 @@
 
 //-------------------------------------------------------------------
 Menu::Menu(float width, float height)
-  : m_menu(sf::Text("MENU", ResourceManager::Resource().getFont() , height / 20)),
-  m_back(std::make_unique<Back>(sf::Vector2f({ width - width / 16 , height / 25 }), height / 45))
+  : m_menu(sf::Text("MENU", ResourceManager::Resource().getFont(FontIndex::PACMAN) , height / 8)),
+  m_back(std::make_unique<Back>(sf::Vector2f({ width - width / 13 , height / 25 }), height / 35))
 
 {
-  m_menu.setPosition({ width / 2, height / 5 });
+  m_menu.setPosition({ width / 2, height / 6 });
   m_menu.setOrigin(m_menu.getLocalBounds().width / 2, m_menu.getLocalBounds().height / 2);
   m_menu.setFillColor(sf::Color::White);
   m_menu.setStyle(sf::Text::Underlined);
 
   m_buttons.push_back(std::make_unique<NewGame>(width, height));
   m_buttons.push_back(std::make_unique<Help>(width, height));
-  m_buttons.push_back(std::make_unique<ExitGame>(width, height));
-  m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f({ width / 16 , height / 25 }), height / 45));
+  m_buttons.push_back(std::make_unique<ExitGame>(sf::Vector2f(width / 2 , height / 1.3f), height / 15));
+  m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f(width / 13 , height / 25), height / 35));
 }
 
 //-------------------------------------------------------------------

@@ -1,5 +1,6 @@
 
-Pacman Game
+Pacman   Game
+
 
 The game "Pacman" takes place inside a large board, which is mostly
 filled with small cookies. Besides the cookies, inside the board is

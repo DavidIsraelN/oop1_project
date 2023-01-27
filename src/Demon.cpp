@@ -6,37 +6,47 @@ Demon::Demon(const sf::Vector2f& position, float width, float height)
 {
   m_move = std::make_unique<RegularMovement>();
   m_new_direction = {0, -1};
+  m_speed = NonRandomSpeed;
 }
 
 void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height, float win_width)
 {
   m_cur_direction = m_new_direction;
   auto pac = level.getPacmanPosition();
+  setMode(deltaTime);
   m_new_direction = setDirection(pac, deltaTime, level, win_height, win_width);
   moveObj(m_cur_direction != m_new_direction ? m_new_direction * (m_sprite.getGlobalBounds().height / 10)
-                                             : m_new_direction * (speedPerSecond / 1.5f ) * deltaTime.asSeconds(), win_height, win_width);
+    : m_new_direction * m_speed * deltaTime.asSeconds(), win_height, win_width);
+}
+
+void Demon::setMode(const sf::Time& deltaTime)
+{
+  m_random_clock += deltaTime.asSeconds();
+  if (m_random_clock >= 8)
+  {
+    m_speed = NonRandomSpeed;
+    m_random_clock = 0;
+  }
+  else if (m_random_clock > 3)
+    m_speed = RandomSpeed;
 }
 
 sf::Vector2f Demon::setDirection(const sf::Vector2f& pacman, const sf::Time& deltaTime,
                                  const Level& level, float win_h, float win_w)
 {
-  m_random_clock += deltaTime.asSeconds();
-  if (m_random_clock >= 8) m_random_clock = 0;
-
   sf::Vector2f directions[4];
   directions[3] = -m_cur_direction;
 
   if (m_random_clock <= 3)
     setRandomDirection(directions);
-  else
-  {
+  else {
     m_distance_x = pacman.x - m_sprite.getPosition().x;
     m_distance_y = pacman.y - m_sprite.getPosition().y;
     setNonRandomDirection(directions);
   }
 
   for (auto i = size_t(0); i < 4; ++i)
-    if (m_move->isLegal(directions[i] == m_cur_direction ? directions[i] * speedPerSecond * deltaTime.asSeconds() :
+    if (m_move->isLegal(directions[i] == m_cur_direction ? directions[i] * m_speed * deltaTime.asSeconds() :
                         directions[i] * (m_sprite.getGlobalBounds().height / 3), level, *this, win_h, win_w))
       return directions[i];
 

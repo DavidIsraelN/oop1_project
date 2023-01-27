@@ -36,7 +36,7 @@ public:
   size_t getLevelNum() const;
   size_t getPacmanLife() const;
   size_t getPacmanScore() const;
-  void pacmanLifeReduction();
+  //void pacmanLifeReduction();
   void setPacmanScore(size_t);
   void addFinalScore();
   void setPacmanLife(size_t);
