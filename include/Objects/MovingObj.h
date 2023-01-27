@@ -19,6 +19,8 @@ public:
 
   void resetPosition() {m_sprite.setPosition(m_original_position);}
   void collide(Pacman& pacman) override { }
+  void collide(Demon& demon) override { }
+
   //MovingObj(const sf::Texture&, const sf::Vector2f&, float, float, float = 1);
   virtual void setDirection(sf::Keyboard::Key) { }
 
@@ -30,12 +32,7 @@ public:
 protected:
   //float m_win_width, m_win_height;
   std::unique_ptr<Movement> m_move;
-  //std::unique_ptr<Movement> m_move;
   sf::Vector2f m_original_position;
   sf::Vector2f m_cur_direction = { 0, 0 };
   sf::Vector2f m_new_direction = { 0, 0 };
-
-  //sf::Vector2f m_cur_direction = { 1, 0 };
-  //sf::Vector2f m_new_direction = { 0, -1 };
-
 };

@@ -20,7 +20,7 @@ void Level::clearLevel()
 {
   m_erasable_obj.clear();
   m_erasable_obj.resize(4);
-  m_moving_obj.clear();
+  m_demons.clear();
   m_walls.clear();
 }
 
@@ -68,27 +68,13 @@ void Level::buildLevel()
   m_obj_height = m_win_height / m_level_rows;
 
   for (auto i = size_t(0); i < m_level_rows; ++i)
-  {
-    m_mat.resize(m_level_rows);
     for (auto j = size_t(0); j < m_level_cols; ++j)
     {
       char c = m_current_board->get();
       if (c == '\n') { --j;  continue; }
-      if (c == char(ObjType::SPACE))
-      {
-        m_mat[i].push_back(0);
-        continue;
-      };
+      if (c == char(ObjType::SPACE)) { continue; };
       addObject(ObjType(c), i, j);
     }
-  }
-  for (auto i = size_t(0); i < m_level_rows; ++i)
-  {
-    for (auto j = size_t(0); j < m_level_cols; ++j)
-      std::cout << m_mat[i][j] << ' ';
-    std::cout << std::endl;
-  }
-  updateMat();
 }
 
 //-------------------------------------------------------------------
@@ -101,32 +87,25 @@ void Level::addObject(ObjType type, size_t i, size_t j)
   switch (type)
   {
   case ObjType::PACMAN:
-    m_mat[i].push_back(0);
     m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height); break;
-    //m_moving_obj.push_back(std::make_unique<Pacman>(position, m_obj_width, m_obj_height)); break;
+    //m_demons.push_back(std::make_unique<Pacman>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::DEMON:
-    m_mat[i].push_back(0);
-    m_moving_obj.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height)); break;
+    m_demons.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::WALL:
-    m_mat[i].push_back(1);
     m_walls.push_back(std::make_unique<Wall>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::COOKIE:
-    m_mat[i].push_back(0);
     m_erasable_obj[size_t(ObjIndex::COOKIE)].push_back(std::make_unique<Cookie>(position, m_obj_width, m_obj_height));break;
 
   case ObjType::GIFT:
-    m_mat[i].push_back(0);
     m_erasable_obj[size_t(ObjIndex::GIFT)].push_back(chooseRandomGift(position)); break;
 
   case ObjType::DOOR:
-    m_mat[i].push_back(1);
     m_erasable_obj[size_t(ObjIndex::DOOR)].push_back(std::make_unique<Door>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::KEY:
-    m_mat[i].push_back(0);
     m_erasable_obj[size_t(ObjIndex::KEY)].push_back(std::make_unique<Key>(position, m_obj_width, m_obj_height));
   }
 }
@@ -145,7 +124,7 @@ std::unique_ptr<Gift> Level::chooseRandomGift(const sf::Vector2f& position) cons
 }
 
 //-------------------------------------------------------------------
-bool Level::isOver() const 
+bool Level::isOver() const
 {
   return m_erasable_obj[size_t(ObjIndex::COOKIE)].empty();
 }
@@ -159,8 +138,8 @@ void Level::draw(sf::RenderWindow& window) const
     for (auto j = size_t(0); j < m_erasable_obj[i].size(); ++j)
       m_erasable_obj[i][j]->draw(window);
   m_pacman->draw(window);
-  for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-    m_moving_obj[i]->draw(window);
+  for (auto i = size_t(0); i < m_demons.size(); ++i)
+    m_demons[i]->draw(window);
 }
 
 //-------------------------------------------------------------------
@@ -190,12 +169,12 @@ size_t Level::getLevelNum() const { return m_level_num; }
 //-------------------------------------------------------------------
 void Level::addFinalScore()
 {
-  m_pacman->setScore(m_pacman->getScore() + 50 + 2 * m_moving_obj.size());
+  m_pacman->setScore(m_pacman->getScore() + 50 + 2 * m_demons.size());
 }
 
 //-------------------------------------------------------------------
 void Level::moveObjects(const sf::Time& delta_time) const
-{ 
+{
   m_pacman->SPacmanClock(delta_time);
   m_pacman->setAnimate(delta_time);
   m_pacman->move(delta_time, *this, m_win_height, m_win_width);
@@ -204,31 +183,13 @@ void Level::moveObjects(const sf::Time& delta_time) const
 //    if (typeid(m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(FreezeGift)/* &&
 //        m_erasable_obj[size_t(ObjIndex::GIFT)][i]->isDel()*/)
 //      std::cout << "h";
-////      for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-////        m_moving_obj[i]->freeze();
+////      for (auto i = size_t(0); i < m_demons.size(); ++i)
+////        m_demons[i]->freeze();
 
-   for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-    m_moving_obj[i]->move(delta_time, *this, m_win_height, m_win_width);
+  for (auto i = size_t(0); i < m_demons.size(); ++i)
+    m_demons[i]->move(delta_time, *this, m_win_height, m_win_width);
 }
 
-
-void Level::updateMat()
-{
-//  std::cout << "obj_width: " << m_obj_width << std::endl;
-//  std::cout << "obj_height: " << m_obj_height << std::endl;
-//
-//  auto position = m_pacman->getPosition();
-//
-//  auto x_pos = position.x;
-//  auto y_pos = position.y;
-//
-//   auto j = (x_pos + m_obj_width / 2) / m_obj_width;
-//  std::cout << j << std::endl;
-//
-//  auto i = (y_pos + m_obj_height / 2) / m_obj_height;
-//  std::cout << i << std::endl;
-
-}
 
 //-------------------------------------------------------------------
 void Level::erase()
@@ -264,10 +225,21 @@ void Level::handleCollision() const
       if(m_erasable_obj[i][j]->collidesWith(*m_pacman))
         m_erasable_obj[i][j]->collide(*m_pacman);
 
-  for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-    if (m_moving_obj[i]->collidesWith(*m_pacman))
-      m_moving_obj[i]->collide(*m_pacman);
+  for (auto i = size_t(0); i < m_demons.size(); ++i)
+    if (m_demons[i]->collidesWith(*m_pacman)) {
+      m_pacman->collide(*m_demons[i]);
+      resetMovingObj();
+    }
 }
+
+//-------------------------------------------------------------------
+void Level::resetMovingObj() const
+{
+  if (!m_pacman->isSuperPacman())
+    for (auto i = size_t(0); i < m_demons.size(); ++i)
+      m_demons[i]->resetPosition();
+}
+
 
 //-------------------------------------------------------------------
 void Level::delRandomDoor()
@@ -280,84 +252,8 @@ void Level::delRandomDoor()
 }
 
 //-------------------------------------------------------------------
-void Level::resetMovingObj()
-{
-  m_pacman->stopSPacman();
-  m_pacman->resetDirections();
-  m_pacman->resetPosition();
-  for (auto i = size_t(0); i < m_moving_obj.size(); ++i)
-    m_moving_obj[i]->resetPosition();
-}
-
-sf::Vector2f Level::getObjDimensions() const
-{
-  return {m_obj_width, m_obj_height};
-}
 
 sf::Vector2f Level::getPacmanPosition() const
 {
   return {m_pacman->getPosition()};
 }
-
-std::vector<std::vector<size_t>> Level::getMat() const
-{
-  return m_mat;
-}
-
-/*
-//-------------------------------------------------------------------
-void Level::setLevel(size_t board_num)
-{
-  m_level_num = board_num;
-  m_current_board = LevelReader((m_level_num == 1) ? ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
-                                : (m_level_num == 2) ? ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
-                                                     : ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3));
-  buildLevel();
-  m_current_board.backToStart();
-}
-*/
-
-
-/*
- class Node
-{
-public:
- Node(sf::Vector2f& position) : m_position(position) {Node::m_nodes.clear();}
- sf::Vector2f m_position;
- bool up = 0, right = 0,
-      left = 0, down = 0;
- static std::vector<Node> m_nodes;
-private:
-
-};
-
-for (auto i = size_t(0); i < Node::m_nodes.size(); ++i)
-  for (auto j = size_t(0); j < Node::m_nodes.size(); ++j)
-  {
-    //      {
-    //        std::cout << "Node i - step: " << m_nodes[i].m_position.x - m_obj_width << ' '
-    //                  << m_nodes[i].m_position.y << std::endl;
-    //        std::cout << "Node j: " << m_nodes[j]->m_position.x << ' '
-    //                  << m_nodes[j]->m_position.y << std::endl;
-
-    if (Node::m_nodes[i].m_position.x == Node::m_nodes[j]->m_position.x &&
-        int(Node::m_nodes[i].m_position.y - m_obj_height) == int(Node::m_nodes[j]->m_position.y))
-    {
-      Node::m_nodes[i].up = true;
-    }
-    if (int(Node::m_nodes[i].m_position.x + m_obj_width) == int(Node::m_nodes[j]->m_position.x) &&
-        Node::m_nodes[i].m_position.y == Node::m_nodes[j]->m_position.y)
-    {
-      Node::m_nodes[i].right = true;
-    }
-    if (Node::m_nodes[i].m_position.x == Node::m_nodes[j]->m_position.x &&
-        int(Node::m_nodes[i].m_position.y + m_obj_height) == int(Node::m_nodes[j]->m_position.y))
-    {
-      Node::m_nodes[i].down = true;
-    }
-    if (int(Node::m_nodes[i].m_position.x - m_obj_width) == int(Node::m_nodes[j]->m_position.x) &&
-        Node::m_nodes[i].m_position.y == Node::m_nodes[j]->m_position.y)
-    {
-      Node::m_nodes[i].left = true;
-    }
-  }*/

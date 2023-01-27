@@ -2,6 +2,7 @@
 #include "Objects/Erasable.h"
 #include "Objects/MovingObj.h"
 #include "Objects/Wall.h"
+#include "Objects/Pacman.h"
 #include "Timer.h"
 #include <fstream>
 #include <memory>
@@ -39,13 +40,8 @@ public:
   void setPacmanScore(size_t);
   void addFinalScore();
   void setPacmanLife(size_t);
-  void resetMovingObj();
-  void updateMat();
-  sf::Vector2f getObjDimensions() const;
+  void resetMovingObj() const;
   sf::Vector2f getPacmanPosition() const;
-  std::vector<std::vector<size_t>> getMat() const;
-
-
 
 private:
   void chooseLevel();
@@ -57,7 +53,7 @@ private:
 
     //std::unique_ptr<std::ifstream> m_current_board;
   std::ifstream* m_current_board = nullptr;
-  std::vector<std::unique_ptr<MovingObj>> m_moving_obj;
+  std::vector<std::unique_ptr<MovingObj>> m_demons;
   std::unique_ptr<Pacman> m_pacman;
   std::vector<std::vector<std::unique_ptr<Erasable>>> m_erasable_obj;
   std::vector<std::unique_ptr<Wall>> m_walls;
@@ -69,5 +65,4 @@ private:
   float m_obj_width = 0, m_obj_height = 0;
   size_t m_level_cols = 0, m_level_rows = 0;
   size_t m_level_num = 0;
-  std::vector<std::vector<size_t>> m_mat;
 };

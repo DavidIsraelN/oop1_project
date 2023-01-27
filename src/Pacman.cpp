@@ -6,7 +6,7 @@ Pacman::Pacman(const sf::Vector2f& position, float width, float height)
     : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_OPEN),
                 position, width, height)
 {
-  m_move = std::make_unique<PacmanMovement>();
+  m_move = std::make_unique<RegularMovement>();
 }
 
 //-------------------------------------------------------------------
@@ -86,18 +86,11 @@ void Pacman::setAnimate(const sf::Time& delta_time)
 //-------------------------------------------------------------------
 void Pacman::stopSPacman()
 {
-  m_move = std::make_unique<PacmanMovement>();
+  m_move = std::make_unique<RegularMovement>();
   m_sprite.setColor(sf::Color(255, 255, 255));
   m_spacman_clock = 0;
   is_super_pacman = false;
   Sound::Sounds().Stop(SoundIndex::S_PACMAN);
-}
-
-//-------------------------------------------------------------------
-void Pacman::resetDirections()
-{
-  m_cur_direction = { 0, 0 };
-  m_new_direction = { 0, 0 };
 }
 
 //-------------------------------------------------------------------
@@ -122,10 +115,29 @@ void Pacman::SPacmanClock(const sf::Time& delta_time)
   }
 }
 
+bool Pacman::isSuperPacman() const
+{
+  return is_super_pacman;
+}
+
 //-------------------------------------------------------------------
 void Pacman::collide(Object& object)
 {
   object.collide(*this);
+}
+
+//-------------------------------------------------------------------
+void Pacman::collide(Demon& demon)
+{
+  if (is_super_pacman)
+    return;
+
+  resetPosition();
+  m_cur_direction = { 0, 0 };
+  m_new_direction = { 0, 0 };
+
+  Sound::Sounds().Play(SoundIndex::DEATH);
+  --m_life;
 }
 
 //-------------------------------------------------------------------

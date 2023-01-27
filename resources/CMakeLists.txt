@@ -30,6 +30,8 @@ configure_file ("sounds/siren_5.wav"   ${CMAKE_BINARY_DIR} COPYONLY)
 
 configure_file ("Arial.ttf"  ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("pacfont.ttf"  ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("crackman.regular.otf"  ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("crackman.front-regular.otf"  ${CMAKE_BINARY_DIR} COPYONLY)
 
 #configure_file ("Board.txt"  ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Level_1.txt"  ${CMAKE_BINARY_DIR} COPYONLY)

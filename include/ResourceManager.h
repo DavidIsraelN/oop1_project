@@ -47,8 +47,8 @@ public:
 private:
   ResourceManager()
   {
-    m_font.loadFromFile("Arial.ttf");
-//    m_font.loadFromFile("pacfont.ttf");
+//    m_font.loadFromFile("Arial.ttf");
+    m_font.loadFromFile("crackman.front-regular.otf");
     m_icon.loadFromFile("pacman.png");
 
     for (auto i = size_t(0); i < OBJECTS; ++i)
@@ -62,13 +62,13 @@ private:
   }
 
   std::string m_textures_name[OBJECTS] =
-  { "cookie.png","door.png","key.png","gift.png","freeze.png", "timer.png",
-   "life.png","wall.jpg","pacman_open.png","pacman_close.png","demon.png" };
+      { "cookie.png","door.png","key.png","gift.png","freeze.png", "timer.png",
+        "life.png","wall.jpg","pacman_open.png","pacman_close.png","demon.png" };
   sf::Texture m_objects_texture[OBJECTS];
 
   std::string m_sounds_name[SOUND] =
-    { "intermission.wav", "game_start.wav", "credit.wav", "eat_fruit.wav" , 
-      "retreating.wav", "death_1.wav" };
+      { "intermission.wav", "game_start.wav", "credit.wav", "eat_fruit.wav" ,
+        "retreating.wav", "death_1.wav" };
   sf::SoundBuffer m_sounds[SOUND];
 
   std::string m_files_name[FILES] = { "Level_1.txt", "Level_2.txt", "Level_3.txt", "Help.txt" };

@@ -4,7 +4,7 @@
 
 //-------------------------------------------------------------------
 LevelManager::LevelManager(const float w_width, const float w_height, const float inf_h)
-  : m_win_width(w_width), m_win_height(w_height), m_info_height(inf_h),
+  : m_win_width(w_width), m_win_height(w_height),
   m_current_level(w_width, w_height), m_info(w_width, w_height, inf_h),
       m_game_over("GAME OVER", ResourceManager::Resource().getFont(), w_height / 9),
       m_game_over_score("", ResourceManager::Resource().getFont(), w_height / 15) { }
@@ -60,9 +60,11 @@ void LevelManager::setLevel(sf::RenderWindow& window)
   else if (m_timer.isOver())
   {
     Sound::Sounds().Play(SoundIndex::DEATH);
-    resetLevel(window);
+    resetLevel();
     m_timer.setStart(m_current_level.getLevelNum());
   }
+  else if (m_current_level.getPacmanLife() <= 0)
+    gameOver(window);
 }
 
 //-------------------------------------------------------------------
@@ -78,15 +80,11 @@ void LevelManager::nextLevel(sf::RenderWindow& window)
 }
 
 //-------------------------------------------------------------------
-void LevelManager::resetLevel(sf::RenderWindow& window)
+void LevelManager::resetLevel()
 {
-  //m_current_level.pacmanLifeReduction();
-  auto life = m_current_level.getPacmanLife() - 1;
-  if (life <= 0)
-    gameOver(window);
+  auto life = m_current_level.getPacmanLife();
   auto score = m_current_level.getPacmanScore();
   m_current_level.resetLevel();
-//  m_current_level.resetMovingObj();
   m_current_level.setPacmanLife(life);
   m_current_level.setPacmanScore(score);
 }

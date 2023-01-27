@@ -14,6 +14,8 @@ public:
 
   virtual void collide(Object&) { }
   virtual void collide(Pacman&) = 0;
+//  virtual void collide(Demon&)  = 0;
+  void collide(Demon&)      override { }
   void collide(Cookie&)     override { }
   void collide(SuperPGift&) override { }
   void collide(FreezeGift&) override { }

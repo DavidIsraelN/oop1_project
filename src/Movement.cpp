@@ -3,7 +3,7 @@
 #include "Level.h"
 
 //-------------------------------------------------------------------
-bool PacmanMovement::isLegal(const sf::Vector2f& movement, const Level& level,
+bool RegularMovement::isLegal(const sf::Vector2f& movement, const Level& level,
 	MovingObj& obj, float win_height, float win_width)
 {
 	obj.moveObj(movement, win_height, win_width);
@@ -18,16 +18,6 @@ bool SPacmanMovement::isLegal(const sf::Vector2f& movement, const Level& level,
 {
 	obj.moveObj(movement, win_height, win_width);
 	auto collide = !level.collideWithWall(obj);
-	obj.moveObj(-movement, win_height, win_width);
-	return collide;
-}
-
-//-------------------------------------------------------------------
-bool randomMovement::isLegal(const sf::Vector2f& movement, const Level& level,
-	MovingObj& obj, float win_height, float win_width)
-{
-	obj.moveObj(movement, win_height, win_width);
-	auto collide = (!level.collideWithWall(obj) && !level.collideWithDoor(obj));
 	obj.moveObj(-movement, win_height, win_width);
 	return collide;
 }

@@ -17,12 +17,12 @@ private:
   void nextLevel(sf::RenderWindow&);
   void levelAction(const sf::Time&);
   void gameOver(sf::RenderWindow&);
-  void resetLevel(sf::RenderWindow&);
+  void resetLevel();
   void setLevel(sf::RenderWindow&);
 
   Level m_current_level;
   Timer m_timer;
   InfoBar m_info;
   sf::Text m_game_over, m_game_over_score;
-  float m_win_width, m_win_height, m_info_height;
+  float m_win_width, m_win_height;
 };

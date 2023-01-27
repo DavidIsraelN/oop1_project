@@ -12,6 +12,7 @@ class SuperPGift;
 class FreezeGift;
 class TimeGift;
 class LifeGift;
+class Demon;
 
 class Object
 {
@@ -32,6 +33,7 @@ public:
   virtual void collide(Key&) = 0;
   virtual void collide(Wall&) = 0;
   virtual void collide(Door&) = 0;
+  virtual void collide(Demon&) = 0;
 
   //virtual void collide( & other_obj) = 0;
   //virtual void collide( & other_obj) = 0;

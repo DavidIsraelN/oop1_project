@@ -46,7 +46,7 @@ void InfoBar::draw(sf::RenderWindow & window) const
 //-------------------------------------------------------------------
 void InfoBar::drawLife(sf::RenderWindow & window) const
 {
-  for(auto i = size_t(0); i < m_life && i < m_pacman_icon.size(); ++i)
+  for(auto i = size_t(0); i < m_life - 1 && i < m_pacman_icon.size(); ++i)
     window.draw(m_pacman_icon[i]);
 }
 
