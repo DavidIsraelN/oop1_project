@@ -76,7 +76,7 @@ void Demon::setThirdDirection(sf::Vector2f directions[])
 
 void Demon::setRandomDirection(sf::Vector2f directions[])
 {
-  srand(time(0));
+//  srand(time(0));
 
   for (auto i = size_t(0); i < 2;)
   {
@@ -92,6 +92,7 @@ void Demon::setRandomDirection(sf::Vector2f directions[])
 
 void Demon::collide(Pacman& pacman)
 {
+  Sound::Sounds().Play(SoundIndex::GHOST);
   resetPosition();
   pacman.collide(*this);
 }

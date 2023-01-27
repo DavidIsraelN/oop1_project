@@ -185,6 +185,7 @@ void Level::moveObjects(const sf::Time& delta_time) const
 //      std::cout << "h";
 ////      for (auto i = size_t(0); i < m_demons.size(); ++i)
 ////        m_demons[i]->freeze();
+    srand(time(0));
 
   for (auto i = size_t(0); i < m_demons.size(); ++i)
     m_demons[i]->move(delta_time, *this, m_win_height, m_win_width);
