@@ -51,7 +51,7 @@ void InfoBar::drawLife(sf::RenderWindow & window) const
 }
 
 //-------------------------------------------------------------------
-void InfoBar::setInfo(Level& level, Timer& timer)
+void InfoBar::setInfo(const Level& level, const Timer& timer)
 {
   m_life = level.getPacmanLife();
   m_timer.setString(timer.getTimer());

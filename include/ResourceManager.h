@@ -7,7 +7,7 @@
 const size_t OBJECTS = 11;
 const size_t FILES = 4;
 const size_t SOUND = 7;
-const size_t FONTS = 2;
+const size_t FONTS = 3;
 
 //-------------------------------------------------------------------
 enum class ObjIndex
@@ -28,7 +28,7 @@ enum class SoundIndex
 
 enum class FontIndex
 {
-  PACMAN, ARIEL
+  PACMAN, PACMAN_2, ARIEL
 };
 
 //-------------------------------------------------------------------
@@ -84,7 +84,7 @@ private:
   std::string m_files_name[FILES] = { "Level_1.txt", "Level_2.txt", "Level_3.txt", "Help.txt" };
   std::ifstream m_files[FILES];
 
-  std::string m_fonts_name[FONTS] = { "crackman.front-regular.otf", "Arial.ttf" };
+  std::string m_fonts_name[FONTS] = { "crackman.front-regular.otf", "crackman.regular.otf", "Arial.ttf"};
   sf::Font m_fonts[FONTS];
 
   //sf::Font m_font;

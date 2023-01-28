@@ -8,7 +8,7 @@ class InfoBar {
 public:
   InfoBar(const float, const float, const float);
   void draw(sf::RenderWindow&) const;
-  void setInfo(Level&, Timer&);
+  void setInfo(const Level&, const Timer&);
 
 private:
   void drawLife(sf::RenderWindow&) const;

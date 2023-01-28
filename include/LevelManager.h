@@ -1,5 +1,6 @@
 #pragma once
 #include "InfoBar.h"
+#include "GameOver.h"
 #include "Level.h"
 #include "Timer.h"
 
@@ -13,7 +14,6 @@ public:
   void chooseNewLevel(size_t, size_t = 3, size_t = 0);
 
 private:
-  void buildGameOverScreen();
   void nextLevel(sf::RenderWindow&);
   void levelAction(const sf::Time&);
   void gameOver(sf::RenderWindow&);
@@ -23,6 +23,6 @@ private:
   Level m_current_level;
   Timer m_timer;
   InfoBar m_info;
-  sf::Text m_game_over, m_game_over_score;
+  GameOver m_game_over;
   float m_win_width, m_win_height;
 };
