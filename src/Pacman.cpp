@@ -41,30 +41,6 @@ void Pacman::move(const sf::Time& deltaTime, const Level& level, float win_heigh
 }
 
 //-------------------------------------------------------------------
-size_t Pacman::getLife() const
-{
-  return m_life;
-}
-
-//-------------------------------------------------------------------
-size_t Pacman::getScore() const
-{
-  return m_score;
-}
-
-//-------------------------------------------------------------------
-void Pacman::setScore(const size_t score)
-{
-  m_score = score;
-}
-
-//-------------------------------------------------------------------
-void Pacman::setLife(const size_t life)
-{
-  m_life = life;
-}
-
-//-------------------------------------------------------------------
 void Pacman::setAnimate(const sf::Time& delta_time)
 {
   m_counter_seconds += delta_time.asSeconds();
@@ -173,4 +149,28 @@ void Pacman::collide(LifeGift& life)
 {
   ++m_life;
   m_score += 5;
+}
+
+//-------------------------------------------------------------------
+size_t Pacman::getLife() const
+{
+  return m_life;
+}
+
+//-------------------------------------------------------------------
+size_t Pacman::getScore() const
+{
+  return m_score;
+}
+
+//-------------------------------------------------------------------
+void Pacman::setScore(const size_t score)
+{
+  m_score = score;
+}
+
+//-------------------------------------------------------------------
+void Pacman::setLife(const size_t life)
+{
+  m_life = life;
 }

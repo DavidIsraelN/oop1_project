@@ -1,7 +1,12 @@
 #pragma once
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "Colors.h"
 #include "ResourceManager.h"
+
+/*
+ * Class for displaying the game over screen, 
+ * receives the score from the user, and displays GameOver.
+ */
 
 class GameOver
 {
@@ -21,6 +26,7 @@ public:
     m_game_over_score.setPosition(w_width / 2, w_height / 1.6);
   }
 
+  //-------------------------------------------------------------------
   void setScore(size_t score)
   {
     m_game_over_score.setString("Your Score Is: " + std::to_string(score));
@@ -28,6 +34,7 @@ public:
                                 m_game_over_score.getGlobalBounds().height / 2);
   }
 
+  //-------------------------------------------------------------------
   void draw(sf::RenderWindow& window) const
   {
     while (window.isOpen())

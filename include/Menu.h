@@ -1,12 +1,16 @@
 #pragma once
-//#include <vector>
+#include <vector>
 #include "Buttons/Button.h"
 
+// Class for the Game Menu
+
+//-------------------------------------------------------------------
 enum class ButtonIdx
 {
   NEW_GAME, HELP, EXIT, MUTE
 };
 
+//-------------------------------------------------------------------
 class Menu {
 public:
   Menu(float, float);
@@ -14,9 +18,11 @@ public:
   bool run(sf::RenderWindow&, LevelManager&, bool);
   bool handleClick(const sf::Vector2f&, sf::RenderWindow&, LevelManager&) const;
   bool handleKey(sf::Keyboard::Key, sf::RenderWindow&, LevelManager&) const;
-  bool back(const sf::Vector2f& loc) const;
+  bool clickBack(const sf::Vector2f& loc) const;
 
 private:
+  void buildMenue(float, float);
+
   bool m_back_button = false;
   sf::Text m_menu;
   std::vector<std::unique_ptr<Button>> m_buttons;

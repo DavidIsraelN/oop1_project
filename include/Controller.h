@@ -3,6 +3,10 @@
 #include "Menu.h"
 #include "Colors.h"
 
+/*
+ * Main class that run the game and the menu when needed
+ */
+
 const size_t WIN_HEIGHT = 800;
 const size_t  WIN_WIDTH = 800;
 const size_t  INFO_HEIGHT = 60;

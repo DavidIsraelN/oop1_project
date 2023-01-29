@@ -2,6 +2,8 @@
 #include "Button.h"
 #include "../Colors.h"
 
+//Inherit class for Back button
+
 class Back : public Button
 {
 public:

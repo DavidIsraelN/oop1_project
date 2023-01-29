@@ -2,6 +2,8 @@
 #include "Button.h"
 #include "Sound.h"
 
+// Inheritance class for the Mute button
+
 class Mute : public Button
 {
 public:

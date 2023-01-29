@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-//#include "ResourceManager.h"
-//#include <iostream>
+#include "ResourceManager.h"
+
+// Abstract class for all game Objects
 
 class Pacman;
 class Wall;
@@ -14,6 +15,7 @@ class TimeGift;
 class LifeGift;
 class Demon;
 
+//-------------------------------------------------------------------
 class Object
 {
 public:
@@ -22,7 +24,6 @@ public:
   void draw(sf::RenderWindow&) const;
   bool collidesWith(Object&) const;
   void moveObj(const sf::Vector2f&, float, float);
-
   virtual void collide(Object&) = 0;
   virtual void collide(Pacman&) = 0;
   virtual void collide(Cookie&) = 0;
@@ -35,11 +36,7 @@ public:
   virtual void collide(Door&) = 0;
   virtual void collide(Demon&) = 0;
 
-  //virtual void collide( & other_obj) = 0;
-  //virtual void collide( & other_obj) = 0;
-
 protected:
-//  void moveObj(const sf::Vector2f&, float, float, float, float);
   void rotateObj(float);
   sf::Sprite m_sprite;
 };

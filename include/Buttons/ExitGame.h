@@ -1,6 +1,8 @@
 #pragma once
 #include "Button.h"
 
+// Inherit class for Exit Game button
+
 class ExitGame : public Button
 {
 public:

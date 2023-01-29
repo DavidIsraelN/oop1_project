@@ -2,7 +2,8 @@
 #include "StaticObj.h"
 #include "Sound.h"
 
-//abstract class
+// abstract class for Erasable game objects
+
 class Erasable : public StaticObj
 {
 public:
@@ -10,7 +11,6 @@ public:
     float width, float height, float scale = 1)
     : StaticObj(texture, position, width, height, scale) { }
 
-//  virtual ~Erasable()  { } = 0;
   bool isDel() const { return m_obj_del; }
   void delObj() { m_obj_del = true; }
 

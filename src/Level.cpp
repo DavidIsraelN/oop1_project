@@ -2,6 +2,7 @@
 #include "Objects/Cookie.h"
 #include "Objects/Door.h"
 #include "Objects/Key.h"
+#include "Objects/Demon.h"
 #include "Objects/SuperPGift.h"
 #include "Objects/TimeGift.h"
 #include "Objects/LifeGift.h"

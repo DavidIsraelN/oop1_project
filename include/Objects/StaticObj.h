@@ -1,9 +1,7 @@
 #pragma once
 #include "Object.h"
-//#include "Pacman.h"
-#include "Demon.h"
 
-//abstract class
+// Abstract class for Non-moving game objects
 
 class StaticObj : public Object
 {
@@ -12,9 +10,8 @@ public:
     float width, float height, float scale = 1)
     : Object(texture, position, width, height, scale) { }
 
-  void collide(Object&) override { }
-  void collide(Pacman&) override = 0;
-//  virtual void collide(Demon&)  = 0;
+  void collide(Object&)     override { }
+  void collide(Pacman&)     override = 0;
   void collide(Demon&)      override { }
   void collide(Cookie&)     override { }
   void collide(SuperPGift&) override { }

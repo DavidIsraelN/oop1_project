@@ -2,6 +2,8 @@
 #include "Button.h"
 #include <vector>
 
+// Inherit class for Level Choose button
+
 class ChooseLevel : public Button
 {
 public:

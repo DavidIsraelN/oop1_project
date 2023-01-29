@@ -4,6 +4,8 @@
 #include "LevelManager.h"
 #include "../Colors.h"
 
+// Abstract class for all button types
+
 class LevelManager;
 
 class Button

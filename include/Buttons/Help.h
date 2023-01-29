@@ -3,6 +3,8 @@
 #include "Buttons/Back.h"
 #include <vector>
 
+// Inheritance class for Help button
+
 class Help : public Button
 {
 public:

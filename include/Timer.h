@@ -2,6 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+/*
+ * Class that is responsible for the time of the game
+ */
+
 class Timer
 {
 public:

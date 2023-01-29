@@ -1,7 +1,9 @@
 #pragma once
 #include "MovingObj.h"
 
-const auto speedPerSecond = 130.f;
+// Inheritance class for the game object of Moving type - Pacman
+
+const float speedPerSecond = 130;
 
 class Pacman : public MovingObj
 {

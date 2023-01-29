@@ -1,9 +1,15 @@
 #pragma once
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <fstream>
 
-//-------------------------------------------------------------------
+/*
+ * Singleton - Source class for all program data.
+ * Loading the files of the program once - textures, audioa, texts, fonts.
+ * and receiving the data from anywhere in the program.
+ */ 
+
+ //-------------------------------------------------------------------
 const size_t OBJECTS = 11;
 const size_t FILES = 4;
 const size_t SOUND = 7;
@@ -41,9 +47,11 @@ public:
     return m_resource;
   }
 
+  //-------------------------------------------------------------------
   ResourceManager(const ResourceManager&) = delete;
   void operator=(const ResourceManager&) = delete;
 
+  //-------------------------------------------------------------------
   sf::Image&        getIcon()                     { return m_icon; }
   sf::Font&         getFont(FontIndex type)       { return m_fonts[size_t(type)]; }
   sf::Texture&      getObjTexture(ObjIndex type)  { return m_objects_texture[size_t(type)]; }
@@ -69,6 +77,7 @@ private:
       m_fonts[i].loadFromFile(m_fonts_name[i]);
   }
 
+  //-------------------------------------------------------------------
   std::string m_textures_name[OBJECTS] =
       { "cookie.png","door.png","key.png","gift.png","freeze.png", "timer.png",
         "life.png","wall.jpg","pacman_open.png","pacman_close.png","demon.png" };

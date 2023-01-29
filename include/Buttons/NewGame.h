@@ -2,6 +2,8 @@
 #include "Button.h"
 #include <vector>
 
+// Inherit class for New Game button
+
 class NewGame : public Button
 {
 public:

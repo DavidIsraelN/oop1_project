@@ -8,7 +8,12 @@
 Menu::Menu(float width, float height)
   : m_menu(sf::Text("MENU", ResourceManager::Resource().getFont(FontIndex::PACMAN_2) , height / 8)),
   m_back(std::make_unique<Back>(sf::Vector2f({ width - width / 13 , height / 25 }), height / 35))
+{
+  buildMenue(width, height);
+}
 
+//-------------------------------------------------------------------
+void Menu::buildMenue(float width, float height)
 {
   m_menu.setPosition({ width / 2, height / 6 });
   m_menu.setOrigin(m_menu.getLocalBounds().width / 2, m_menu.getLocalBounds().height / 2);
@@ -17,8 +22,8 @@ Menu::Menu(float width, float height)
 
   m_buttons.push_back(std::make_unique<NewGame>(width, height));
   m_buttons.push_back(std::make_unique<Help>(width, height));
-  m_buttons.push_back(std::make_unique<ExitGame>(sf::Vector2f(width / 2 , height / 1.3f), height / 15));
-  m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f(width / 13 , height / 25), height / 35));
+  m_buttons.push_back(std::make_unique<ExitGame>(sf::Vector2f(width / 2, height / 1.3f), height / 15));
+  m_buttons.push_back(std::make_unique<Mute>(sf::Vector2f(width / 13, height / 25), height / 35));
 }
 
 //-------------------------------------------------------------------
@@ -27,7 +32,7 @@ bool Menu::run(sf::RenderWindow& window, LevelManager& level_m, bool back_button
   m_back_button = back_button;
   while (window.isOpen())
   {
-    window.clear(DeepRed); // chack semi..
+    window.clear(DeepRed);
     draw(window);
     window.display();
 
@@ -46,7 +51,7 @@ bool Menu::run(sf::RenderWindow& window, LevelManager& level_m, bool back_button
       case sf::Event::MouseButtonReleased:
         auto loc = window.mapPixelToCoords({ event.mouseButton.x, event.mouseButton.y });
         if (handleClick(loc, window, level_m))  return true;
-        if (m_back_button && back(loc))         return false;
+        if (m_back_button && clickBack(loc))         return false;
       }
   }
 }
@@ -89,7 +94,7 @@ bool Menu::handleKey(sf::Keyboard::Key key_code, sf::RenderWindow& window, Level
 }
 
 //-------------------------------------------------------------------
-bool Menu::back(const sf::Vector2f& loc) const
+bool Menu::clickBack(const sf::Vector2f& loc) const
 {
   if (m_back->clickMe(loc))
     return true;

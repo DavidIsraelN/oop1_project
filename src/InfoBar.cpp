@@ -1,23 +1,37 @@
 #include "InfoBar.h"
 #include "Colors.h"
-//#include "ResourceManager.h"
+#include "ResourceManager.h"
 #include "Level.h"
 
 //-------------------------------------------------------------------
-InfoBar::InfoBar(const float w_width, const float w_height, const float inf_h)
+InfoBar::InfoBar(float w_width, float w_height, float inf_h)
     : m_timer("00:00", ResourceManager::Resource().getFont(FontIndex::PACMAN), inf_h / 1.2),
       m_level("LEVEL  ", ResourceManager::Resource().getFont(FontIndex::PACMAN), inf_h / 1.4),
       m_score("SCORE  ", ResourceManager::Resource().getFont(FontIndex::PACMAN), inf_h / 1.4)
 {
-  for(auto i = size_t(0); i < 4; ++i)
+  setLifeVector(w_width, w_height, inf_h);
+  setInfoBar(w_width, w_height, inf_h);
+}
+
+//-------------------------------------------------------------------
+void InfoBar::setLifeVector(float w_width, float w_height, float inf_h)
+{
+  for (auto i = size_t(0); i < 4; ++i)
   {
     m_pacman_icon.push_back(sf::Sprite(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_OPEN)));
-    m_pacman_icon[i].setScale(inf_h / m_pacman_icon[i].getGlobalBounds().width  / 2, inf_h / m_pacman_icon[i].getGlobalBounds().height / 2);
-    m_pacman_icon[i].setOrigin(m_pacman_icon[i].getLocalBounds().width / 2, m_pacman_icon[i].getLocalBounds().height / 2);
+    m_pacman_icon[i].setScale(inf_h / m_pacman_icon[i].getGlobalBounds().width / 2,
+      inf_h / m_pacman_icon[i].getGlobalBounds().height / 2);
+    m_pacman_icon[i].setOrigin(m_pacman_icon[i].getLocalBounds().width / 2,
+      m_pacman_icon[i].getLocalBounds().height / 2);
     m_pacman_icon[i].setPosition(w_width / 40 + i * w_width / 23, w_height + inf_h / 2);
   }
-  m_rect.setSize({w_width, inf_h});
-  m_rect.setPosition({0, w_height});
+}
+
+//-------------------------------------------------------------------
+void InfoBar::setInfoBar(float w_width, float w_height, float inf_h)
+{
+  m_rect.setSize({ w_width, inf_h });
+  m_rect.setPosition({ 0, w_height });
   m_rect.setFillColor(SoftRed);
 
   m_timer.setFillColor(DeepRed);

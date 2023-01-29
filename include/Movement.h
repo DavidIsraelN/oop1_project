@@ -1,13 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+/* 
+ * Abstract class with 2 inheriting classes that are responsible for the legality of Movement in game.
+ * Regular Movement - does not go through walls and doors.
+ * Super Pacman Movement - goes through doors, but not walls.
+ */
+
 class MovingObj;
 class Level;
 
 class Movement
 {
 public:
-  virtual ~Movement() = default;
   virtual bool isLegal(const sf::Vector2f&, const Level&, MovingObj&, float, float) = 0;
 };
 
@@ -15,7 +20,6 @@ public:
 class RegularMovement : public Movement
 {
 public:
-  //void action(const sf::Vector2f&, MovingObj&) override;
   bool isLegal(const sf::Vector2f&, const Level&, MovingObj&, float, float) override;
 };
 
@@ -23,6 +27,5 @@ public:
 class SPacmanMovement : public Movement
 {
 public:
-  //void action(const sf::Time&, const Level&, MovingObj&) override;
   bool isLegal(const sf::Vector2f&, const Level&, MovingObj&, float, float) override;
 };

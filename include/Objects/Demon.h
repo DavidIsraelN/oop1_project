@@ -1,10 +1,11 @@
 #pragma once
 #include "MovingObj.h"
 
-class Pacman;
+// Inheritance class for the game object of Moving type - Demon
 
-const auto NonRandomSpeed = 100.f;
-const auto RandomSpeed = 110.f;
+class Pacman;
+const float NonRandomSpeed = 100;
+const float RandomSpeed = 110;
 
 class Demon : public MovingObj
 {
@@ -13,11 +14,11 @@ public:
   void move(const sf::Time&, const Level&, float, float) override;
   void collide(Object&)  override { }
   void collide(Pacman&)  override;
-  void freeze() override;
+  void freeze() override;                     // to freese demon
   void stopFreeze() override;
 
 private:
-  void setMode(const sf::Time& deltaTime);
+  void setMode(const sf::Time& deltaTime);   // set random / nonrundom movement
   sf::Vector2f setDirection(const sf::Vector2f&, const sf::Time&, const Level&, float, float);
   void setNonRandomDirection(sf::Vector2f[]);
   void setRandomDirection(sf::Vector2f[]);

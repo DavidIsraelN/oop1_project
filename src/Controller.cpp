@@ -16,7 +16,7 @@ Controller::Controller()
 void Controller::run()
 {
   Sound::Sounds().Play(SoundIndex::START);
-  if (m_menu.run(m_window, m_levels, false))
+  if (m_menu.run(m_window, m_levels, false))  // First run. No back button
     runGame();
 }
 
