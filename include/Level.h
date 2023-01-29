@@ -9,6 +9,12 @@
 #include <memory>
 #include <vector>
 
+
+/* 
+ * This class is responsible for the current level, displaying the level,
+ * checking for collisions and responding, deleting eaten objects, etc..
+ */
+
 class Gift;
 
 class Level

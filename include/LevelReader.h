@@ -2,7 +2,8 @@
 #include <sstream>
 #include "ResourceManager.h"
 
-/* Class that is responsible for reading the correct file of the level,
+/* 
+ * Class that is responsible for reading the correct file of the level,
  * and extracting the data from it.
  */
 

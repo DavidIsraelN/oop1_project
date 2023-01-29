@@ -4,6 +4,12 @@
 #include "Level.h"
 #include "Timer.h"
 
+/* 
+ * This class is responsible for selecting and running the levels, running the status bar, 
+ * moving the Objects, checking for collisions, changing level when the previous one is over,
+ * and running the game over
+ */
+
 const size_t LEVELS = 3;
 
 class LevelManager
