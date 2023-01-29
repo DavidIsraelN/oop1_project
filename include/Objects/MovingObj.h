@@ -11,33 +11,48 @@ class Level;
 class MovingObj : public Object
 {
 public:
-	MovingObj(const sf::Texture& texture, const sf::Vector2f& position, float width,
-		float height, float scale = 1.05f)
-		: Object(texture, position, width <= height ? width : height, width <= height ? width : height, scale)
-	{
-		m_original_position = m_sprite.getPosition();
-	}
+  MovingObj(const sf::Texture& texture, const sf::Vector2f& position, float width,
+            float height, float scale = 1.05f)
+      : Object(texture, position, width <= height ? width : height, width <= height ? width : height, scale)
+  {
+    m_original_position = m_sprite.getPosition();
+  }
 
-	virtual void move(const sf::Time&, const Level&, float, float) = 0;
-	virtual void setDirection(sf::Keyboard::Key) { }
-	virtual void freeze() { }
-	virtual void stopFreeze() { }
-	sf::Vector2f getPosition() const { return m_sprite.getPosition(); }
-	void resetPosition() { m_sprite.setPosition(m_original_position); }
-	void collide(Pacman&)     override { }
-	void collide(Demon&)      override { }
-	void collide(Wall&)       override { }
-	void collide(Door&)       override { }
-	void collide(Cookie&)     override { }
-	void collide(SuperPGift&) override { }
-	void collide(FreezeGift&) override { }
-	void collide(TimeGift&)   override { }
-	void collide(LifeGift&)   override { }
-	void collide(Key&)        override { }
+  //-------------------------------------------------------------------
+  virtual void move(const sf::Time&, const Level&, float, float) = 0;
+  virtual void setDirection(sf::Keyboard::Key) { }
+  virtual void freeze() { }
+  virtual void stopFreeze() { }
+  sf::Vector2f getPosition() const { return m_sprite.getPosition(); }
+  void resetPosition() { m_sprite.setPosition(m_original_position); }
+  void collide(Pacman&)     override { }
+  void collide(Demon&)      override { }
+  void collide(Wall&)       override { }
+  void collide(Door&)       override { }
+  void collide(Cookie&)     override { }
+  void collide(SuperPGift&) override { }
+  void collide(FreezeGift&) override { }
+  void collide(TimeGift&)   override { }
+  void collide(LifeGift&)   override { }
+  void collide(Key&)        override { }
 
 protected:
-	std::unique_ptr<Movement> m_move;
-	sf::Vector2f m_original_position;
-	sf::Vector2f m_cur_direction = { 0, 0 };
-	sf::Vector2f m_new_direction = { 0, 0 };
+  //-------------------------------------------------------------------
+  void blinkObject(const sf::Time& delta_time, float blink_time, sf::Color blink_color)
+  {
+    m_colors_clock += delta_time.asSeconds();
+    if (m_colors_clock <= blink_time) return;
+      if (m_sprite.getColor() == blink_color)
+        m_sprite.setColor(Opacity);
+      else
+        m_sprite.setColor(blink_color);
+      m_colors_clock -= blink_time;
+  }
+
+  //-------------------------------------------------------------------
+  std::unique_ptr<Movement> m_move;
+  sf::Vector2f m_original_position;
+  sf::Vector2f m_cur_direction = { 0, 0 };
+  sf::Vector2f m_new_direction = { 0, 0 };
+  float m_colors_clock = 0;
 };

@@ -35,5 +35,5 @@ private:
   bool is_super_pacman = false;
   float m_counter_seconds = 0;
   float m_spacman_clock = 0;
-  float m_colors_clock = 0;
+
 };

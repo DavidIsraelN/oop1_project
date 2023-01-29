@@ -126,12 +126,14 @@ void Demon::freeze()
 }
 
 //-------------------------------------------------------------------
-void Demon::freezeClock(const sf::Time& deltaTime)
+void Demon::freezeClock(const sf::Time&delta_time)
 {
   if (!m_is_freeze) return;
-  m_freeze_clock += deltaTime.asSeconds();
-  if (m_freeze_clock <= 10) return;
-  else stopFreeze();
+  m_freeze_clock += delta_time.asSeconds();
+  if (m_freeze_clock >= 10) stopFreeze();
+  if (m_freeze_clock <= 8) return;
+
+  blinkObject(delta_time, 0.2, SemiTransparent);
 }
 
 //-------------------------------------------------------------------
@@ -139,5 +141,5 @@ void Demon::stopFreeze()
 {
   m_is_freeze = false;
   m_freeze_clock = 0;
-  m_sprite.setColor(sf::Color(255, 225, 255, 255));
+  m_sprite.setColor(Opacity);
 }

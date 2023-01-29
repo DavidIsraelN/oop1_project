@@ -76,15 +76,7 @@ void Pacman::SPacmanClock(const sf::Time& delta_time)
   if (m_spacman_clock >= 15) stopSPacman();
   if (m_spacman_clock < 12.5) return;
 
-  m_colors_clock += delta_time.asSeconds();
-  if (m_colors_clock >= 0.2)
-  {
-    if (m_sprite.getColor() == RedSPacman)
-      m_sprite.setColor(Opacity);
-    else
-      m_sprite.setColor(RedSPacman);
-    m_colors_clock -= 0.2;
-  }
+  blinkObject(delta_time, 0.2, RedSPacman);
 }
 
 //-------------------------------------------------------------------

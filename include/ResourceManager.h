@@ -5,7 +5,7 @@
 
 /*
  * Singleton - Source class for all program data.
- * Loading the files of the program once - textures, audioa, texts, fonts.
+ * Loading the files of the program once - textures, audio, texts, fonts.
  * and receiving the data from anywhere in the program.
  */ 
 
