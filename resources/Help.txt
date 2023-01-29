@@ -17,11 +17,9 @@ Pacman can break fences by eating hammers.
 Gifts:
 Each gift eaten gives the player one of the following four options:
 - Super Pacman: for an allotted time, Pacman does not have to escape
-  from the elves and on the contrary he eats them. Every demon that is
-eaten, returns to its home.
-- Additional time: is added to the player more ????? seconds
-- Freezing elves: for an allotted time, all elves cannot move.
-In case Pacman collided with a demon, ?????.
+  from the demons and on the contrary he eats them
+- Additional time: is added to the player more 20 seconds
+- Freezing elves: for an allotted time, all demons cannot move.
 - Adding a life: the player gets an extra heart.
 
 Score (points):
