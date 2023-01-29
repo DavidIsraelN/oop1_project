@@ -21,6 +21,11 @@ It uses in SFML library for graphics, sounds and fonts.
                       Loading the files of the program once - textures, audio, texts, fonts.
                       and receiving the data from anywhere in the program.
 
+- Sound.h           - Singleton - Sound class for all program sounds.
+                      Create the Sounds of the program once and play from anywhere in the program.
+
+- Colors.h          - Some custom colors for the program.
+
 - Menu.h/cpp        - show the main menu before the game starts, and in the game when you press ESC.
                       The subclasses of this class are:
                         - Button.h/cpp      - Abstract class for all button types.
@@ -33,27 +38,26 @@ It uses in SFML library for graphics, sounds and fonts.
 
 - Object.h/cpp      - Abstract class for all game Objects.
                       The subclasses of this class are:
+                      * StaticObj.h  - Abstract class for Non-moving game objects.
+                        it includes two kinds:
+                        - Erasable.h  - Abstract class for Erasable game objects.
+                          His inheritance: Cookie.h, Door.h, Key.h,
+                          Gift.h {include: FreezeGift.h, LifeGift.h, SuperPGift.h, TimeGift.h}.
+                        - Wall.h - Inheritance class for the game object of Non-moving type.
 
-                        - StaticObj.h  - Abstract class for Non-moving game objects.
-                          it includes two kinds:
-                             - Erasable.h  - Abstract class for Erasable game objects.
-                                like: Cookie.h, Door.h, Key.h,
-                                      Gift.h {include: FreezeGift.h, LifeGift.h, SuperPGift.h, TimeGift.h}.
-                             - Wall.h - Inheritance class for the game object of Non-moving type - Wall
+                       * MovingObj.h  - Abstract class for game objects that can move on the board (Moving).
+                         His inheritance: Pacman.h/cpp, Demon.h/cpp.
 
-                        - MovingObj.h  - Abstract class for game objects that can move on the board (Moving).
-                             - Pacman.h/cpp   - Inheritance class for Pacman
-                             - Demon.h/cpp    - Inheritance class for Demon
+- Controller.h/cpp   - Main class that run the game and the menu when needed.
 
-
-- Controller.h/cpp  - Responsible for running the whole game.
-
-- LevelManager.h/cpp- This class is responsible for selecting and running the levels, running the status bar,
-                      moving the Objects, checking for collisions, changing level when the previous one is over,
-                      and running the game over
+- LevelManager.h/cpp - This class is responsible for selecting and running the levels, running the status bar,
+                       moving the Objects, checking for collisions, changing level when the previous one is over,
+                       and running the game over.
 
 - InfoBar.h/cpp      - Class for the game information bar.
                        Display the level number, life left, score, timer.
+
+- Timer.h/cpp        - Class that is responsible for the time of the game.
 
 - LevelReader.h      - Class that is responsible for reading the correct file of the level,
                        and extracting the data from it.
@@ -61,6 +65,12 @@ It uses in SFML library for graphics, sounds and fonts.
 - Level.h/cpp        - This class is responsible for the current level, displaying the level,
                        checking for collisions and responding, deleting eaten objects, etc..
 
+- GameOver.h         - Class for displaying the game over screen, receives the score from the user,
+                       and displays GameOver.
+
+- Movement.h/cpp      - Abstract class with 2 inheriting classes that are responsible for the legality of Movement in game.
+                        * Regular Movement - does not go through walls and doors.
+                        * Super Pacman Movement - goes through doors, besides walls.
 
 // ------------------------------------------------------
 # Main data structure:
@@ -87,12 +97,15 @@ Usually, a demon will not return to the direction it came from, unless there is 
 // ------------------------------------------------------
 # Notes -
 
-* When demon is freeze, it behavior without changes.
+* When demon is freeze, it behaves without changes.
 * Supe pacman it Demons, and they return to their original position
 * Gifts are chosen randomly when the level is created.
 * There are two singleton classes. for resources and for sounds.
 * There is the option to press on buttons in menu, by the keyboard keys
   (according to the first char - except in choosing level it by number).
 * The dimensions of the window are the same in all the program.
+* In order to direction Pacman, you don't need to press on the keys all the time,
+  but you press once on the direction, and it continues to go until a new direction is selected.
+  Additionally, if you chose an illegal direction, it will go to it as soon as it is possible.
 
 * There is more, we didn't have enough time.
