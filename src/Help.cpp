@@ -10,7 +10,7 @@ Help::Help(float width, float height) :
     m_window_width(width), m_window_height(height)
 {
   readHelpTxt();
-  bulidHelpScreen();
+  buildHelpScreen();
 }
 
 //-------------------------------------------------------------------
@@ -49,7 +49,7 @@ void Help::readHelpTxt()
 }
 
 //-------------------------------------------------------------------
-void Help::bulidHelpScreen()
+void Help::buildHelpScreen()
 {
   m_help_rect.setFillColor(SemiSoftYellow);
   auto line_height = m_window_width / m_help_str.size();

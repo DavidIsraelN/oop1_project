@@ -12,7 +12,6 @@ public:
 
 private:
   void drawLife(sf::RenderWindow&) const;
-  void setTimerColor(std::string);
 
   sf::RectangleShape m_rect;
   sf::Text m_timer, m_level, m_score;

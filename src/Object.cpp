@@ -1,6 +1,5 @@
 #include "Objects/Object.h"
 
-
 //-------------------------------------------------------------------
 Object::Object(const sf::Texture& texture, const sf::Vector2f& position, float width, float height, float scale)
 {

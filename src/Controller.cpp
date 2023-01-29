@@ -1,12 +1,12 @@
 #include "Controller.h"
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 #include "ResourceManager.h"
 #include "Sound.h"
 
 //-------------------------------------------------------------------
 Controller::Controller()
   : m_window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), "PACMAN"),
-  m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT), m_levels(WIN_WIDTH, WIN_HEIGHT, INFO_HEIGHT)
+   m_levels(WIN_WIDTH, WIN_HEIGHT, INFO_HEIGHT), m_menu(WIN_WIDTH, WIN_HEIGHT + INFO_HEIGHT)
 {
   auto icon = ResourceManager::Resource().getIcon();
   m_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());

@@ -33,7 +33,7 @@ void Pacman::move(const sf::Time& deltaTime, const Level& level, float win_heigh
   }
 
   else if (m_move->isLegal(m_cur_direction * speedPerSecond * deltaTime.asSeconds(),
-    level, *this, win_height, win_width))
+                           level, *this, win_height, win_width))
     moveObj(m_cur_direction * speedPerSecond * deltaTime.asSeconds(), win_height, win_width);
 
   rotateObj(m_cur_direction.y == 1 ? 90 : m_cur_direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0);
@@ -88,9 +88,12 @@ void Pacman::stopSPacman()
 }
 
 //-------------------------------------------------------------------
-void Pacman::SPacmanClock(const sf::Time& delta_time) 
+void Pacman::SPacmanClock(const sf::Time& delta_time)
 {
   if (!is_super_pacman) return;
+
+  if (Sound::Sounds().GetStatus(SoundIndex::S_PACMAN) == sf::Sound::Stopped)
+    Sound::Sounds().Play(SoundIndex::S_PACMAN);
 
   m_spacman_clock += delta_time.asSeconds();
   if (m_spacman_clock >= 15) stopSPacman();
@@ -151,7 +154,7 @@ void Pacman::collide(SuperPGift& super_p)
   m_spacman_clock = 0;
   m_score += 5;
   m_sprite.setColor(sf::Color(163, 23, 168));
-  Sound::Sounds().Play(SoundIndex::S_PACMAN);
+//  Sound::Sounds().Play(SoundIndex::S_PACMAN);
 }
 
 //-------------------------------------------------------------------

@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 #include "ResourceManager.h"
 
 class Sound
@@ -20,13 +20,18 @@ public:
     m_sounds[size_t(type)].play();
   }
 
+  sf::SoundSource::Status GetStatus(SoundIndex type)
+  {
+    return m_sounds[size_t(type)].getStatus();
+  };
+
   void Stop(SoundIndex type)
   {
     m_sounds[size_t(type)].stop();
   }
 
   void Mute()
-  { 
+  {
     m_muted = !m_muted;
     if(!m_muted) return;
     for (auto i = size_t(0); i < SOUND; ++i)

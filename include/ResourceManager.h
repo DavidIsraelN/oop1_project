@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <fstream>
 
@@ -54,8 +54,6 @@ public:
 private:
   ResourceManager()
   {
-//    m_font.loadFromFile("Arial.ttf");
-    //m_font.loadFromFile("crackman.front-regular.otf");
     m_icon.loadFromFile("pacman.png");
 
     for (auto i = size_t(0); i < OBJECTS; ++i)
@@ -87,6 +85,5 @@ private:
   std::string m_fonts_name[FONTS] = { "crackman.front-regular.otf", "crackman.regular.otf", "Arial.ttf"};
   sf::Font m_fonts[FONTS];
 
-  //sf::Font m_font;
   sf::Image m_icon;
 };

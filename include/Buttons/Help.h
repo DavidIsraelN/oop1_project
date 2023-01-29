@@ -11,7 +11,7 @@ public:
 
 private:
   void readHelpTxt();
-  void bulidHelpScreen();
+  void buildHelpScreen();
   void drawHelp(sf::RenderWindow&) const;
 
   Back m_back;

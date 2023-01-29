@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "ResourceManager.h"
-#include <iostream>
+//#include "ResourceManager.h"
+//#include <iostream>
 
 class Pacman;
 class Wall;

@@ -1,13 +1,11 @@
 #pragma once
-#include "Board.h"
-#include "LevelManager.h"
+//#include "LevelManager.h"
 #include "Menu.h"
 #include "Colors.h"
 
-const float WIN_HEIGHT = 800;
-const float WIN_WIDTH = 800;
-const float INFO_HEIGHT = 60;
-const sf::Color MAIN_COLOR = DeepRed;
+const size_t WIN_HEIGHT = 800;
+const size_t  WIN_WIDTH = 800;
+const size_t  INFO_HEIGHT = 60;
 
 class Controller
 {

@@ -2,7 +2,7 @@
 #include "InfoBar.h"
 #include "GameOver.h"
 #include "Level.h"
-#include "Timer.h"
+//#include "Timer.h"
 
 const size_t LEVELS = 3;
 

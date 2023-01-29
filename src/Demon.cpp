@@ -11,12 +11,15 @@ Demon::Demon(const sf::Vector2f& position, float width, float height)
 
 void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height, float win_width)
 {
+  freezeClock(deltaTime);
+  if (m_is_freeze) return;
+
   m_cur_direction = m_new_direction;
   auto pac = level.getPacmanPosition();
   setMode(deltaTime);
   m_new_direction = setDirection(pac, deltaTime, level, win_height, win_width);
   moveObj(m_cur_direction != m_new_direction ? m_new_direction * (m_sprite.getGlobalBounds().height / 10)
-    : m_new_direction * m_speed * deltaTime.asSeconds(), win_height, win_width);
+                                             : m_new_direction * m_speed * deltaTime.asSeconds(), win_height, win_width);
 }
 
 void Demon::setMode(const sf::Time& deltaTime)
@@ -90,7 +93,7 @@ void Demon::setRandomDirection(sf::Vector2f directions[])
 
   for (auto i = size_t(0); i < 2;)
   {
-    auto direct = sf::Vector2f(rand() % 3 - 1, rand() % 3 - 1);
+    auto direct = sf::Vector2f( rand() % 3 - 1, rand() % 3 - 1);
     if (direct.x == direct.y || direct == directions[3] || (direct.x != 0 && direct.y != 0))
       continue;
     if (i == 1 && direct == directions[0])
@@ -105,4 +108,28 @@ void Demon::collide(Pacman& pacman)
   Sound::Sounds().Play(SoundIndex::GHOST);
   resetPosition();
   pacman.collide(*this);
+}
+
+void Demon::freeze()
+{
+  m_is_freeze = true;
+  m_freeze_clock = 0;
+  m_sprite.setColor(sf::Color(190, 225, 255, 225));
+}
+
+void Demon::freezeClock(const sf::Time& deltaTime)
+{
+  if (!m_is_freeze)
+    return;
+
+  m_freeze_clock += deltaTime.asSeconds();
+
+  if (m_freeze_clock <= 5)
+    return;
+  else
+  {
+    m_is_freeze = false;
+    m_random_clock = 0;
+    m_sprite.setColor(sf::Color(255, 255, 255, 255));
+  }
 }

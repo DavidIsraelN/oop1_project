@@ -1,6 +1,6 @@
 #include "Level.h"
-#include "Objects/Pacman.h"
-#include "Objects/Demon.h"
+//#include "Objects/Pacman.h"
+//#include "Objects/Demon.h"
 #include "Objects/Cookie.h"
 #include "Objects/Door.h"
 #include "Objects/Key.h"
@@ -8,12 +8,10 @@
 #include "Objects/TimeGift.h"
 #include "Objects/LifeGift.h"
 #include "Objects/FreezeGift.h"
-#include <sstream>
-#include <time.h>
 
 //-------------------------------------------------------------------
-Level::Level(const float w_width, const float w_height)
-    : m_win_width(w_width), m_win_height(w_height) { }
+Level::Level(const float w_width, const float w_height, Timer& timer)
+    : m_win_width(w_width), m_win_height(w_height), m_timer(timer) { }
 
 //-------------------------------------------------------------------
 void Level::clearLevel()
@@ -43,8 +41,8 @@ void Level::resetLevel()
 void Level::chooseLevel()
 {
   m_current_board = (m_level_num == 1) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
-    : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
-    : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
+                                       : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
+                                                            : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
 
   //le = (m_level_num == 1) ? LevelReader(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1))
   //  : (m_level_num == 2) ? LevelReader(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2))
@@ -216,12 +214,15 @@ void Level::handleCollision() const
       resetMovingObj();
     }
 
-  //for (auto i = size_t(0); i < m_erasable_obj[size_t(ObjIndex::GIFT)].size(); ++i)
-  //  if (m_erasable_obj[size_t(ObjIndex::GIFT)][i]->isDel() &&
-  //    typeid(*m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(FreezeGift))
-  //    //for (auto i = size_t(0); i < m_demons.size(); ++i)
-  //    //  m_demons[i]->freeze();
-
+  for (auto i = size_t(0); i < m_erasable_obj[size_t(ObjIndex::GIFT)].size(); ++i)
+    if (m_erasable_obj[size_t(ObjIndex::GIFT)][i]->isDel())
+    {
+      if (typeid(*m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(FreezeGift))
+        for (auto i = size_t(0); i < m_demons.size(); ++i)
+          m_demons[i]->freeze();
+      else if (typeid(*m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(TimeGift))
+        m_timer.addTime(30);
+    }
 }
 
 //-------------------------------------------------------------------

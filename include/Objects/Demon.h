@@ -1,6 +1,6 @@
 #pragma once
 #include "MovingObj.h"
-#include "Objects/Pacman.h"
+//#include "Objects/Pacman.h"
 
 class Pacman;
 
@@ -14,6 +14,8 @@ public:
   void move(const sf::Time&, const Level&, float, float) override;
   void collide(Object&)  override { }
   void collide(Pacman&)  override;
+  void freeze() override;
+  void freezeClock(const sf::Time& deltaTime);
 
 private:
   void setMode(const sf::Time& deltaTime);
@@ -23,7 +25,8 @@ private:
   void setFirstAndSecondDirection(sf::Vector2f[]);
   void setThirdDirection(sf::Vector2f[]);
 
-  float m_distance_x, m_distance_y;
-  float m_random_clock = 0;
+  float m_distance_x = 0, m_distance_y = 0;
+  float m_random_clock = 0, m_freeze_clock = 0;
   float m_speed = 0;
+  bool m_is_freeze = false;
 };

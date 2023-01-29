@@ -7,6 +7,7 @@ class Level;
 class Movement
 {
 public:
+  virtual ~Movement() = default;
   virtual bool isLegal(const sf::Vector2f&, const Level&, MovingObj&, float, float) = 0;
 };
 

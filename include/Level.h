@@ -1,12 +1,12 @@
 #pragma once
 #include "Objects/Erasable.h"
-#include "Objects/MovingObj.h"
+//#include "Objects/MovingObj.h"
 #include "Objects/Wall.h"
 #include "Objects/Pacman.h"
 #include "Timer.h"
-#include <fstream>
-#include <memory>
-#include <vector>
+//#include <fstream>
+//#include <memory>
+//#include <vector>
 
 #include "LevelReader.h"
 
@@ -22,7 +22,7 @@ class Gift;
 class Level
 {
 public:
-  Level(const float, const float);
+  Level(const float, const float, Timer&);
   void setCurrentLevel(size_t);
   void resetLevel();
   void draw(sf::RenderWindow&) const;
@@ -61,6 +61,6 @@ private:
   float m_obj_width = 0, m_obj_height = 0;
   size_t m_level_cols = 0, m_level_rows = 0;
   size_t m_level_num = 0;
-
+  Timer& m_timer;
   //LevelReader le;
 };

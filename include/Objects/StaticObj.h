@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "Pacman.h"
+//#include "Pacman.h"
 #include "Demon.h"
 
 //abstract class
@@ -12,8 +12,8 @@ public:
     float width, float height, float scale = 1)
     : Object(texture, position, width, height, scale) { }
 
-  virtual void collide(Object&) { }
-  virtual void collide(Pacman&) = 0;
+  void collide(Object&) override { }
+  void collide(Pacman&) override = 0;
 //  virtual void collide(Demon&)  = 0;
   void collide(Demon&)      override { }
   void collide(Cookie&)     override { }
