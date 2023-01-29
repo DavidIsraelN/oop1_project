@@ -31,56 +31,42 @@ It uses in SFML library for graphics, sounds and fonts.
                         - Back.h            - Inherit class for Back button.
                         - Mute.h            - Inheritance class for the Mute button.
 
-- Controller.cpp    - Responsible for running the whole game.
-
 - Object.h/cpp      - Abstract class for all game Objects.
                       The subclasses of this class are:
+
                         - StaticObj.h  - Abstract class for Non-moving game objects.
-                            it includes two kinds:
-                                - Erasable.h  - Abstract class for Erasable game objects.
-                                  like: Cookie.h, Door.h, Gift.h, 
-                        - MovingObj.h  - Abstract class for game objects that can move on the board (Moving).
--
-
-                           The subclasses of this class are:
+                          it includes two kinds:
                              - Erasable.h  - Abstract class for Erasable game objects.
-                               The subclasses of this class are:
-                                 - Cookie.h
-                                 - Door.h
-                                    -
+                                like: Cookie.h, Door.h, Key.h,
+                                      Gift.h {include: FreezeGift.h, LifeGift.h, SuperPGift.h, TimeGift.h}.
+                             - Wall.h - Inheritance class for the game object of Non-moving type - Wall
+
+                        - MovingObj.h  - Abstract class for game objects that can move on the board (Moving).
+                             - Pacman.h/cpp   - Inheritance class for Pacman
+                             - Demon.h/cpp    - Inheritance class for Demon
 
 
-- Board.cpp -       Implementation of the Board class.
-                    Takes the board from "Board.txt" to a main vector that stores the board.
-                    Displays the board and updates it with each action.
+- Controller.h/cpp  - Responsible for running the whole game.
 
-- io.cpp -          Implementation of the io class.
-                    Helps in receiving direction input from the user for the Pacman.
+- LevelManager.h/cpp- This class is responsible for selecting and running the levels, running the status bar,
+                      moving the Objects, checking for collisions, changing level when the previous one is over,
+                      and running the game over
 
-- Location.cpp -    Implementation of the Location struct.
-                    Stores the position of the row and column in it.
-                    Can compare two locations.
+- InfoBar.h/cpp      - Class for the game information bar.
+                       Display the level number, life left, score, timer.
 
-- Pacman.cpp -      Implementation of the Pacman class.
-                    Set the Pacman's direction from the user, and checks that the input is correct.
-                    In addition, checks the collisions and updates the Pacman's score and life.
+- LevelReader.h      - Class that is responsible for reading the correct file of the level,
+                       and extracting the data from it.
 
-- Spacman.cpp -     Implementation of the Spacman class.
-                    Changes Pacman's features, so it doesn't get eaten by the Demons.
+- Level.h/cpp        - This class is responsible for the current level, displaying the level,
+                       checking for collisions and responding, deleting eaten objects, etc..
 
-- Demon.h -         Header file for Demon class.
-- Demon.cpp -       Implementation of the Demon class.
-                    Sends the Demons to chase Pacman.
-
-- Immobile.h -      Header file for Immobile class.
-- Immobile.cpp -    Implementation of the Immobile class.
-                    Designed to store in a vector the objects that do not move,
-                    like: cookies, doors, keys and gifts.
 
 // ------------------------------------------------------
 # Main data structure:
 
-The main data stored in a string vector, in the Board class.
+The main data stored in some vectors of unique ptr.
+
 
 // ------------------------------------------------------
 # Noteworthy algorithm:
@@ -93,14 +79,20 @@ In case this is not possible, they can also go in another direction.
 
 Usually, a demon will not return to the direction it came from, unless there is no other choice.
 
+
 // ------------------------------------------------------
 # bugs that we know:
 
-1:  Sometimes when one demon get-over another demon, it raises it
-    (We try to fix it, but it's still not working always well).
-
-2:  When there is pass in the board from side to side, demons not always go through it.
 
 // ------------------------------------------------------
 # Notes -
 
+* When demon is freeze, it behavior without changes.
+* Supe pacman it Demons, and they return to their original position
+* Gifts are chosen randomly when the level is created.
+* There are two singleton classes. for resources and for sounds.
+* There is the option to press on buttons in menu, by the keyboard keys
+  (according to the first char - except in choosing level it by number).
+* The dimensions of the window are the same in all the program.
+
+* There is more, we didn't have enough time.

@@ -1,7 +1,7 @@
 #pragma once
 #include "StaticObj.h"
 
-// Inheritance class for the game object of Non-movind type - Wall
+// Inheritance class for the game object of Non-moving type - Wall
 
 class Wall : public StaticObj
 {
