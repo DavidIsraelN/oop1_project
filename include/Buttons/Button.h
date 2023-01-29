@@ -15,9 +15,6 @@ public:
   bool clickMe(const sf::Vector2f&) const;
   virtual bool action(sf::RenderWindow&, LevelManager&) = 0;
 
-//private:
 protected:
   sf::Text m_text;
-  //sf::RectangleShape m_rectangle;
-  //sf::Sprite m_sprite;
 };

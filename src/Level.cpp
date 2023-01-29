@@ -1,6 +1,4 @@
 #include "Level.h"
-//#include "Objects/Pacman.h"
-//#include "Objects/Demon.h"
 #include "Objects/Cookie.h"
 #include "Objects/Door.h"
 #include "Objects/Key.h"
@@ -10,8 +8,8 @@
 #include "Objects/FreezeGift.h"
 
 //-------------------------------------------------------------------
-Level::Level(const float w_width, const float w_height, Timer& timer)
-    : m_win_width(w_width), m_win_height(w_height), m_timer(timer) { }
+Level::Level(float w_width, float w_height)
+    : m_win_width(w_width), m_win_height(w_height) { }
 
 //-------------------------------------------------------------------
 void Level::clearLevel()
@@ -33,20 +31,18 @@ void Level::setCurrentLevel(size_t board_num)
 //-------------------------------------------------------------------
 void Level::resetLevel()
 {
+  m_current_board->setDimensions();
   buildLevel();
-  m_current_board->seekg(0, m_current_board->beg);
+  m_current_board->backToStart();
 }
 
 //-------------------------------------------------------------------
 void Level::chooseLevel()
 {
-  m_current_board = (m_level_num == 1) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
-                                       : (m_level_num == 2) ? &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
-                                                            : &ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3);
-
-  //le = (m_level_num == 1) ? LevelReader(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1))
-  //  : (m_level_num == 2) ? LevelReader(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2))
-  //  : LevelReader(ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3));
+  m_current_board = std::make_unique<LevelReader>(
+    (m_level_num == 1) ? ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)
+    : (m_level_num == 2) ? ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL2)
+    : ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL3));
 }
 
 //-------------------------------------------------------------------
@@ -54,20 +50,13 @@ void Level::buildLevel()
 {
   srand(time(NULL));
   clearLevel();
+  m_obj_width = m_win_width / m_current_board->getCols();
+  m_obj_height = m_win_height / m_current_board->getRows();
 
-  std::string line;
-  std::getline(*m_current_board, line);
-  auto size = std::istringstream(line);
-  size >> m_level_rows >> m_level_cols;
-
-  m_obj_width = m_win_width / m_level_cols;
-  m_obj_height = m_win_height / m_level_rows;
-
-  for (auto i = size_t(0); i < m_level_rows; ++i)
-    for (auto j = size_t(0); j < m_level_cols; ++j)
+  for (auto i = size_t(0); i < m_current_board->getRows(); ++i)
+    for (auto j = size_t(0); j < m_current_board->getCols(); ++j)
     {
-      char c = m_current_board->get();
-      if (c == '\n') { --j;  continue; }
+      char c = m_current_board->getChar();
       if (c == char(ObjType::SPACE)) { continue; };
       addObject(ObjType(c), i, j);
     }
@@ -84,7 +73,6 @@ void Level::addObject(ObjType type, size_t i, size_t j)
   {
   case ObjType::PACMAN:
     m_pacman = std::make_unique<Pacman>(position, m_obj_width, m_obj_height); break;
-    //m_demons.push_back(std::make_unique<Pacman>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::DEMON:
     m_demons.push_back(std::make_unique<Demon>(position, m_obj_width, m_obj_height)); break;
@@ -93,13 +81,15 @@ void Level::addObject(ObjType type, size_t i, size_t j)
     m_walls.push_back(std::make_unique<Wall>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::COOKIE:
-    m_erasable_obj[size_t(ObjIndex::COOKIE)].push_back(std::make_unique<Cookie>(position, m_obj_width, m_obj_height));break;
+    m_erasable_obj[size_t(ObjIndex::COOKIE)].push_back(
+      std::make_unique<Cookie>(position, m_obj_width, m_obj_height));break;
 
   case ObjType::GIFT:
     m_erasable_obj[size_t(ObjIndex::GIFT)].push_back(chooseRandomGift(position)); break;
 
   case ObjType::DOOR:
-    m_erasable_obj[size_t(ObjIndex::DOOR)].push_back(std::make_unique<Door>(position, m_obj_width, m_obj_height)); break;
+    m_erasable_obj[size_t(ObjIndex::DOOR)].push_back(
+      std::make_unique<Door>(position, m_obj_width, m_obj_height)); break;
 
   case ObjType::KEY:
     m_erasable_obj[size_t(ObjIndex::KEY)].push_back(std::make_unique<Key>(position, m_obj_width, m_obj_height));
@@ -139,33 +129,6 @@ void Level::draw(sf::RenderWindow& window) const
 }
 
 //-------------------------------------------------------------------
-void Level::setDirection(sf::Keyboard::Key key) const
-{
-  m_pacman->setDirection(key);
-}
-
-//-------------------------------------------------------------------
-size_t Level::getPacmanLife() const { return m_pacman->getLife(); }
-
-//-------------------------------------------------------------------
-size_t Level::getPacmanScore() const { return m_pacman->getScore(); }
-
-//-------------------------------------------------------------------
-void Level::setPacmanScore(const size_t score) { return m_pacman->setScore(score); }
-
-//-------------------------------------------------------------------
-void Level::setPacmanLife(const size_t life) { return m_pacman->setLife(life); }
-
-//-------------------------------------------------------------------
-size_t Level::getLevelNum() const { return m_level_num; }
-
-//-------------------------------------------------------------------
-void Level::addFinalScore()
-{
-  m_pacman->setScore(m_pacman->getScore() + 50 + 2 * m_demons.size());
-}
-
-//-------------------------------------------------------------------
 void Level::moveObjects(const sf::Time& delta_time) const
 {
   m_pacman->move(delta_time, *this, m_win_height, m_win_width);
@@ -201,7 +164,7 @@ bool Level::collideWithDoor(MovingObj& moving_obj) const
 }
 
 //-------------------------------------------------------------------
-void Level::handleCollision() const
+void Level::handleCollision(Timer& timer) const
 {
   for (auto i = size_t(0); i < m_erasable_obj.size(); ++i)
     for (auto j = size_t(0); j < m_erasable_obj[i].size(); ++j)
@@ -213,24 +176,39 @@ void Level::handleCollision() const
       m_pacman->collide(*m_demons[i]);
       resetMovingObj();
     }
+  checkGiftCollision(timer);
+}
 
+//-------------------------------------------------------------------
+void Level::checkGiftCollision(Timer& timer) const
+{
   for (auto i = size_t(0); i < m_erasable_obj[size_t(ObjIndex::GIFT)].size(); ++i)
     if (m_erasable_obj[size_t(ObjIndex::GIFT)][i]->isDel())
     {
       if (typeid(*m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(FreezeGift))
-        for (auto i = size_t(0); i < m_demons.size(); ++i)
-          m_demons[i]->freeze();
+        freeseDemons();
+
       else if (typeid(*m_erasable_obj[size_t(ObjIndex::GIFT)][i]) == typeid(TimeGift))
-        m_timer.addTime(30);
+        timer.addTime(20);
     }
+}
+
+//-------------------------------------------------------------------
+void Level::freeseDemons() const
+{
+  for (auto i = size_t(0); i < m_demons.size(); ++i)
+    m_demons[i]->freeze();
 }
 
 //-------------------------------------------------------------------
 void Level::resetMovingObj() const
 {
-  if (!m_pacman->isSuperPacman())
-    for (auto i = size_t(0); i < m_demons.size(); ++i)
-      m_demons[i]->resetPosition();
+  if (m_pacman->isSuperPacman()) return;
+  for (auto i = size_t(0); i < m_demons.size(); ++i)
+  {
+    m_demons[i]->resetPosition();
+    m_demons[i]->stopFreeze();
+  }
 }
 
 //-------------------------------------------------------------------
@@ -244,8 +222,28 @@ void Level::delRandomDoor()
 }
 
 //-------------------------------------------------------------------
+sf::Vector2f Level::getPacmanPosition() const { return { m_pacman->getPosition()}; }
 
-sf::Vector2f Level::getPacmanPosition() const
+//-------------------------------------------------------------------
+void Level::setDirection(sf::Keyboard::Key key) const { m_pacman->setDirection(key); }
+
+//-------------------------------------------------------------------
+size_t Level::getPacmanLife() const { return m_pacman->getLife(); }
+
+//-------------------------------------------------------------------
+size_t Level::getPacmanScore() const { return m_pacman->getScore(); }
+
+//-------------------------------------------------------------------
+void Level::setPacmanScore(const size_t score) { return m_pacman->setScore(score); }
+
+//-------------------------------------------------------------------
+void Level::setPacmanLife(const size_t life) { return m_pacman->setLife(life); }
+
+//-------------------------------------------------------------------
+size_t Level::getLevelNum() const { return m_level_num; }
+
+//-------------------------------------------------------------------
+void Level::addFinalScore()
 {
-  return {m_pacman->getPosition()};
+  m_pacman->setScore(m_pacman->getScore() + 50 + 2 * m_demons.size());
 }

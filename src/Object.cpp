@@ -11,7 +11,6 @@ Object::Object(const sf::Texture& texture, const sf::Vector2f& position, float w
 }
 
 //-------------------------------------------------------------------
-//void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width, float obj_h, float obj_w)
 void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_width)
 {
   auto movement = direction;
@@ -35,38 +34,6 @@ void Object::moveObj(const sf::Vector2f& direction, float win_height, float win_
 
   m_sprite.move(movement);
   m_sprite.move(sf::Vector2f(delta_x, delta_y));
-
-  //auto delta_x = m_sprite.getPosition().x;
-  //auto delta_y = m_sprite.getPosition().y;
-  //auto epsilon = float(10);
-
-  //while (delta_x >= obj_w)
-  //  delta_x -= obj_w;
-
-  //if (delta_x >= obj_w / 2 - epsilon && delta_x <= obj_w / 2 + epsilon) delta_x = obj_w / 2 - delta_x;
-
-  //while (delta_y >= obj_h)
-  //  delta_y -= obj_h;
-
-  //if (delta_y >= obj_h / 2 - epsilon && delta_y <= obj_h / 2 + epsilon) delta_y = obj_h / 2 - delta_y;
-
-  //m_sprite.move({ delta_x, delta_y });
-
-
-  //if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
-
-  //else if (direction.x < 0)
-  //  move_x *= (-1);
-
-  //if (direction.y > 0 ? 90 : direction.y == -1 ? 270 : m_cur_direction.x == -1 ? 180 : 0)
-
-  //while (delta_y >= obj_h)
-  //  delta_y -= obj_h;
-  //if (delta_y > 1)
-  //  delta_y = 0;
-  //else if (direction.y < 0)
-  //  move_y *= (-1);
-  //m_sprite.move({ delta_x, delta_y });
 }
 
 //-------------------------------------------------------------------

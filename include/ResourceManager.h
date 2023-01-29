@@ -54,7 +54,7 @@ public:
 private:
   ResourceManager()
   {
-    m_icon.loadFromFile("pacman.png");
+    m_icon.loadFromFile("pacman_open.png");
 
     for (auto i = size_t(0); i < OBJECTS; ++i)
       m_objects_texture[i].loadFromFile(m_textures_name[i]);

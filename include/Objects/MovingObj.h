@@ -1,7 +1,8 @@
 #pragma once
 #include "Object.h"
 #include "Movement.h"
-//#include <memory>
+#include <memory>
+#include "Colors.h"
 
 class Level;
 
@@ -31,6 +32,7 @@ public:
   virtual void setDirection(sf::Keyboard::Key) { }
   virtual void move(const sf::Time&, const Level&, float, float) = 0;
   virtual void freeze() { }
+  virtual void stopFreeze() { }
 
   sf::Vector2f getPosition() const { return m_sprite.getPosition(); }
 

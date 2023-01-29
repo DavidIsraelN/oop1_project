@@ -1,11 +1,11 @@
 #include "LevelManager.h"
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "Colors.h"
 
 //-------------------------------------------------------------------
 LevelManager::LevelManager(const float w_width, const float w_height, const float inf_h)
     : m_win_width(w_width), m_win_height(w_height), m_game_over(w_width, w_height),
-      m_current_level(w_width, w_height, m_timer), m_info(w_width, w_height, inf_h) { }
+      m_current_level(w_width, w_height), m_info(w_width, w_height, inf_h) { }
 
 //-------------------------------------------------------------------
 bool LevelManager::run(sf::RenderWindow& window)
@@ -14,7 +14,6 @@ bool LevelManager::run(sf::RenderWindow& window)
 
   while (window.isOpen())
   {
-    //window.setFramerateLimit(60);
     window.clear(DeepRed);
     m_current_level.draw(window);
     m_info.draw(window);
@@ -44,7 +43,7 @@ bool LevelManager::run(sf::RenderWindow& window)
 void LevelManager::levelAction(const sf::Time& deltaTime)
 {
   m_current_level.moveObjects(deltaTime);
-  m_current_level.handleCollision();
+  m_current_level.handleCollision(m_timer);
   m_current_level.erase();
   m_timer.updateTimer(deltaTime);
   m_info.setInfo(m_current_level, m_timer);

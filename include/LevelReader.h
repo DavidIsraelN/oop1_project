@@ -1,31 +1,51 @@
 #pragma once
 #include <sstream>
+#include "ResourceManager.h"
 
+//-------------------------------------------------------------------
+enum class ObjType
+{
+  COOKIE = '*', DEMON = '&', DOOR = 'D',
+  GIFT = '$', KEY = '%', PACMAN = 'a',
+  WALL = '#', SPACE = ' '
+};
+
+//-------------------------------------------------------------------
 class LevelReader
 {
 public:
-  LevelReader(std::ifstream& board = ResourceManager::Resource().getTxtFile(TxtIndex::LEVEL1)) : m_level_board(board)
+  LevelReader(std::ifstream& board) : m_level_board(board) { }
+
+  //-------------------------------------------------------------------
+  void setDimensions()
   {
-    backToStart();
     std::string line;
     std::getline(m_level_board, line);
     auto size = std::istringstream(line);
     size >> m_level_rows >> m_level_cols;
   }
 
-  LevelReader(const LevelReader& other) : LevelReader(other.m_level_board) { }
-  
-  LevelReader& operator=(const LevelReader& other)
+  //-------------------------------------------------------------------
+  char getChar() const
   {
-    auto temp = other;         //copy with copy c-tor
-    return temp;
+    char c;
+    do {
+      c = m_level_board.get();
+    } while (c == '\n');
+    return c;
   }
-  size_t getRows() const {return m_level_rows;}
-  size_t getCols() const {return m_level_cols;}
-  char getChar() const {return m_level_board.get();}
-  void backToStart() {m_level_board.seekg(0, m_level_board.beg);}
+
+  //-------------------------------------------------------------------
+  void backToStart()
+  {
+    m_level_board.seekg(0, m_level_board.beg);
+  }
+
+  //-------------------------------------------------------------------
+  size_t getRows() const { return m_level_rows; }
+  size_t getCols() const { return m_level_cols; }
 
 private:
   std::ifstream& m_level_board;
-  size_t m_level_rows, m_level_cols;
+  size_t m_level_rows = 0, m_level_cols = 0;
 };

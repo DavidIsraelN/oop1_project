@@ -1,6 +1,7 @@
 #include "Objects/Pacman.h"
 #include "Level.h"
 
+
 //-------------------------------------------------------------------
 Pacman::Pacman(const sf::Vector2f& position, float width, float height)
     : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::PACMAN_OPEN),
@@ -81,7 +82,7 @@ void Pacman::setAnimate(const sf::Time& delta_time)
 void Pacman::stopSPacman()
 {
   m_move = std::make_unique<RegularMovement>();
-  m_sprite.setColor(sf::Color(255, 255, 255));
+  m_sprite.setColor(Opacity);
   m_spacman_clock = 0;
   is_super_pacman = false;
   Sound::Sounds().Stop(SoundIndex::S_PACMAN);
@@ -102,10 +103,10 @@ void Pacman::SPacmanClock(const sf::Time& delta_time)
   m_colors_clock += delta_time.asSeconds();
   if (m_colors_clock >= 0.2)
   {
-    if (m_sprite.getColor() == sf::Color(163, 23, 168))
-      m_sprite.setColor(sf::Color(255, 255, 255));
+    if (m_sprite.getColor() == RedSPacman)
+      m_sprite.setColor(Opacity);
     else
-      m_sprite.setColor(sf::Color(163, 23, 168));
+      m_sprite.setColor(RedSPacman);
     m_colors_clock -= 0.2;
   }
 }
@@ -126,7 +127,6 @@ void Pacman::collide(Object& object)
 void Pacman::collide(Demon& demon)
 {
   if (is_super_pacman) return;
-
   resetPosition();
   m_cur_direction = { 0, 0 };
   m_new_direction = { 0, 0 };
@@ -153,8 +153,7 @@ void Pacman::collide(SuperPGift& super_p)
   m_move = std::make_unique<SPacmanMovement>();
   m_spacman_clock = 0;
   m_score += 5;
-  m_sprite.setColor(sf::Color(163, 23, 168));
-//  Sound::Sounds().Play(SoundIndex::S_PACMAN);
+  m_sprite.setColor(RedSPacman);
 }
 
 //-------------------------------------------------------------------

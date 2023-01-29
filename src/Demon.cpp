@@ -1,6 +1,7 @@
 #include "Objects/Demon.h"
 #include "Level.h"
 
+//-------------------------------------------------------------------
 Demon::Demon(const sf::Vector2f& position, float width, float height)
     : MovingObj(ResourceManager::Resource().getObjTexture(ObjIndex::DEMON), position, width, height)
 {
@@ -9,6 +10,7 @@ Demon::Demon(const sf::Vector2f& position, float width, float height)
   m_speed = NonRandomSpeed;
 }
 
+//-------------------------------------------------------------------
 void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height, float win_width)
 {
   freezeClock(deltaTime);
@@ -22,6 +24,7 @@ void Demon::move(const sf::Time& deltaTime, const Level& level, float win_height
                                              : m_new_direction * m_speed * deltaTime.asSeconds(), win_height, win_width);
 }
 
+//-------------------------------------------------------------------
 void Demon::setMode(const sf::Time& deltaTime)
 {
   m_random_clock += deltaTime.asSeconds();
@@ -34,6 +37,7 @@ void Demon::setMode(const sf::Time& deltaTime)
     m_speed = RandomSpeed;
 }
 
+//-------------------------------------------------------------------
 sf::Vector2f Demon::setDirection(const sf::Vector2f& pacman, const sf::Time& deltaTime,
                                  const Level& level, float win_h, float win_w)
 {
@@ -56,12 +60,14 @@ sf::Vector2f Demon::setDirection(const sf::Vector2f& pacman, const sf::Time& del
   return { 0, 0 }; // shouldn't ever be used
 }
 
+//-------------------------------------------------------------------
 void Demon::setNonRandomDirection(sf::Vector2f directions[])
 {
   setFirstAndSecondDirection(directions);
   setThirdDirection(directions);
 }
 
+//-------------------------------------------------------------------
 void Demon::setFirstAndSecondDirection(sf::Vector2f directions[])
 {
   auto x_direction = m_distance_x > 0 ? sf::Vector2f(1, 0) : sf::Vector2f(-1, 0);
@@ -79,6 +85,7 @@ void Demon::setFirstAndSecondDirection(sf::Vector2f directions[])
   }
 }
 
+//-------------------------------------------------------------------
 void Demon::setThirdDirection(sf::Vector2f directions[])
 {
   if (m_cur_direction == directions[0] || m_cur_direction == directions[1])
@@ -87,22 +94,22 @@ void Demon::setThirdDirection(sf::Vector2f directions[])
     directions[2] = m_cur_direction;
 }
 
+//-------------------------------------------------------------------
 void Demon::setRandomDirection(sf::Vector2f directions[])
 {
-//  srand(time(0));
-
   for (auto i = size_t(0); i < 2;)
   {
-    auto direct = sf::Vector2f( rand() % 3 - 1, rand() % 3 - 1);
-    if (direct.x == direct.y || direct == directions[3] || (direct.x != 0 && direct.y != 0))
+    auto direction = sf::Vector2f( rand() % 3 - 1, rand() % 3 - 1);
+    if (direction.x == direction.y || direction == directions[3] || (direction.x != 0 && direction.y != 0))
       continue;
-    if (i == 1 && direct == directions[0])
+    if (i == 1 && direction == directions[0])
       continue;
-    directions[i++] = direct;
+    directions[i++] = direction;
   }
   setThirdDirection(directions);
 }
 
+//-------------------------------------------------------------------
 void Demon::collide(Pacman& pacman)
 {
   Sound::Sounds().Play(SoundIndex::GHOST);
@@ -110,26 +117,27 @@ void Demon::collide(Pacman& pacman)
   pacman.collide(*this);
 }
 
+//-------------------------------------------------------------------
 void Demon::freeze()
 {
   m_is_freeze = true;
   m_freeze_clock = 0;
-  m_sprite.setColor(sf::Color(190, 225, 255, 225));
+  m_sprite.setColor(SemiTransparent);
 }
 
+//-------------------------------------------------------------------
 void Demon::freezeClock(const sf::Time& deltaTime)
 {
-  if (!m_is_freeze)
-    return;
-
+  if (!m_is_freeze) return;
   m_freeze_clock += deltaTime.asSeconds();
+  if (m_freeze_clock <= 10) return;
+  else stopFreeze();
+}
 
-  if (m_freeze_clock <= 5)
-    return;
-  else
-  {
-    m_is_freeze = false;
-    m_random_clock = 0;
-    m_sprite.setColor(sf::Color(255, 255, 255, 255));
-  }
+//-------------------------------------------------------------------
+void Demon::stopFreeze()
+{
+  m_is_freeze = false;
+  m_freeze_clock = 0;
+  m_sprite.setColor(sf::Color(255, 225, 255, 255));
 }

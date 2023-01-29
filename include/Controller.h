@@ -1,5 +1,5 @@
 #pragma once
-//#include "LevelManager.h"
+#include "LevelManager.h"
 #include "Menu.h"
 #include "Colors.h"
 

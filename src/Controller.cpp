@@ -1,5 +1,5 @@
 #include "Controller.h"
-//#include <SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
 #include "ResourceManager.h"
 #include "Sound.h"
 
