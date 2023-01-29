@@ -90,6 +90,7 @@ void LevelManager::resetLevel()
 //-------------------------------------------------------------------
 void LevelManager::gameOver(sf::RenderWindow& window)
 {
+  Sound::Sounds().Stop(SoundIndex::S_PACMAN);
   m_game_over.setScore(m_current_level.getPacmanScore());
   m_game_over.draw(window);
 }
